@@ -1,0 +1,282 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Dark mode colors (RGB format for Tailwind opacity) */
+
+  /* --color-near-black: 15 17 18;
+  --color-mid-dark: 27 30 31;
+  --color-surface: 37 40 41; */
+
+
+  --color-near-black: 25 25 30;
+  --color-mid-dark: 40 40 45;
+  --color-surface: 50 50 55;
+
+
+  --color-muted: 107 114 128;
+  --color-subtle-text: 207 214 207;
+  --color-accent-teal: 94 234 212;
+  --color-accent-green: 52 211 153;
+  --color-accent-hover: 45 212 191;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: rgb(var(--color-near-black));
+  color: rgb(var(--color-subtle-text));
+  font-family: var(--font-inter), system-ui, sans-serif;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus states for accessibility */
+*:focus-visible {
+  outline: 2px solid rgb(var(--color-accent-teal));
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-jetbrains), monospace;
+  font-weight: 600;
+  line-height: 1.3;
+  color: rgb(var(--color-subtle-text));
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1.25rem;
+}
+
+a {
+  color: rgb(var(--color-accent-teal));
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: rgb(var(--color-accent-hover));
+}
+
+/* Code blocks with syntax highlighting */
+pre {
+  background-color: rgb(var(--color-mid-dark)) !important;
+  border: 1px solid rgb(var(--color-surface));
+  border-radius: 8px;
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+code {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 0.9em;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+:not(pre)>code {
+  background-color: rgb(var(--color-surface));
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  color: rgb(var(--color-accent-teal));
+}
+
+/* Highlight.js theme overrides for dark mode */
+.hljs {
+  background: rgb(var(--color-mid-dark));
+  color: rgb(var(--color-subtle-text));
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-section,
+.hljs-link {
+  color: rgb(var(--color-accent-teal));
+}
+
+.hljs-string,
+.hljs-title,
+.hljs-name,
+.hljs-type {
+  color: rgb(var(--color-accent-green));
+}
+
+.hljs-attribute,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-built_in,
+.hljs-addition,
+.hljs-variable,
+.hljs-template-tag,
+.hljs-template-variable {
+  color: #93c5fd;
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion,
+.hljs-meta {
+  color: rgb(var(--color-muted));
+}
+
+/* Smooth transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Remove transition from layout shifts */
+html,
+body {
+  transition: none;
+}
+
+/* Light mode overrides - improved readability */
+html.light {
+  --color-near-black: 230 220 220;
+  /* Light pinkish-gray background */
+  --color-mid-dark: 240 230 230;
+  /* Slightly lighter pinkish-gray */
+  --color-surface: 220 210 210;
+  /* Darker pinkish-gray for surfaces */
+  --color-muted: 107 114 128;
+  /* Medium gray for secondary text */
+  --color-subtle-text: 17 24 39;
+  /* Almost black for main text */
+  --color-accent-teal: 13 148 136;
+  /* Darker teal for better contrast */
+  --color-accent-green: 5 150 105;
+  /* Darker green */
+  --color-accent-hover: 15 118 110;
+  /* Even darker teal on hover */
+}
+
+html.light body {
+  background-color: rgb(var(--color-near-black));
+  color: rgb(var(--color-subtle-text));
+}
+
+/* Light mode code block styling with grey background */
+html.light pre {
+  background-color: #1f2023 !important;
+  border: 1px solid #e5e7eb;
+}
+
+html.light .hljs {
+  background: #f3f4f6;
+  color: rgb(var(--color-subtle-text));
+}
+
+/* Light mode specific improvements */
+html.light :not(pre)>code {
+  background-color: rgb(var(--color-surface));
+  color: rgb(var(--color-accent-teal));
+}
+
+/* Improve border visibility in light mode */
+html.light .border-surface {
+  border-color: rgb(229 231 235) !important;
+}
+
+html.light .border-accent-teal\/30 {
+  border-color: rgb(13 148 136 / 0.3) !important;
+}
+
+/* Light mode syntax highlighting - improved contrast */
+html.light .hljs-keyword,
+html.light .hljs-selector-tag,
+html.light .hljs-literal,
+html.light .hljs-section,
+html.light .hljs-link {
+  color: #0d7490;
+  /* Darker cyan for keywords */
+}
+
+html.light .hljs-string,
+html.light .hljs-title,
+html.light .hljs-name,
+html.light .hljs-type {
+  color: #047857;
+  /* Darker green for strings */
+}
+
+html.light .hljs-attribute,
+html.light .hljs-symbol,
+html.light .hljs-bullet,
+html.light .hljs-built_in,
+html.light .hljs-addition,
+html.light .hljs-variable,
+html.light .hljs-template-tag,
+html.light .hljs-template-variable {
+  color: #1e40af;
+  /* Darker blue for attributes */
+}
+
+html.light .hljs-comment,
+html.light .hljs-quote,
+html.light .hljs-deletion,
+html.light .hljs-meta {
+  color: #6b7280;
+  /* Medium gray for comments */
+}
+
+html.light .hljs-number {
+  color: #9333ea;
+  /* Purple for numbers */
+}
+
+html.light .hljs-function {
+  color: #be123c;
+  /* Rose for functions */
+}
+
+/* Code block wrapper for copy button positioning */
+.code-block-wrapper {
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+.code-block-wrapper pre {
+  margin: 0;
+}

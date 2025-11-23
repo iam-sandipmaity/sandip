@@ -1,0 +1,41 @@
+import { Project } from '@/components/ProjectCard';
+
+/**
+ * My actual projects
+ */
+export const projects: Project[] = [
+
+    {
+        title: 'Multi-Utility Web Platform',
+        description: 'Built and deployed a web platform offering 100+ tools (image processing, PDF utilities, calculators, converters, encryption, SEO tools, etc.) under Vibe Coding. Developed using React (TSX), TypeScript, and Vercel, ensuring responsive UI and smooth performance.',
+        tags: ['React', 'TypeScript', 'Vercel', 'Full-Stack'],
+        link: 'https://snap-tools.vercel.app',
+        github: 'https://github.com/iam-sandipmaity/SnapTools',
+    },
+    {
+        title: 'Arduino Obstacle Avoiding Car',
+        description: 'Built an autonomous car using Arduino Uno, ultrasonic sensors, and motor drivers to detect and avoid obstacles. Gained hands-on experience in C programming by implementing real-time control logic for sensor integration and navigation.',
+        tags: ['Arduino', 'C Programming', 'Embedded Systems', 'Sensors'],
+        link: 'https://x.com/iam_sandipmaity/status/1776746344415465719?s=20',
+    },
+    {
+        title: 'PN Sequence Generator Device',
+        description: 'Collaborated with faculty to design and assemble 4 hardware circuit boards for generating pseudo-noise (PN) sequences. Gained hands-on experience in circuit design, PCB assembly, and functional testing under lab supervision.',
+        tags: ['Circuit Design', 'PCB Assembly', 'Hardware', 'PN Sequence'],
+    },
+
+];
+
+/**
+ * Get all projects
+ */
+export function getAllProjects(): Project[] {
+    return projects;
+}
+
+/**
+ * Get featured projects (first N projects)
+ */
+export function getFeaturedProjects(count: number = 2): Project[] {
+    return projects.slice(0, count);
+}
