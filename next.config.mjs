@@ -7,8 +7,41 @@ import remarkGfm from 'remark-gfm';
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   reactStrictMode: true,
+
+  // Image optimization
   images: {
     remotePatterns: [],
+    formats: ['image/avif', 'image/webp'],
+  },
+
+  // Performance optimizations
+  swcMinify: true,
+
+  // Optimize fonts and reduce render-blocking
+  optimizeFonts: true,
+
+  // Headers for CDN caching and performance
+  async headers() {
+    return [
+      {
+        source: '/:all*(svg|jpg|jpeg|png|gif|ico|webp|avif)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
   },
 };
 

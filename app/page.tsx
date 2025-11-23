@@ -7,11 +7,11 @@ import PostList from '@/components/PostList';
 import ProjectCard from '@/components/ProjectCard';
 
 export const metadata: Metadata = {
-    title: 'Home',
-    description: 'Embedded developer, circuit designer, and occasional maker. I create practical IoT solutions and document the process as I grow.',
+    title: 'Embedded Systems Developer | IoT Solutions & Circuit Design',
+    description: 'Sandip Maity - Embedded systems developer specializing in Arduino, STM32, ESP32, IoT solutions, circuit design, and PCB development. Explore projects and technical blog posts.',
     openGraph: {
-        title: 'Sandip Maity - Embedded Developer & Circuit Designer',
-        description: 'Embedded developer, circuit designer, and occasional maker. I create practical IoT solutions and document the process as I grow.',
+        title: 'Sandip Maity - Embedded Systems Developer | IoT & Circuit Design',
+        description: 'Embedded systems developer specializing in Arduino, STM32, ESP32, IoT solutions, circuit design, and PCB development. Explore projects and technical blog posts.',
         images: ['/og?title=Sandip Maity'],
     },
 };

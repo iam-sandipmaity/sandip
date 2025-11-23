@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Header from '@/components/Header';
@@ -9,22 +10,43 @@ const inter = Inter({
     subsets: ['latin'],
     variable: '--font-inter',
     display: 'swap',
+    preload: true,
 });
 
 const jetbrainsMono = JetBrains_Mono({
     subsets: ['latin'],
     variable: '--font-jetbrains',
     display: 'swap',
+    preload: true,
 });
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://sandipmaity.vercel.app'),
     title: {
-        default: 'Sandip.',
-        template: '%s | Sandip.',
+        default: 'Sandip Maity - Embedded Systems Developer | IoT & Circuit Design',
+        template: '%s | Sandip Maity',
     },
     description: 'Electronics and Communication Engineering student passionate about embedded systems, circuit design, and IoT solutions.',
-    keywords: ['embedded systems', 'electronics', 'circuit design', 'Arduino', 'STM32', 'IoT', 'PCB design'],
+    keywords: [
+        'embedded systems',
+        'electronics',
+        'circuit design',
+        'Arduino',
+        'STM32',
+        'ESP32',
+        'IoT',
+        'IoT solutions',
+        'PCB design',
+        'microcontrollers',
+        'embedded developer',
+        'circuit designer',
+        'hardware engineer',
+        'firmware development',
+        'C programming',
+        'C++ programming',
+        'embedded C',
+        'Sandip Maity',
+    ],
     authors: [{ name: 'Sandip Maity' }],
     creator: 'Sandip Maity',
     openGraph: {
@@ -73,7 +95,26 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning className={`${inter.variable} ${jetbrainsMono.variable}`}>
+            <head>
+                {/* Preconnect to external domains for performance */}
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+            </head>
             <body className="antialiased" suppressHydrationWarning>
+                {/* Google Analytics 4 - Using Next.js Script component */}
+                <Script
+                    src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+                    strategy="afterInteractive"
+                />
+                <Script id="google-analytics" strategy="afterInteractive">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-XXXXXXXXXX');
+                    `}
+                </Script>
+
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{

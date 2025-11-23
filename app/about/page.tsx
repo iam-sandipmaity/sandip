@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'About',
-    description: 'Learn more about me, my background, and what I do.',
+    title: 'About Sandip Maity - Embedded Developer & Electronics Engineer',
+    description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions. Learn about my skills and journey.',
     openGraph: {
-        title: 'About Sandip Maity',
-        description: 'Learn more about me, my background, and what I do.',
+        title: 'About Sandip Maity - Embedded Developer & Electronics Engineer',
+        description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions.',
         images: ['/og?title=About Me'],
     },
 };

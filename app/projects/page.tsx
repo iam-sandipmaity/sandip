@@ -3,11 +3,11 @@ import { getAllProjects } from '@/lib/projects';
 import ProjectCard from '@/components/ProjectCard';
 
 export const metadata: Metadata = {
-    title: 'Projects',
-    description: 'A collection of projects I\'ve built and contributed to.',
+    title: 'Embedded Systems Projects | Arduino, STM32 & IoT Solutions',
+    description: 'Explore embedded systems projects featuring Arduino, STM32, ESP32, circuit design, PCB development, and IoT solutions. Practical implementations and technical documentation.',
     openGraph: {
-        title: 'Projects by Sandip Maity',
-        description: 'A collection of projects I\'ve built and contributed to.',
+        title: 'Embedded Systems Projects by Sandip Maity',
+        description: 'Explore embedded systems projects featuring Arduino, STM32, ESP32, circuit design, PCB development, and IoT solutions.',
         images: ['/og?title=My Projects'],
     },
 };
