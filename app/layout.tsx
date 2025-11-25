@@ -102,16 +102,17 @@ export default function RootLayout({
             </head>
             <body className="antialiased" suppressHydrationWarning>
                 {/* Google Analytics 4 - Using Next.js Script component */}
+                {/* Google tag (gtag.js) */}
                 <Script
-                    src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
-                    strategy="afterInteractive"
+                    async
+                    src="https://www.googletagmanager.com/gtag/js?id=G-70GDEV7YDZ"
                 />
                 <Script id="google-analytics" strategy="afterInteractive">
                     {`
                         window.dataLayer = window.dataLayer || [];
                         function gtag(){dataLayer.push(arguments);}
                         gtag('js', new Date());
-                        gtag('config', 'G-XXXXXXXXXX');
+                        gtag('config', 'G-70GDEV7YDZ');
                     `}
                 </Script>
 

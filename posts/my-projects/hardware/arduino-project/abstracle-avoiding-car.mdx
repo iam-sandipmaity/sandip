@@ -1,0 +1,108 @@
+---
+title: "Arduino Obstacle‑Avoiding Car"
+date: 2025-11-26
+author: "Sandip Maity"
+summary: "A DIY Arduino‑based robot that detects and steers around obstacles using ultrasonic sensors."
+tags: ["Arduino", "Robotics", "Hardware", "DIY", "Obstacle Avoidance"]
+index: 20
+---
+
+# Arduino Obstacle‑Avoiding Car
+
+Building a small, autonomous car that can sense and avoid obstacles is a classic beginner‑friendly robotics project. In this post I walk through the hardware components, wiring, and the core Arduino sketch that makes the car navigate around objects using an ultrasonic distance sensor.
+
+---
+
+## Components
+- **Arduino Uno** – the brain of the robot.
+- **HC‑SR04 ultrasonic sensor** – measures distance to obstacles.
+- **L298N motor driver** – controls two DC motors for left/right wheels.
+- **Two 9 V DC gear motors** – provide motion.
+- **Chassis** – a lightweight acrylic or 3D‑printed frame.
+- **Battery pack (6 V)** – powers the Arduino and motors.
+- **Jumper wires, breadboard, and mounting hardware**.
+
+---
+
+## Wiring Overview
+1. **Ultrasonic sensor**: VCC → 5 V, GND → GND, Trig → pin 9, Echo → pin 10.
+2. **Motor driver**: ENA → pin 5 (PWM), ENB → pin 6 (PWM), IN1/IN2 → pins 2/3 for left motor, IN3/IN4 → pins 4/7 for right motor.
+3. **Power**: Connect the battery pack to the motor driver’s VIN and the Arduino’s VIN (through the barrel jack) – keep grounds common.
+
+---
+
+## Sketch Highlights
+```cpp
+const int trigPin = 9;
+const int echoPin = 10;
+const int leftMotorForward = 2;
+const int leftMotorBackward = 3;
+const int rightMotorForward = 4;
+const int rightMotorBackward = 7;
+const int leftSpeed = 5;   // PWM
+const int rightSpeed = 6;  // PWM
+
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(leftMotorForward, OUTPUT);
+  pinMode(leftMotorBackward, OUTPUT);
+  pinMode(rightMotorForward, OUTPUT);
+  pinMode(rightMotorBackward, OUTPUT);
+  pinMode(leftSpeed, OUTPUT);
+  pinMode(rightSpeed, OUTPUT);
+}
+
+long getDistance() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  long duration = pulseIn(echoPin, HIGH);
+  return duration * 0.034 / 2; // cm
+}
+
+void loop() {
+  long dist = getDistance();
+  if (dist < 15) { // obstacle within 15 cm
+    // turn right
+    analogWrite(leftSpeed, 200);
+    analogWrite(rightSpeed, 200);
+    digitalWrite(leftMotorForward, LOW);
+    digitalWrite(leftMotorBackward, HIGH);
+    digitalWrite(rightMotorForward, HIGH);
+    digitalWrite(rightMotorBackward, LOW);
+    delay(300);
+  } else {
+    // move forward
+    analogWrite(leftSpeed, 200);
+    analogWrite(rightSpeed, 200);
+    digitalWrite(leftMotorForward, HIGH);
+    digitalWrite(leftMotorBackward, LOW);
+    digitalWrite(rightMotorForward, HIGH);
+    digitalWrite(rightMotorBackward, LOW);
+  }
+}
+```
+The code continuously measures distance; if an object is detected closer than 15 cm, the car briefly reverses one wheel to turn away, then resumes forward motion.
+
+---
+
+## Building Tips
+- **Mount the sensor** at the front, angled slightly downward for better ground detection.
+- **Calibrate PWM values** to match your motor’s speed range – too high may cause slipping.
+- **Secure wiring** to avoid loose connections when the car moves.
+- **Test on a flat surface** before adding obstacles.
+
+---
+
+## Demo Video
+*[Demo video](https://x.com/iam_sandipmaity/status/1776746344415465719)*
+
+---
+
+## Conclusion
+An Arduino obstacle‑avoiding car is an excellent way to learn about sensor integration, motor control, and basic autonomous behavior. Once comfortable, you can extend the project with line‑following sensors, Bluetooth control, or even a simple PID steering algorithm.
+
+Happy building!
