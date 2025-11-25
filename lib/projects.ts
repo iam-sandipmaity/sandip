@@ -19,6 +19,14 @@ export const projects: Project[] = [
         link: 'https://x.com/iam_sandipmaity/status/1776746344415465719?s=20',
     },
     {
+    title: 'MF Tracker – Mutual Fund Portfolio Analyzer',
+    description: 'Developed a smart portfolio analysis tool that categorizes mutual funds, tracks allocation across different fund types, and highlights potential red flags in asset distribution. Built with React (TSX), TypeScript, and modern UI principles to offer fast insights and clean data visualization.',
+    tags: ['React', 'TypeScript', 'Finance Tools', 'Frontend'],
+    link: 'https://mftracker-ten.vercel.app',
+    github: 'https://github.com/iam-sandipmaity/mftracker', // If repo exists—else remove
+},
+
+    {
         title: 'PN Sequence Generator Device',
         description: 'Collaborated with faculty to design and assemble 4 hardware circuit boards for generating pseudo-noise (PN) sequences. Gained hands-on experience in circuit design, PCB assembly, and functional testing under lab supervision.',
         tags: ['Circuit Design', 'PCB Assembly', 'Hardware', 'PN Sequence'],
