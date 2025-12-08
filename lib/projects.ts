@@ -9,7 +9,7 @@ export const projects: Project[] = [
         title: 'Multi-Utility Web Platform',
         description: 'Built and deployed a web platform offering 100+ tools (image processing, PDF utilities, calculators, converters, encryption, SEO tools, etc.) under Vibe Coding. Developed using React (TSX), TypeScript, and Vercel, ensuring responsive UI and smooth performance.',
         tags: ['React', 'TypeScript', 'Vercel', 'Full-Stack'],
-        link: 'https://snap-tools.vercel.app',
+        link: 'https://snaptools.sandipmaity.me',
         github: 'https://github.com/iam-sandipmaity/SnapTools',
     },
     {
@@ -22,9 +22,17 @@ export const projects: Project[] = [
     title: 'MF Tracker – Mutual Fund Portfolio Analyzer',
     description: 'Developed a smart portfolio analysis tool that categorizes mutual funds, tracks allocation across different fund types, and highlights potential red flags in asset distribution. Built with React (TSX), TypeScript, and modern UI principles to offer fast insights and clean data visualization.',
     tags: ['React', 'TypeScript', 'Finance Tools', 'Frontend'],
-    link: 'https://mftracker-ten.vercel.app',
+    link: 'https://mftracker.sandipmaity.me',
     github: 'https://github.com/iam-sandipmaity/mftracker', // If repo exists—else remove
 },
+    {
+    title: 'Online Code Runner',
+    description: 'Developed and deployed an online code execution platform supporting multiple programming languages with instant output preview. Designed with a secure sandboxed environment for running code in-browser. Ensures smooth performance and modern UI for developers.',
+    tags: ['React', 'JavaScript', 'Web Compiler', 'Deployment'],
+    link: 'https://rurn.sandipmaity.me',
+    github: 'https://github.com/iam-sandipmaity/Runr',
+},
+
 
     {
         title: 'PN Sequence Generator Device',
