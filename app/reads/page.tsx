@@ -2,7 +2,30 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Reads',
-    description: 'Books, articles, and resources I\'ve found valuable.',
+    description: 'Books, articles, and resources I\'ve found valuable for embedded systems, electronics, and personal development.',
+    openGraph: {
+        title: 'Reads - Sandip Maity',
+        description: 'Books, articles, and resources I\'ve found valuable for embedded systems, electronics, and personal development.',
+        url: 'https://sandipmaity.me/reads',
+        siteName: 'Sandip Maity Portfolio',
+        images: [
+            {
+                url: '/og?title=Reads',
+                width: 1200,
+                height: 630,
+                alt: 'Sandip Maity Reads',
+            },
+        ],
+        locale: 'en_US',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Reads - Sandip Maity',
+        description: 'Books, articles, and resources I\'ve found valuable for embedded systems, electronics, and personal development.',
+        creator: '@iam_sandipmaity',
+        images: ['/og?title=Reads'],
+    },
 };
 
 interface ReadItem {
@@ -115,6 +138,31 @@ export default function ReadsPage() {
 
     return (
         <div className="max-w-4xl mx-auto px-6 py-16">
+            {/* Breadcrumb Structured Data */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'BreadcrumbList',
+                        itemListElement: [
+                            {
+                                '@type': 'ListItem',
+                                position: 1,
+                                name: 'Home',
+                                item: 'https://sandipmaity.me',
+                            },
+                            {
+                                '@type': 'ListItem',
+                                position: 2,
+                                name: 'Reads',
+                                item: 'https://sandipmaity.me/reads',
+                            },
+                        ],
+                    }),
+                }}
+            />
+
             <div className="mb-12">
                 <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4">
                     Reads

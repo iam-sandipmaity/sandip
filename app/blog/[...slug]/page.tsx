@@ -5,6 +5,9 @@ import TagPill from '@/components/TagPill';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import PostList from '@/components/PostList';
 import Link from 'next/link';
+import CodeBlock from '@/components/CodeBlock';
+import rehypeHighlight from 'rehype-highlight';
+import remarkGfm from 'remark-gfm';
 
 interface BlogPostPageProps {
     params: {
@@ -77,6 +80,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             source: post.content,
             options: {
                 parseFrontmatter: false,
+                mdxOptions: {
+                    remarkPlugins: [remarkGfm],
+                    rehypePlugins: [rehypeHighlight],
+                },
+            },
+            components: {
+                pre: CodeBlock,
             },
         });
 

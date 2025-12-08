@@ -5,7 +5,7 @@ import { getAllPostSlugs } from '@/lib/posts';
  * Generate sitemap for SEO
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-    const siteUrl = 'https://sandipmaity.vercel.app';
+    const siteUrl = 'https://sandipmaity.me';
     const postSlugs = getAllPostSlugs();
 
     // Static pages

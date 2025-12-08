@@ -1,8 +1,47 @@
 # SEO Setup Guide
 
-This guide provides instructions for SEO-related configurations that require manual setup outside of the codebase.
+This guide provides comprehensive instructions for SEO-related configurations to maximize your site's discoverability.
 
-## Google Analytics 4 Setup
+## ✅ Already Implemented (Automatic)
+
+Your portfolio has these SEO features working automatically:
+
+- ✅ **Meta Tags** - Title, description, keywords for all pages
+- ✅ **Open Graph** - Social media previews (Facebook, LinkedIn)
+- ✅ **Twitter Cards** - Enhanced Twitter/X sharing
+- ✅ **Sitemap.xml** - Auto-generated, updates with new posts
+- ✅ **Robots.txt** - Proper crawler instructions
+- ✅ **RSS Feed** - `/feed.xml` for blog subscribers
+- ✅ **Schema.org** - Structured data (Person, WebSite, ProfilePage, BlogPosting)
+- ✅ **Canonical URLs** - Prevents duplicate content issues
+- ✅ **PWA Manifest** - Mobile app-like experience
+- ✅ **Semantic HTML** - Proper heading hierarchy
+- ✅ **Performance** - Fast loading, optimized images
+- ✅ **Mobile-Responsive** - Mobile-first design
+
+## 🔧 Manual Setup Required
+
+### 1. Google Search Console Verification
+
+**Why:** Let Google know you own the site and see search performance data.
+
+1. Go to [Google Search Console](https://search.google.com/search-console/)
+2. Click "Add Property" → Enter `https://sandipmaity.me`
+3. Choose "HTML tag" verification method
+4. Copy the verification code (looks like: `abcdefg1234567`)
+5. Open `app/layout.tsx` and replace:
+   ```typescript
+   google: 'your-google-verification-code'
+   ```
+   with:
+   ```typescript
+   google: 'abcdefg1234567'  // Your actual code
+   ```
+6. Deploy to Vercel
+7. Go back to Search Console and click "Verify"
+8. Submit your sitemap: `https://sandipmaity.me/sitemap.xml`
+
+### 2. Google Analytics 4 Setup
 
 ### Step 1: Create a Google Analytics 4 Property
 
@@ -20,7 +59,7 @@ This guide provides instructions for SEO-related configurations that require man
 
 1. In Google Analytics Admin, go to "Data Streams"
 2. Click "Add stream" → "Web"
-3. Enter your website URL: `https://sandipmaity.vercel.app`
+3. Enter your website URL: `https://sandipmaity.me`
 4. Stream name: "Portfolio Website"
 5. Click "Create stream"
 6. Copy the **Measurement ID** (format: `G-XXXXXXXXXX`)
@@ -104,7 +143,7 @@ v=spf1 include:_spf.google.com include:_spf.vercel.com include:_spf.sendgrid.net
 After adding the SPF record, verify it using online tools:
 
 1. Visit [MXToolbox SPF Check](https://mxtoolbox.com/spf.aspx)
-2. Enter your domain: `sandipmaity.vercel.app`
+2. Enter your domain: `sandipmaity.me`
 3. Click "SPF Record Lookup"
 4. Verify the record is correctly configured
 
@@ -199,9 +238,9 @@ After completing the above setups, verify these SEO best practices:
 Set up Google Search Console to monitor your website's search performance:
 
 1. Go to [Google Search Console](https://search.google.com/search-console)
-2. Add your property: `https://sandipmaity.vercel.app`
+2. Add your property: `https://sandipmaity.me`
 3. Verify ownership (use HTML tag method or Google Analytics)
-4. Submit your sitemap: `https://sandipmaity.vercel.app/sitemap.xml`
+4. Submit your sitemap: `https://sandipmaity.me/sitemap.xml`
 
 ### 2. Regular SEO Audits
 

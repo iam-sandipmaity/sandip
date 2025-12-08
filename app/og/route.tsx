@@ -66,7 +66,7 @@ export async function GET(request: Request) {
                                 fontFamily: 'monospace',
                             }}
                         >
-                            sandipmaity.vercel.app
+                            sandipmaity.me
                         </div>
                     </div>
                 </div>

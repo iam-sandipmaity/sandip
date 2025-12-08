@@ -8,7 +8,33 @@ import TagList from '@/components/TagList';
 
 export const metadata: Metadata = {
     title: 'Blog',
-    description: 'Thoughts on web development, system design, and technology.',
+    description: 'Thoughts on embedded systems, electronics, circuit design, and technology. Technical articles and learning journey.',
+    alternates: {
+        canonical: 'https://sandipmaity.me/blog',
+    },
+    openGraph: {
+        title: 'Blog - Sandip Maity',
+        description: 'Thoughts on embedded systems, electronics, circuit design, and technology. Technical articles and learning journey.',
+        url: 'https://sandipmaity.me/blog',
+        siteName: 'Sandip Maity Portfolio',
+        images: [
+            {
+                url: '/og?title=Blog',
+                width: 1200,
+                height: 630,
+                alt: 'Sandip Maity Blog',
+            },
+        ],
+        locale: 'en_US',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Blog - Sandip Maity',
+        description: 'Thoughts on embedded systems, electronics, circuit design, and technology.',
+        creator: '@iam_sandipmaity',
+        images: ['/og?title=Blog'],
+    },
 };
 
 /**

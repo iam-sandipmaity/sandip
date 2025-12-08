@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
             userAgent: '*',
             allow: '/',
         },
-        sitemap: 'https://sandipmaity.vercel.app/sitemap.xml',
+        sitemap: 'https://sandipmaity.me/sitemap.xml',
     };
 }

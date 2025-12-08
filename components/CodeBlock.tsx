@@ -1,72 +1,84 @@
 'use client';
 
 import { useState } from 'react';
+import { FiCheck, FiCopy } from 'react-icons/fi';
 
 /**
  * Custom code block component with copy-to-clipboard functionality
- * Wraps pre elements in MDX blog posts
+ * Supports both button click and double-click to copy
  */
 export default function CodeBlock({ children, className, ...props }: React.DetailedHTMLProps<React.HTMLAttributes<HTMLPreElement>, HTMLPreElement>) {
     const [copied, setCopied] = useState(false);
+    const [showToast, setShowToast] = useState(false);
 
-    const handleCopy = async () => {
+    const copyToClipboard = async () => {
         // Extract text content from the code block
-        const codeElement = (children as any)?.props?.children;
-        const textContent = typeof codeElement === 'string'
-            ? codeElement
-            : codeElement?.props?.children || '';
+        // Handle both plain text and syntax-highlighted code
+        const extractText = (node: any): string => {
+            if (typeof node === 'string') {
+                return node;
+            }
+            if (Array.isArray(node)) {
+                return node.map(extractText).join('');
+            }
+            if (node?.props?.children) {
+                return extractText(node.props.children);
+            }
+            return '';
+        };
+
+        const textContent = extractText(children);
 
         try {
             await navigator.clipboard.writeText(textContent);
             setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
+            setShowToast(true);
+
+            // Reset after 2 seconds
+            setTimeout(() => {
+                setCopied(false);
+                setShowToast(false);
+            }, 2000);
         } catch (err) {
             console.error('Failed to copy code:', err);
         }
     };
 
+    const handleDoubleClick = () => {
+        copyToClipboard();
+    };
+
     return (
         <div className="code-block-wrapper group relative">
+            {/* Toast notification */}
+            {showToast && (
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 bg-accent-teal text-near-black px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 animate-fade-in z-20">
+                    <FiCheck className="w-4 h-4" />
+                    <span className="font-medium text-sm">Copied to clipboard!</span>
+                </div>
+            )}
+
+            {/* Copy button */}
             <button
-                onClick={handleCopy}
-                className="copy-button absolute top-3 right-3 p-2 rounded-md bg-surface/80 hover:bg-surface border border-accent-teal/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 focus:opacity-100"
-                aria-label="Copy code to clipboard"
-                title="Copy code"
+                onClick={copyToClipboard}
+                className="copy-button absolute top-3 right-3 p-2 rounded-lg bg-surface/90 hover:bg-surface border border-accent-teal/30 hover:border-accent-teal/50 opacity-0 group-hover:opacity-100 transition-all duration-200 focus:opacity-100 backdrop-blur-sm z-10"
+                aria-label={copied ? 'Copied!' : 'Copy code to clipboard'}
+                title={copied ? 'Copied!' : 'Copy code (or double-click code block)'}
             >
                 {copied ? (
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="text-accent-green"
-                    >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
+                    <FiCheck className="w-4 h-4 text-accent-green" />
                 ) : (
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="text-accent-teal"
-                    >
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
+                    <FiCopy className="w-4 h-4 text-muted group-hover:text-accent-teal transition-colors" />
                 )}
             </button>
-            <pre className={className} {...props}>
+
+            {/* Code block with double-click handler */}
+            <pre
+                className={`${className} cursor-pointer select-all`}
+                onDoubleClick={handleDoubleClick}
+                title="Double-click to copy"
+                {...props}
+            >
                 {children}
             </pre>
         </div>

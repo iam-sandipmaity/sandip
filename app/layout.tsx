@@ -21,7 +21,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-    metadataBase: new URL('https://sandipmaity.vercel.app'),
+    metadataBase: new URL('https://sandipmaity.me'),
     title: {
         default: 'Sandip Maity - Embedded Systems Developer | IoT & Circuit Design',
         template: '%s | Sandip Maity',
@@ -46,13 +46,29 @@ export const metadata: Metadata = {
         'C++ programming',
         'embedded C',
         'Sandip Maity',
+        'electronics portfolio',
+        'embedded projects',
+        'IoT developer',
+        'hardware projects',
     ],
-    authors: [{ name: 'Sandip Maity' }],
+    authors: [{ name: 'Sandip Maity', url: 'https://sandipmaity.me' }],
     creator: 'Sandip Maity',
+    publisher: 'Sandip Maity',
+    formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
+    },
+    alternates: {
+        canonical: 'https://sandipmaity.me',
+        types: {
+            'application/rss+xml': 'https://sandipmaity.me/feed.xml',
+        },
+    },
     openGraph: {
         type: 'website',
         locale: 'en_US',
-        url: 'https://sandipmaity.vercel.app',
+        url: 'https://sandipmaity.me',
         title: 'Sandip Maity - ECE Student & Embedded Systems Developer',
         description: 'Electronics and Communication Engineering student passionate about embedded systems, circuit design, and IoT solutions.',
         siteName: 'Sandip Maity Portfolio',
@@ -84,8 +100,11 @@ export const metadata: Metadata = {
         },
     },
     verification: {
-        google: 'your-google-verification-code', // Add this later
+        google: 'your-google-verification-code', // Replace with actual Google Search Console verification code
+        // yandex: 'your-yandex-verification-code',
+        // bing: 'your-bing-verification-code',
     },
+    category: 'technology',
 };
 
 export default function RootLayout({
@@ -99,6 +118,14 @@ export default function RootLayout({
                 {/* Preconnect to external domains for performance */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+                {/* RSS Feed Autodiscovery */}
+                <link
+                    rel="alternate"
+                    type="application/rss+xml"
+                    title="Sandip Maity Blog RSS Feed"
+                    href="/feed.xml"
+                />
             </head>
             <body className="antialiased" suppressHydrationWarning>
                 {/* Google Analytics 4 - Using Next.js Script component */}
@@ -119,22 +146,38 @@ export default function RootLayout({
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
-                            '@context': 'https://schema.org',
-                            '@type': 'Person',
-                            name: 'Sandip Maity',
-                            url: 'https://sandipmaity.vercel.app',
-                            sameAs: [
-                                'https://github.com/iam-sandipmaity',
-                                'https://twitter.com/iam_sandipmaity',
-                                'https://linkedin.com/in/sandipmaity',
-                            ],
-                            jobTitle: 'Electronics and Communication Engineering Student',
-                            worksFor: {
-                                '@type': 'Organization',
-                                name: 'Self-Employed',
+                        __html: JSON.stringify([
+                            {
+                                '@context': 'https://schema.org',
+                                '@type': 'Person',
+                                name: 'Sandip Maity',
+                                url: 'https://sandipmaity.me',
+                                sameAs: [
+                                    'https://github.com/iam-sandipmaity',
+                                    'https://twitter.com/iam_sandipmaity',
+                                    'https://linkedin.com/in/sandipmaity',
+                                ],
+                                jobTitle: 'Electronics and Communication Engineering Student',
+                                description: 'Embedded systems developer specializing in Arduino, STM32, ESP32, IoT solutions, circuit design, and PCB development.',
+                                knowsAbout: ['Embedded Systems', 'Circuit Design', 'IoT', 'Arduino', 'STM32', 'ESP32', 'PCB Design'],
+                                alumniOf: {
+                                    '@type': 'EducationalOrganization',
+                                    name: 'Electronics and Communication Engineering',
+                                },
                             },
-                        }),
+                            {
+                                '@context': 'https://schema.org',
+                                '@type': 'WebSite',
+                                name: 'Sandip Maity Portfolio',
+                                url: 'https://sandipmaity.me',
+                                description: 'Personal portfolio and blog of Sandip Maity, embedded systems developer.',
+                                author: {
+                                    '@type': 'Person',
+                                    name: 'Sandip Maity',
+                                },
+                                inLanguage: 'en-US',
+                            },
+                        ]),
                     }}
                 />
                 <ThemeProvider

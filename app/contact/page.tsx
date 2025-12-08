@@ -9,6 +9,24 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Contact Sandip Maity',
         description: 'Get in touch with me for collaborations, questions, or just to say hi.',
+        url: 'https://sandipmaity.me/contact',
+        siteName: 'Sandip Maity Portfolio',
+        images: [
+            {
+                url: '/og?title=Contact Me',
+                width: 1200,
+                height: 630,
+                alt: 'Contact Sandip Maity',
+            },
+        ],
+        locale: 'en_US',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Contact Sandip Maity',
+        description: 'Get in touch with me for collaborations, questions, or just to say hi.',
+        creator: '@iam_sandipmaity',
         images: ['/og?title=Contact Me'],
     },
 };
@@ -19,6 +37,31 @@ export const metadata: Metadata = {
 export default function ContactPage() {
     return (
         <div className="max-w-6xl mx-auto px-6 py-16">
+            {/* Breadcrumb Structured Data */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'BreadcrumbList',
+                        itemListElement: [
+                            {
+                                '@type': 'ListItem',
+                                position: 1,
+                                name: 'Home',
+                                item: 'https://sandipmaity.me',
+                            },
+                            {
+                                '@type': 'ListItem',
+                                position: 2,
+                                name: 'Contact',
+                                item: 'https://sandipmaity.me/contact',
+                            },
+                        ],
+                    }),
+                }}
+            />
+
             <div className="mb-12 text-center">
                 <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4">
                     Get in Touch
@@ -37,7 +80,7 @@ export default function ContactPage() {
                 {/* Social Icons */}
                 <div className="flex items-center gap-6 mb-8">
                     <a
-                        href="mailto:contact.sandipmaity@gmail.com"
+                        href="mailto:maitysandip@proton.me"
                         className="group flex flex-col items-center gap-2"
                         aria-label="Email"
                     >

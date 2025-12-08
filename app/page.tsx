@@ -12,6 +12,24 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Sandip Maity - Embedded Systems Developer | IoT & Circuit Design',
         description: 'Embedded systems developer specializing in Arduino, STM32, ESP32, IoT solutions, circuit design, and PCB development. Explore projects and technical blog posts.',
+        url: 'https://sandipmaity.me',
+        siteName: 'Sandip Maity Portfolio',
+        images: [
+            {
+                url: '/og?title=Sandip Maity',
+                width: 1200,
+                height: 630,
+                alt: 'Sandip Maity - Embedded Systems Developer',
+            },
+        ],
+        locale: 'en_US',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Sandip Maity - Embedded Systems Developer | IoT & Circuit Design',
+        description: 'Embedded systems developer specializing in Arduino, STM32, ESP32, IoT solutions, circuit design, and PCB development.',
+        creator: '@iam_sandipmaity',
         images: ['/og?title=Sandip Maity'],
     },
 };
@@ -21,7 +39,32 @@ export default function Home() {
     const featuredProjects = getFeaturedProjects(2);
 
     return (
-        <div className="max-w-4xl mx-auto px-6 py-16">
+        <>
+            {/* Schema.org structured data for homepage */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'ProfilePage',
+                        mainEntity: {
+                            '@type': 'Person',
+                            name: 'Sandip Maity',
+                            url: 'https://sandipmaity.me',
+                            image: 'https://sandipmaity.me/og?title=Sandip Maity',
+                            jobTitle: 'Embedded Systems Developer',
+                            description: 'Embedded developer, circuit designer, and occasional maker. I create practical IoT solutions and document the process as I grow.',
+                            knowsAbout: ['Embedded Systems', 'Circuit Design', 'IoT', 'Arduino', 'STM32', 'ESP32', 'PCB Design', 'Firmware Development'],
+                            sameAs: [
+                                'https://github.com/iam-sandipmaity',
+                                'https://twitter.com/iam_sandipmaity',
+                                'https://linkedin.com/in/iam-sandipmaity',
+                            ],
+                        },
+                    }),
+                }}
+            />
+            <div className="max-w-4xl mx-auto px-6 py-16">
             {/* Hero Section */}
             <section className="mb-20">
                 <h1 className="text-4xl md:text-5xl font-mono font-bold text-subtle-text mb-6 leading-tight">
@@ -72,7 +115,7 @@ export default function Home() {
                         <FiLinkedin className="w-6 h-6" />
                     </a>
                     <a
-                        href="mailto:contact.sandipmaity@gmail.com"
+                        href="mailto:maitysandip@proton.me"
                         className="p-2 text-muted hover:text-accent-teal transition-colors"
                         aria-label="Email"
                     >
@@ -124,5 +167,6 @@ export default function Home() {
                 </section>
             )}
         </div>
+        </>
     );
 }

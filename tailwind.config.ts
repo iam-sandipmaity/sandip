@@ -63,6 +63,38 @@ const config: Config = {
                             color: theme('colors.muted'),
                             borderLeftColor: theme('colors.accent-teal'),
                         },
+                        table: {
+                            width: '100%',
+                            borderCollapse: 'collapse',
+                            marginTop: '2em',
+                            marginBottom: '2em',
+                        },
+                        thead: {
+                            borderBottomWidth: '2px',
+                            borderBottomColor: theme('colors.accent-teal'),
+                        },
+                        'thead th': {
+                            color: theme('colors.subtle-text'),
+                            fontWeight: '600',
+                            verticalAlign: 'bottom',
+                            paddingBottom: '0.75em',
+                            paddingLeft: '0.75em',
+                            paddingRight: '0.75em',
+                        },
+                        'tbody tr': {
+                            borderBottomWidth: '1px',
+                            borderBottomColor: theme('colors.surface'),
+                        },
+                        'tbody tr:last-child': {
+                            borderBottomWidth: '0',
+                        },
+                        'tbody td': {
+                            verticalAlign: 'top',
+                            paddingTop: '0.75em',
+                            paddingBottom: '0.75em',
+                            paddingLeft: '0.75em',
+                            paddingRight: '0.75em',
+                        },
                     },
                 },
             }),
