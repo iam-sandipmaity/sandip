@@ -29,7 +29,7 @@ export const projects: Project[] = [
     title: 'Online Code Runner',
     description: 'Developed and deployed an online code execution platform supporting multiple programming languages with instant output preview. Designed with a secure sandboxed environment for running code in-browser. Ensures smooth performance and modern UI for developers.',
     tags: ['React', 'JavaScript', 'Web Compiler', 'Deployment'],
-    link: 'https://rurn.sandipmaity.me',
+    link: 'https://runr.sandipmaity.me/',
     github: 'https://github.com/iam-sandipmaity/Runr',
 },
 
