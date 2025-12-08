@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getAllPostSlugs, getPostBySlug, getPostsBySection, getSubsections, getBreadcrumbs } from '@/lib/posts';
+import { tagToSlug } from '@/lib/utils';
 import TagPill from '@/components/TagPill';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import PostList from '@/components/PostList';
@@ -142,7 +143,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                 <TagPill
                                     key={tag}
                                     tag={tag}
-                                    href={`/blog/tags/${tag.toLowerCase()}`}
+                                    href={`/blog/tags/${tagToSlug(tag)}`}
                                 />
                             ))}
                         </div>

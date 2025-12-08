@@ -28,27 +28,27 @@ const config: Config = {
                 DEFAULT: {
                     css: {
                         maxWidth: '70ch',
-                        color: theme('colors.subtle-text'),
+                        color: 'rgb(var(--color-subtle-text))',
                         a: {
-                            color: theme('colors.accent-teal'),
+                            color: 'rgb(var(--color-accent-teal))',
                             '&:hover': {
-                                color: theme('colors.accent-hover'),
+                                color: 'rgb(var(--color-accent-hover))',
                             },
                         },
                         h1: {
-                            color: theme('colors.subtle-text'),
+                            color: 'rgb(var(--color-subtle-text))',
                         },
                         h2: {
-                            color: theme('colors.subtle-text'),
+                            color: 'rgb(var(--color-subtle-text))',
                         },
                         h3: {
-                            color: theme('colors.subtle-text'),
+                            color: 'rgb(var(--color-subtle-text))',
                         },
                         h4: {
-                            color: theme('colors.subtle-text'),
+                            color: 'rgb(var(--color-subtle-text))',
                         },
                         code: {
-                            color: theme('colors.accent-teal'),
+                            color: 'rgb(var(--color-accent-teal))',
                         },
                         'code::before': {
                             content: '""',
@@ -57,11 +57,11 @@ const config: Config = {
                             content: '""',
                         },
                         strong: {
-                            color: theme('colors.subtle-text'),
+                            color: 'rgb(var(--color-subtle-text))',
                         },
                         blockquote: {
-                            color: theme('colors.muted'),
-                            borderLeftColor: theme('colors.accent-teal'),
+                            color: 'rgb(var(--color-muted))',
+                            borderLeftColor: 'rgb(var(--color-accent-teal))',
                         },
                         table: {
                             width: '100%',
@@ -71,10 +71,10 @@ const config: Config = {
                         },
                         thead: {
                             borderBottomWidth: '2px',
-                            borderBottomColor: theme('colors.accent-teal'),
+                            borderBottomColor: 'rgb(var(--color-accent-teal))',
                         },
                         'thead th': {
-                            color: theme('colors.subtle-text'),
+                            color: 'rgb(var(--color-subtle-text))',
                             fontWeight: '600',
                             verticalAlign: 'bottom',
                             paddingBottom: '0.75em',
@@ -83,7 +83,7 @@ const config: Config = {
                         },
                         'tbody tr': {
                             borderBottomWidth: '1px',
-                            borderBottomColor: theme('colors.surface'),
+                            borderBottomColor: 'rgb(var(--color-surface))',
                         },
                         'tbody tr:last-child': {
                             borderBottomWidth: '0',

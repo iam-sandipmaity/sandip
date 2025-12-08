@@ -2,13 +2,13 @@ import type { Metadata } from 'next';
 import { FiCode, FiCpu, FiZap, FiTool, FiBookOpen, FiTarget } from 'react-icons/fi';
 
 export const metadata: Metadata = {
-    title: 'About Sandip Maity - Embedded Developer & Electronics Engineer',
+    title: 'About - Embedded Developer & Engineer',
     description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions. Learn about my skills and journey.',
     alternates: {
         canonical: 'https://sandipmaity.me/about',
     },
     openGraph: {
-        title: 'About Sandip Maity - Embedded Developer & Electronics Engineer',
+        title: 'About Sandip Maity - Embedded Developer',
         description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions.',
         url: 'https://sandipmaity.me/about',
         siteName: 'Sandip Maity Portfolio',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'About Sandip Maity - Embedded Developer & Electronics Engineer',
+        title: 'About Sandip Maity - Embedded Developer',
         description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions.',
         creator: '@iam_sandipmaity',
         images: ['/og?title=About Me'],

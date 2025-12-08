@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getAllTags, getPostsByTag } from '@/lib/posts';
+import { tagToSlug, slugToTag } from '@/lib/utils';
 import PostList from '@/components/PostList';
 
 interface TagPageProps {
@@ -15,7 +16,7 @@ interface TagPageProps {
 export async function generateStaticParams() {
     const tags = getAllTags();
     return tags.map((tag) => ({
-        tag: tag.toLowerCase(),
+        tag: tagToSlug(tag),
     }));
 }
 
@@ -23,11 +24,11 @@ export async function generateStaticParams() {
  * Generate metadata for tag page
  */
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
-    const tag = decodeURIComponent(params.tag);
+    const tag = slugToTag(params.tag);
 
     return {
         title: `Posts tagged "${tag}"`,
-        description: `All blog posts tagged with ${tag}`,
+        description: `Explore all blog posts and articles tagged with ${tag}. Find tutorials, guides, and insights about ${tag} from embedded systems development to technical writing.`,
     };
 }
 
@@ -35,8 +36,8 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
  * Tag page showing all posts with a specific tag
  */
 export default function TagPage({ params }: TagPageProps) {
-    const tag = decodeURIComponent(params.tag);
-    const posts = getPostsByTag(tag);
+    const tag = slugToTag(params.tag);
+    const posts = getPostsByTag(params.tag);
 
     if (posts.length === 0) {
         notFound();

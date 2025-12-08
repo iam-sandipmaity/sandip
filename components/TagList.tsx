@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import TagPill from './TagPill';
+import { tagToSlug } from '@/lib/utils';
 
 export interface TagWithCount {
     tag: string;
@@ -35,7 +36,7 @@ export default function TagList({ tags, maxVisible = 6 }: TagListProps) {
                     <TagPill
                         key={tag}
                         tag={tag}
-                        href={`/blog/tags/${tag.toLowerCase()}`}
+                        href={`/blog/tags/${tagToSlug(tag)}`}
                     />
                 ))}
             </div>

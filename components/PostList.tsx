@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import TagPill from './TagPill';
+import { tagToSlug } from '@/lib/utils';
 
 export interface Post {
     slug: string;
@@ -52,7 +53,7 @@ export default function PostList({ posts, showTags = true }: PostListProps) {
                                     <TagPill
                                         key={tag}
                                         tag={tag}
-                                        href={`/blog/tags/${tag.toLowerCase()}`}
+                                        href={`/blog/tags/${tagToSlug(tag)}`}
                                         variant="small"
                                     />
                                 ))}

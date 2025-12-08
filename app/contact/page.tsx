@@ -5,10 +5,10 @@ import { FiMail, FiGithub, FiLinkedin, FiTwitter } from 'react-icons/fi';
 
 export const metadata: Metadata = {
     title: 'Contact',
-    description: 'Get in touch with me for collaborations, questions, or just to say hi.',
+    description: 'Get in touch with Sandip Maity for project collaborations, technical discussions, embedded systems consulting, or to connect about Arduino, STM32, IoT development, and electronics engineering.',
     openGraph: {
         title: 'Contact Sandip Maity',
-        description: 'Get in touch with me for collaborations, questions, or just to say hi.',
+        description: 'Get in touch for project collaborations, technical discussions, or to connect about embedded systems, Arduino, STM32, and IoT development.',
         url: 'https://sandipmaity.me/contact',
         siteName: 'Sandip Maity Portfolio',
         images: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     twitter: {
         card: 'summary_large_image',
         title: 'Contact Sandip Maity',
-        description: 'Get in touch with me for collaborations, questions, or just to say hi.',
+        description: 'Get in touch for project collaborations, technical discussions, or to connect about embedded systems, Arduino, STM32, and IoT development.',
         creator: '@iam_sandipmaity',
         images: ['/og?title=Contact Me'],
     },

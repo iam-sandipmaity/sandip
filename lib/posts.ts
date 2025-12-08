@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { Post } from '@/components/PostList';
+import { tagToSlug, slugToTag } from './utils';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
@@ -146,8 +147,10 @@ export function getAllTagsWithCounts(): Array<{ tag: string; count: number }> {
  */
 export function getPostsByTag(tag: string): Post[] {
     const allPosts = getAllPosts();
+    // Convert slug back to tag for comparison
+    const searchTag = slugToTag(tag);
     return allPosts.filter((post) =>
-        post.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
+        post.tags.some((t) => t.toLowerCase() === searchTag.toLowerCase())
     );
 }
 
