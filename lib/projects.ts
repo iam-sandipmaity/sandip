@@ -13,6 +13,14 @@ export const projects: Project[] = [
         github: 'https://github.com/iam-sandipmaity/SnapTools',
     },
     {
+    title: 'Crypto Info Dashboard',
+    description: 'Created and deployed a cryptocurrency dashboard that displays real-time market data, price tracking, charts, and coin details using coingecko APIs. Focused on performance and interactive UI for a seamless financial data viewing experience.',
+    tags: ['React', 'API Integration', 'Real-Time Data', 'Vercel'],
+    link: 'https://crypto.sandipmaity.me',
+    github: 'https://github.com/iam-sandipmaity/CryptoTracker',
+},
+
+    {
         title: 'Arduino Obstacle Avoiding Car',
         description: 'Built an autonomous car using Arduino Uno, ultrasonic sensors, and motor drivers to detect and avoid obstacles. Gained hands-on experience in C programming by implementing real-time control logic for sensor integration and navigation.',
         tags: ['Arduino', 'C Programming', 'Embedded Systems', 'Sensors'],
