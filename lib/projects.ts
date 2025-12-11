@@ -13,6 +13,14 @@ export const projects: Project[] = [
         github: 'https://github.com/iam-sandipmaity/SnapTools',
     },
     {
+    title: 'WeatherWise – Advanced Weather Forecast App',
+    description: 'Designed and deployed a full-featured weather application delivering real-time and 15-day forecasts using Open-Meteo APIs. Includes dynamic charts, AQI insights, comfort index, UV tracking, hourly & daily breakdowns, and an interactive 3D globe for location visualization. Built with html5, Tailwind CSS and JavaScript, optimized for responsiveness and smooth performance.',
+    tags: ['HTML', 'CSS', 'JavaScript', 'API Integration'],
+    link: 'https://weather.sandipmaity.me',
+    github: 'https://github.com/iam-sandipmaity/WeatherWise',
+},
+
+    {
     title: 'Crypto Info Dashboard',
     description: 'Created and deployed a cryptocurrency dashboard that displays real-time market data, price tracking, charts, and coin details using coingecko APIs. Focused on performance and interactive UI for a seamless financial data viewing experience.',
     tags: ['React', 'API Integration', 'Real-Time Data', 'Vercel'],
