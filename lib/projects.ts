@@ -27,6 +27,13 @@ export const projects: Project[] = [
     link: 'https://crypto.sandipmaity.me',
     github: 'https://github.com/iam-sandipmaity/CryptoTracker',
 },
+{
+    title: 'DevLog – Automated GitHub Activity Tracker',
+    description: 'Developed and deployed an automated development log platform that aggregates commits, PR merges, releases, issues, and updates from all repositories into a unified timeline. Powered by Supabase for real-time event storage and GitHub Webhooks for automatic syncing. Built with Next.js and TypeScript for optimized performance, API routing, and a secure admin panel with password-based access. Features a clean, responsive UI with Tailwind CSS.',
+    tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Supabase', 'GitHub Webhooks'],
+    link: 'https://log.sandipmaity.me',
+    github: 'https://github.com/iam-sandipmaity/log',
+},
 
     {
         title: 'Arduino Obstacle Avoiding Car',
