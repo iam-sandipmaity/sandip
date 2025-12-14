@@ -7,10 +7,10 @@ import PostList from '@/components/PostList';
 import ProjectCard from '@/components/ProjectCard';
 
 export const metadata: Metadata = {
-    title: 'Embedded Systems Developer | IoT Solutions & Circuit Design',
+    title: 'Sandip Maity - Embedded System IOT Circuit design and Vibe coder',
     description: 'Sandip Maity - Embedded systems developer specializing in Arduino, STM32, ESP32, IoT solutions, circuit design, and PCB development. Explore projects and technical blog posts.',
     openGraph: {
-        title: 'Sandip Maity - Embedded Systems Developer | IoT & Circuit Design',
+        title: 'Sandip Maity - Embedded System-IOT Circuit design and Vibe coder',
         description: 'Embedded systems developer specializing in Arduino, STM32, ESP32, IoT solutions, circuit design, and PCB development. Explore projects and technical blog posts.',
         url: 'https://sandipmaity.me',
         siteName: 'Sandip Maity Portfolio',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Sandip Maity - Embedded Systems Developer | IoT & Circuit Design',
+        title: 'Sandip Maity - Embedded System IOT Circuit design and Vibe coder',
         description: 'Embedded systems developer specializing in Arduino, STM32, ESP32, IoT solutions, circuit design, and PCB development.',
         creator: '@iam_sandipmaity',
         images: ['/og?title=Sandip Maity'],

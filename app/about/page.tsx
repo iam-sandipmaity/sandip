@@ -59,6 +59,9 @@ export default function AboutPage() {
         },
     ];
 
+
+
+
     const currentActivities = [
         {
             icon: FiCpu,
@@ -147,7 +150,7 @@ export default function AboutPage() {
                     </h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     {skillCategories.map((category) => {
                         const Icon = category.icon;
                         return (
@@ -176,6 +179,14 @@ export default function AboutPage() {
                             </div>
                         );
                     })}
+                </div>
+
+                <div className="flex justify-center">
+                    <img
+                        src="https://usagif.com/wp-content/uploads/cat-typing-2.gif"
+                        alt="Cat typing on keyboard GIF"
+                        className="w-64 h-64 object-cover rounded-xl shadow-lg border border-accent-teal/20"
+                    />
                 </div>
             </div>
 
