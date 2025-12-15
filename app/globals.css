@@ -498,3 +498,32 @@ html.light .hljs-function {
 .animate-fade-in {
   animation: fade-in 0.2s ease-out;
 }
+
+/* Fix for long URLs in blog posts - prevent horizontal overflow */
+.prose {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.prose a {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.prose pre {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.prose code {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.prose p,
+.prose li {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
