@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { FiCode, FiCpu, FiZap, FiTool, FiBookOpen, FiTarget } from 'react-icons/fi';
 
 export const metadata: Metadata = {
@@ -182,10 +183,13 @@ export default function AboutPage() {
                 </div>
 
                 <div className="flex justify-center">
-                    <img
+                    <Image
                         src="https://usagif.com/wp-content/uploads/cat-typing-2.gif"
                         alt="Cat typing on keyboard GIF"
+                        width={256}
+                        height={256}
                         className="w-64 h-64 object-cover rounded-xl shadow-lg border border-accent-teal/20"
+                        unoptimized
                     />
                 </div>
             </div>
