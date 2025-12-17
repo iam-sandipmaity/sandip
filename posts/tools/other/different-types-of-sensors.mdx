@@ -1,0 +1,320 @@
+---
+title: "The Ultimate Guide to 100+ Types of Sensors: Working Principles & Applications"
+date: "2025-12-18"
+summary: "A comprehensive encyclopedia of over 100 sensors used in electronics, IoT, and automation. Detailed breakdown of temperature, motion, gas, optical sensors, and more."
+tags: ["electronics", "sensors", "iot", "arduino", "esp32", "hardware"]
+---
+
+Welcome to the ultimate resource for makers, engineers, and hobbyists. In the world of electronics and IoT, sensors are the eyes and ears of your utilizing devices. They convert physical parameters into electrical signals that microcontrollers can process.
+
+This guide lists **over 100 specific sensors and sensor types**, categorized by their function. Whether you are building a weather station, a robot, or a smart home device, you will find the right component here.
+
+---
+
+## 🌡️ Temperature & Thermal Sensors
+
+These sensors measure heat or temperature changes. Essential for environmental monitoring, industrial control, and safety systems.
+
+1.  **LM35**: Precision analog temperature sensor. Linear output proportional to Celsius ($10mV/^\circ C$).
+    *   *App:* Basic thermometers, battery thermal protection.
+2.  **TMP36**: Similar to LM35 but works better at lower voltages (2.7V) and has offset to read negative temps without negative supply.
+    *   *App:* Portable battery-powered weather devices.
+3.  **DS18B20**: Digital OneWire temperature sensor. Waterproof versions available.
+    *   *App:* Liquid temperature control, soil temperature, HVAC.
+4.  **DHT11**: Basic digital temperature and humidity sensor. Low cost, modest accuracy.
+    *   *App:* Home learning kits, basic HVAC monitoring.
+5.  **DHT22 (AM2302)**: Higher accuracy and wider range version of DHT11.
+    *   *App:* Weather stations, reliable home automation.
+6.  **Thermocouple Type K**: Most common industrial temperature sensor. Wide range (-200°C to 1350°C). Needs cold junction compensation (e.g., MAX6675).
+    *   *App:* Kilns, furnaces, exhaust gas temperature.
+7.  **Thermocouple Type J**: Iron/Constantan. Lower range than K but higher sensitivity.
+    *   *App:* Plastics industry, older equipment.
+8.  **Thermocouple Type T**: Copper/Constantan. Very stable at cryogenics.
+    *   *App:* Food processing, freezers, cryogenics.
+9.  **PT100 RTD**: Resistance Temperature Detector. High accuracy platinum element. 100 ohms at 0°C.
+    *   *App:* Precision lab equipment, industrial processes.
+10. **PT1000 RTD**: 1000 ohms at 0°C. Better for 2-wire configurations than PT100.
+    *   *App:* HVAC, precision measurement.
+11. **NTC Thermistor (10k)**: Negative Temperature Coefficient. Resistance drops as temp rises. Non-linear.
+    *   *App:* 3D printer beds, battery packs, CPU sockets.
+12. **PTC Thermistor**: Positive Temperature Coefficient. Resistance rises with temp.
+    *   *App:* Overcurrent protection (fuses), heating elements.
+13. **BMP280**: Digital barometric pressure and temperature sensor. High precision.
+    *   *App:* Weather data, altitude estimation.
+14. **SHT31**: High-accuracy digital (I2C) humidity and temperature sensor. reliable.
+    *   *App:* Greenhouses, incubators.
+15. **SHT35**: Even higher precision version of SHT series.
+    *   *App:* Premium instrumentation.
+16. **MLX90614ESF**: Non-contact Infrared (IR) temperature sensor.
+    *   *App:* IR thermometers, fever scanning, industrial hot-spot checking.
+17. **AMG8833 Grid-EYE**: 8x8 IR Thermal Camera array.
+    *   *App:* Thermal imaging, human presence detection (even stationery).
+18. **BME280**: Temperature, Humidity, and Pressure in one package.
+    *   *App:* Complete weather monitoring.
+19. **BME680**: Gas, Temperature, Humidity, Pressure.
+    *   *App:* Indoor air quality monitoring.
+20. **AHT10**: Low-cost, high-precision I2C temperature/humidity.
+    *   *App:* Consumer electronics.
+
+---
+
+## 💨 Gas, Air Quality & Environmental
+
+Sensors utilized to detect the presence of specific gases, smoke, or particulates.
+
+21. **MQ-2**: Gas sensor for LPG, Smoke, Propane.
+    *   *App:* Gas leak alarms, fire detection.
+22. **MQ-3**: Sensors for Alcohol/Ethanol vapor.
+    *   *App:* Breathalyzers.
+23. **MQ-4**: Methane (CNG) gas sensor.
+    *   *App:* Natural gas leak monitors.
+24. **MQ-5**: LPG, Natural Gas, Town Gas. Low sensitivity to alcohol/smoke.
+    *   *App:* Kitchen safety.
+25. **MQ-6**: LPG and Butane specific.
+    *   *App:* Camping gear safety, industrial gas detectors.
+26. **MQ-7**: Carbon Monoxide (CO) sensor.
+    *   *App:* CO warnings for garages/homes.
+27. **MQ-8**: Hydrogen gas sensor.
+    *   *App:* Hydrogen fuel cell monitoring.
+28. **MQ-9**: Carbon Monoxide and Flammable Gasses.
+    *   *App:* Combined safety alarms.
+29. **MQ-135**: Air Quality (Benzene, Alcohol, Smoke, CO2 approx).
+    *   *App:* General indoor air quality Index (AQI).
+30. **CCS811**: Digital MOX gas sensor for eCO2 (equivalent CO2) and TVOCs.
+    *   *App:* Smart building ventilation control.
+31. **SGP30**: Multi-pixel gas sensor for indoor air quality. very stable.
+    *   *App:* Air purifiers.
+32. **PMS5003**: Laser particle counter (PM2.5, PM10).
+    *   *App:* High-end air quality stations.
+33. **GP2Y1010AU0F**: Optical Dust Sensor.
+    *   *App:* Air conditioners with auto-clean.
+34. **MH-Z19**: NDIR CO2 Sensor. Real CO2 measurement (not equivalent).
+    *   *App:* Greenhouse CO2 control, jammed rooms.
+35. **MiCS-5524**: Micro-electro-mechanical MOS sensor for CO, Hydrocarbons.
+    *   *App:* Wearable air monitors.
+36. **Ozone (O3) Sensor (MQ-131)**: Detects Ozone concentration.
+    *   *App:* Industrial disinfection monitoring.
+
+---
+
+## 🏃 Motion, Position & Inertial
+
+Sensors that detect movement, orientation, acceleration, or physical position.
+
+37. **HC-SR501 PIR**: Passive Infrared Motion Sensor. Detects heat movement (humans/animals).
+    *   *App:* Security alarms, auto-lighting.
+38. **RCWL-0516**: Doppler Radar Microwave sensor. Detects motion through walls.
+    *   *App:* Hidden security sensors.
+39. **ADXL335**: 3-axis Accelerometer (Analog).
+    *   *App:* Tilt sensing, fall detection.
+40. **ADXL345**: 3-axis Accelerometer (Digital I2C/SPI).
+    *   *App:* Vibration monitoring, input devices.
+41. **MPU6050**: 6-DoF IMU (3-axis Gyro + 3-axis Accelerometer).
+    *   *App:* Drones, balancing robots, game controllers.
+42. **MPU9250**: 9-DoF IMU (Gyro + Accel + Magnetometer).
+    *   *App:* Compass navigation, complex VR tracking.
+43. **HMC5883L**: 3-axis Magnetometer (Digital Compass).
+    *   *App:* Digital compasses, heading calculation.
+44. **QMC5883L**: A clone/variant of the HMC5883L, very common.
+    *   *App:* Same as HMC5883L.
+45. **LIS3DH**: Low power accelerometer.
+    *   *App:* Wearables tap detection.
+46. **SW-420**: Vibration switch module.
+    *   *App:* Anti-theft alarms, earthquake triggers.
+47. **Tilt Switch (Mercury or Ball type)**: Simple on/off when tilted.
+    *   *App:* Toy orientation, lid opening detection.
+48. **Rotary Encoder (EC11)**: Detects rotation steps and direction (infinite rotation).
+    *   *App:* Volume knobs, menu navigation.
+49. **AS5600**: Magnetic Rotary Position Sensor (Contactless).
+    *   *App:* Precision motor position, joint angle in robotics.
+50. **Flex Sensor**: Resistor that changes value when bent.
+    *   *App:* Gaming gloves (Power Glove), animatronics.
+
+---
+
+## 👁️ Light & Optical Sensors
+
+Detect visible, IR, or UV light spectra.
+
+51. **LDR (Photoresistor)**: Light Dependent Resistor. Resistance decreases with light.
+    *   *App:* Auto-brightness, night lights.
+52. **Photodiode**: Generates current from light similar to a solar cell but for sensing. Fast response.
+    *   *App:* Remote control receivers, high-speed counting.
+53. **Phototransistor**: Amplifies current generated by light.
+    *   *App:* Line followers, ambient light detection.
+54. **TSOP1738**: Infrared Receiver for 38kHz remote controls.
+    *   *App:* Decoding TV remotes for Arduino projects.
+55. **IR Flame Sensor (YG1006)**: Detects specific IR wavelength of fire.
+    *   *App:* Fire fighting robots.
+56. **TCS3200**: Color Sensor. Detecs RGB values of objects.
+    *   *App:* Skittles sorter, color calibration.
+57. **TCS34725**: High precision I2C color sensor with IR filter.
+    *   *App:* Accurate color matching.
+58. **BH1750**: Digital Light Sensor (Lux meter). Matches human eye response.
+    *   *App:* Adjusting phone screen brightness.
+59. **TSL2561**: Digital Luminosity/Lux sensor. Wide dynamic range.
+    *   *App:* Photography light meters.
+60. **UV Sensor (GUVA-S12SD)**: Analog UV index sensor.
+    *   *App:* UV index meters, sun safety wearables.
+61. **VEML6070**: Digital UV Sensor.
+    *   *App:* Smart weather stations.
+62. **Barcode Scanner Module (E3000)**: Camera-based scanner.
+    *   *App:* Kiosks, inventory management.
+63. **Optical Flow Sensor (PMW3901)**: Camera that tracks surface texture movement.
+    *   *App:* Drone position holding (no GPS).
+
+---
+
+## 📏 Distance & Proximity
+
+Measuring how far an object is, or if it is near.
+
+64. **HC-SR04**: Ultrasonic Distance Sensor. Uses sonar echo.
+    *   *App:* Obstacle avoidance, liquid level.
+65. **HY-SRF05**: Similar to HC-SR04 but slightly better precision.
+    *   *App:* Robotics.
+66. **US-100**: Ultrasonic sensor that sends temp-compensated distance via Serial.
+    *   *App:* Reliable range finding.
+67. **JSN-SR04T**: Waterproof Ultrasonic sensor.
+    *   *App:* Car reversing radar, outdoor tank level.
+68. **VL53L0X**: Time of Flight (ToF) Laser distance sensor. Very precise up to 2m.
+    *   *App:* Phone autofocus, close-range robotics.
+69. **VL53L1X**: ToF sensor with range up to 4m.
+    *   *App:* People counting, user presence.
+70. **Sharp GP2Y0A21**: Analog IR Distance sensor (10-80cm).
+    *   *App:* reliable short range detection impervious to sound interference.
+71. **Inductive Proximity Sensor (LJ12A3)**: Detects metal objects without contact.
+    *   *App:* 3D printer Z-probe, industrial counting.
+72. **Capacitive Proximity Sensor (LJC18A3)**: Detects any object (plastic, wood, etc).
+    *   *App:* Automated bed leveling, fluid level through plastic.
+73. **TCRT5000**: IR Reflective Sensor.
+    *   *App:* Line follower robots, electric meter revolution counting.
+74. **Obstacle Avoidance Module (IR)**: Simple IR LED + Receiver with comparator.
+    *   *App:* Basic robot collision avoidance.
+
+---
+
+## 💪 Pressure, Force & Touch
+
+Measuring physical touch, weight, or atmospheric pressure.
+
+75. **FSR 402**: Force Sensitive Resistor. Resistance drops with pressure.
+    *   *App:* Electronic drums, squeeze detection.
+76. **Load Cell (Strain Gauge)**: Aluminum bar that bends imperceptibly. Used with HX711.
+    *   *App:* Digital Kitchen scales.
+77. **HX711**: 24-bit ADC specifically for Load Cells (often sold together).
+    *   *App:* Weighing scales.
+78. **BMP180**: Older generation barometric pressure.
+    *   *App:* Basic altitude.
+79. **MPL115A2**: Absolute Pressure sensor.
+    *   *App:* Weather.
+80. **Piezoelectric Sensor**: Generates voltage when tapped/knocked.
+    *   *App:* Knock sensors, vibration harvesting.
+81. **TTP223**: Capacitive Touch Sensor (Single button). Replaces physical buttons.
+    *   *App:* Touch switches, through-glass buttons.
+82. **TTP229**: 16-channel Capacitive Touch keypad.
+    *   *App:* Keypads.
+83. **MPR121**: 12-channel Capacitive Touch controller (I2C).
+    *   *App:* Fruit pianos, complex touch interfaces.
+84. **Resistive Touch Screen**: 4-wire pressure based screen.
+    *   *App:* Old PDAs, robust industrial inputs.
+
+---
+
+## ⚡ Electrical & Magnetic
+
+Sensing Voltage, Current, or Magnetic fields.
+
+85. **Hall Effect Sensor (A3144)**: Digital switch, triggers near magnet.
+    *   *App:* Speedometers (bike wheel), door sensors.
+86. **Linear Hall Sensor (49E)**: Analog output proportional to magnetic field strength.
+    *   *App:* Throttle triggers, current sensing.
+87. **Reed Switch**: Glass tube with contacts that close near magnet. Passive.
+    *   *App:* Door/Window alarm contacts.
+88. **ACS712**: Hall-effect based Current Sensor (5A, 20A, 30A versions).
+    *   *App:* Power monitoring, overcurrent protection.
+89. **ACS758**: High current sensor (up to 100A+).
+    *   *App:* Solar inverters, EV battery monitoring.
+90. **INA219**: High side DC Current and Voltage sensor (I2C).
+    *   *App:* Precision power tracking for battery projects.
+91. **ZMPT101B**: AC Voltage Transformer module.
+    *   *App:* Mains voltage monitoring (Smart Plug).
+92. **SCT-013**: Split Core Current Transformer (Non-invasive AC current).
+    *   *App:* Whole house energy monitors.
+93. **Voltage Divider Module**: Simple resistors to scale 0-25V to 0-5V.
+    *   *App:* Battery level monitoring.
+
+---
+
+## ❤️ Biometric & Health
+
+Sensors for biological parameters.
+
+94. **MAX30100**: Pulse Oximeter and Heart Rate.
+    *   *App:* Health wearables.
+95. **MAX30102**: Improved version of Pulse Ox sensor.
+    *   *App:* Smart watches.
+96. **AD8232**: Single Lead ECG/EKG front end.
+    *   *App:* Heart activity monitoring.
+97. **R307 Fingerprint Module**: Optical fingerprint scanner.
+    *   *App:* Biometric locks, attendance systems.
+98. **Capacitive Fingerprint (FPC1020)**: Like smartphones.
+    *   *App:* Secure logins.
+99. **GSR Sensor**: Galvanic Skin Response (Sweat/Conductivity).
+    *   *App:* Stress detection, lie detectors (polygraphs).
+100. **EMG Sensor (Myoware)**: Electromyography. Detects muscle electrical activity.
+    *   *App:* Bionic prosthetics control.
+
+---
+
+## 💧 Liquid & Flow
+
+101. **Soil Moisture Sensor (Resistive)**: Fork-shaped PCB. Corrodes over time.
+    *   *App:* Auto-watering plants.
+102. **Capacitive Soil Moisture**: Corrosion resistant version of the above.
+    *   *App:* Reliable gardening systems.
+103. **Rain Drop Sensor**: Plate that conducts when wet.
+    *   *App:* Auto-closing windows, wipers.
+104. **Water Level Sensor (Depth)**: Series of traces to measure depth.
+    *   *App:* Sump pit monitoring.
+105. **Non-contact Liquid Level (XKC-Y25)**: Detects water through plastic container wall.
+    *   *App:* Coffee machine tank full sensor.
+106. **Water Flow Sensor (YF-S201)**: Hall effect turbine.
+    *   *App:* Dispensing specific amounts of liquid.
+107. **TDS Sensor**: Total Dissolved Solids. Measures water conductivity.
+    *   *App:* Water filter quality check.
+108. **pH Sensor (E-201-C)**: Measures acidity/alkalinity.
+    *   *App:* Aquariums, Hydroponics.
+109. **Turbidity Sensor**: Measures cloudiness of water using light.
+    *   *App:* Washing machine cloudy water detection.
+
+---
+
+## 📻 Sound & Audio
+
+110. **KY-037**: High Sensitivity Microphone module (digital/analog out).
+    *   *App:* Clap switch, noise detection.
+111. **KY-038**: Small Microphone module.
+    *   *App:* Sound triggers.
+112. **INMP441**: I2S MEMS Omni-directional Microphone.
+    *   *App:* Voice assistants (ESP32), high quality audio recording.
+113. **Sound Level Meter utilization**: Analog output proportional to dB.
+    *   *App:* Environmental noise monitoring.
+
+---
+
+## ☢️ Miscellaneous
+
+114. **Geiger Counter Tube (M4011)**: Detects ionizing radiation (Beta, Gamma).
+    *   *App:* Radiation safety monitors.
+    *   *App:* Random number generators.
+115. **Lightning Detector (AS3935)**: Detects RF signaling of lightning strikes up to 40km.
+    *   *App:* Storm warning systems.
+
+---
+
+## Conclusion
+
+This list covers the vast majority of sensors available to the modern electronics enthusiast. From the humble **LM35** to the advanced **LIDAR** or **Grid-EYE** sensors, the possibilities are endless. Choosing the right sensor depends on your specific needs for accuracy, range, environment, and budget.
+
+**Ready to build?** Pick a sensor, find a library, and start coding!
