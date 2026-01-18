@@ -97,35 +97,6 @@ export default function ProjectsPage() {
                 <p className="text-muted leading-relaxed mb-6">
                     Stay tuned for exciting updates as I continue building and learning.
                 </p>
-
-                <div className="space-y-4">
-                    <p className="text-subtle-text">
-                        Have any questions or want to collaborate?
-                    </p>
-                    <a
-                        href="mailto:maitysandip@proton.me"
-                        className="inline-block px-6 py-3 bg-accent-teal text-gray-900 font-medium rounded-lg hover:bg-accent-teal/10 transition-colors"
-                    >
-                        Get in Touch
-                    </a>
-
-                    <div className="pt-4 text-sm text-muted">
-                        <p className="mb-2">Connect with me:</p>
-                        <div className="flex justify-center gap-4 flex-wrap">
-                            <a href="https://github.com/iam-sandipmaity" target="_blank" rel="noopener noreferrer" className="hover:text-accent-teal transition-colors">
-                                GitHub
-                            </a>
-                            <span>•</span>
-                            <a href="https://www.linkedin.com/in/iam-sandipmaity/" target="_blank" rel="noopener noreferrer" className="hover:text-accent-teal transition-colors">
-                                LinkedIn
-                            </a>
-                            <span>•</span>
-                            <a href="https://x.com/iam_sandipmaity" target="_blank" rel="noopener noreferrer" className="hover:text-accent-teal transition-colors">
-                                Twitter
-                            </a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     );
