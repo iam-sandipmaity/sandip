@@ -13,6 +13,13 @@ export const projects: Project[] = [
         github: 'https://github.com/iam-sandipmaity/SnapTools',
     },
     {
+    title: 'SeriesRating – Visual TV Series Rating Explorer',
+    description: 'Built an interactive web application that allows users to explore and understand TV series ratings in a clear, visual, and intuitive way. The app fetches real IMDb ratings via the OMDb API and presents detailed episode-wise breakdowns. Features SeriesGraph-style heatmaps for instant visual analytics, making it easy to grasp the overall quality and progression of a series at a glance. Includes fast search and discovery to explore thousands of TV shows. Developed with HTML5, CSS, and JavaScript, optimized for responsiveness and performance.',
+    tags: ['HTML', 'CSS', 'JavaScript', 'OMDb API', 'Data Visualization'],
+    link: 'https://seriesrating.sandipmaity.me/',
+    github: 'https://github.com/iam-sandipmaity/seriesrating',
+    },
+    {
     title: 'WeatherWise – Advanced Weather Forecast App',
     description: 'Designed and deployed a full-featured weather application delivering real-time and 15-day forecasts using Open-Meteo APIs. Includes dynamic charts, AQI insights, comfort index, UV tracking, hourly & daily breakdowns, and an interactive 3D globe for location visualization. Built with html5, Tailwind CSS and JavaScript, optimized for responsiveness and smooth performance.',
     tags: ['HTML', 'CSS', 'JavaScript', 'API Integration'],
