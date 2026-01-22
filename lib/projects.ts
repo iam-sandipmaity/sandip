@@ -13,12 +13,19 @@ export const projects: Project[] = [
         github: 'https://github.com/iam-sandipmaity/SnapTools',
     },
     {
-    title: 'SeriesRating – Visual TV Series Rating Explorer',
-    description: 'Built an interactive web application that allows users to explore and understand TV series ratings in a clear, visual, and intuitive way. The app fetches real IMDb ratings via the OMDb API and presents detailed episode-wise breakdowns. Features SeriesGraph-style heatmaps for instant visual analytics, making it easy to grasp the overall quality and progression of a series at a glance. Includes fast search and discovery to explore thousands of TV shows. Developed with HTML5, CSS, and JavaScript, optimized for responsiveness and performance.',
+    title: 'SeriesRating – TV Series Rating Visualizer',
+    description: 'Built an interactive web app to explore IMDb TV series ratings in a clean, visual format. Fetches real-time data from the OMDb API and displays episode-wise ratings using heatmap-style visualizations for quick pattern recognition. Includes fast search, detailed breakdowns, and a responsive UI optimized for performance.',
     tags: ['HTML', 'CSS', 'JavaScript', 'OMDb API', 'Data Visualization'],
     link: 'https://seriesrating.sandipmaity.me/',
     github: 'https://github.com/iam-sandipmaity/seriesrating',
-    },
+},
+    {
+    title: 'AuctionMaker – Online Auction Platform',
+    description: 'Developed a full-stack online auction platform that allows users to create auctions, place real-time bids, and track auction activity. Focused on clean UX, secure bid handling, and smooth state updates. Built with modern web technologies and deployed for public use.',
+    tags: ['React', 'TypeScript', 'Full-Stack', 'Web App'],
+    link: 'https://auction.sandipmaity.me',
+    github: 'https://github.com/iam-sandipmaity/AuctionMaker',
+},
     {
     title: 'WeatherWise – Advanced Weather Forecast App',
     description: 'Designed and deployed a full-featured weather application delivering real-time and 15-day forecasts using Open-Meteo APIs. Includes dynamic charts, AQI insights, comfort index, UV tracking, hourly & daily breakdowns, and an interactive 3D globe for location visualization. Built with html5, Tailwind CSS and JavaScript, optimized for responsiveness and smooth performance.',
