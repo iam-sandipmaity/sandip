@@ -5,27 +5,31 @@
 :root {
   /* Dark mode colors (RGB format for Tailwind opacity) */
 
-  /* Deep, rich blacks with subtle blue tint for depth */
-  --color-near-black: 10 10 22;
-  /* Deep blue-black background */
-  --color-mid-dark: 20 22 28;
-  /* Rich dark blue-gray */
-  --color-surface: 28 32 40;
-  /* Elevated surface with depth */
+  /* Extreme dark backgrounds - premium & high-contrast */
+  --color-near-black: 5 5 8;
+  /* Near-pure black with subtle blue tint */
+  --color-mid-dark: 12 12 18;
+  /* Very dark charcoal-blue */
+  --color-surface: 18 18 26;
+  /* Slightly elevated dark surface */
 
-  /* Brighter, more vibrant text colors */
-  --color-muted: 148 163 184;
-  /* Brighter slate gray for secondary text */
-  --color-subtle-text: 226 232 240;
-  /* Crisp, bright text */
+  /* Crisp, professional text colors */
+  --color-muted: 148 180 210;
+  /* Soft sky blue for secondary text */
+  --color-subtle-text: 240 248 255;
+  /* Crisp white with subtle blue tint */
 
-  /* More saturated, vibrant accent colors */
-  --color-accent-teal: 94 234 212;
-  /* Bright teal (keeping original vibrancy) */
-  --color-accent-green: 52 211 153;
-  /* Vibrant green */
-  --color-accent-hover: 45 212 191;
-  /* Bright hover state */
+  /* Vibrant coral & ocean accent colors */
+  --color-accent-teal: 255 127 80;
+  /* Vibrant coral-orange - main accent */
+  --color-accent-green: 64 224 208;
+  /* Bright turquoise */
+  --color-accent-hover: 255 160 122;
+  /* Light coral hover state */
+  --color-accent-purple: 100 149 237;
+  /* Cornflower blue */
+  --color-accent-pink: 255 99 71;
+  /* Tomato red accent */
 }
 
 * {
@@ -178,24 +182,28 @@ body {
   transition: none;
 }
 
-/* Light mode overrides - improved readability */
+/* Light mode overrides - clean & modern */
 html.light {
-  --color-near-black: 230 220 220;
-  /* Light pinkish-gray background */
-  --color-mid-dark: 240 230 230;
-  /* Slightly lighter pinkish-gray */
-  --color-surface: 220 210 210;
-  /* Darker pinkish-gray for surfaces */
-  --color-muted: 107 114 128;
-  /* Medium gray for secondary text */
-  --color-subtle-text: 17 24 39;
-  /* Almost black for main text */
-  --color-accent-teal: 13 148 136;
-  /* Darker teal for better contrast */
-  --color-accent-green: 5 150 105;
-  /* Darker green */
-  --color-accent-hover: 15 118 110;
-  /* Even darker teal on hover */
+  --color-near-black: 255 255 255;
+  /* Pure white background */
+  --color-mid-dark: 248 250 252;
+  /* Soft off-white */
+  --color-surface: 241 245 249;
+  /* Light gray surface */
+  --color-muted: 100 116 139;
+  /* Slate gray for secondary text */
+  --color-subtle-text: 15 23 42;
+  /* Deep slate for main text */
+  --color-accent-teal: 255 87 51;
+  /* Vibrant coral-red for light mode */
+  --color-accent-green: 14 165 233;
+  /* Bright sky blue */
+  --color-accent-hover: 255 120 90;
+  /* Lighter coral on hover */
+  --color-accent-purple: 59 130 246;
+  /* Bright blue */
+  --color-accent-pink: 239 68 68;
+  /* Vibrant red accent */
 }
 
 html.light body {
@@ -497,6 +505,38 @@ html.light .hljs-function {
 
 .animate-fade-in {
   animation: fade-in 0.2s ease-out;
+}
+
+/* Mobile menu slide-in animation from right */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Backdrop fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
 }
 
 /* Fix for long URLs in blog posts - prevent horizontal overflow */
