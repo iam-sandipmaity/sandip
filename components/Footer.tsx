@@ -34,7 +34,7 @@ export default function Footer() {
 
                     {/* Copyright */}
                     <p className="text-sm text-muted text-center">
-                        © 2025 - {currentYear} Sandip Maity. All rights reserved.
+                        © {currentYear} Sandip Maity. All rights reserved.
                     </p>
                 </div>
             </div>
