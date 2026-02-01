@@ -1,0 +1,1127 @@
+---
+title: "Essential NPM Commands Reference"
+date: "2026-02-01"
+summary: "A comprehensive guide to npm package management, dependency handling, scripts execution, and troubleshooting for JavaScript and Node.js developers."
+tags: ["npm", "node", "javascript", "package manager", "development", "dependencies"]
+---
+
+## Introduction to NPM
+
+NPM (Node Package Manager) is the default package manager for Node.js and the world's largest software registry. It enables developers to install, share, and manage dependencies in JavaScript projects. Understanding npm commands is essential for modern web development, whether building frontend applications, backend services, or full-stack projects.
+
+This guide provides a comprehensive reference for npm commands, from basic package installation to advanced dependency management, with practical examples and best practices for maintaining healthy Node.js projects.
+
+## Understanding NPM Fundamentals
+
+Before diving into specific commands, it's important to understand npm's core concepts:
+
+1. **package.json**: The manifest file containing project metadata and dependencies
+2. **node_modules**: Directory where installed packages are stored
+3. **package-lock.json**: Lock file ensuring consistent dependency versions
+4. **Registry**: The npm registry where packages are published and downloaded from
+
+## Project Initialization
+
+### Creating a New Project
+
+**Initialize a new npm project:**
+```bash
+npm init
+```
+
+This command starts an interactive setup wizard that creates a `package.json` file with your project metadata.
+
+**Quick initialization with defaults:**
+```bash
+npm init -y
+```
+
+This creates a `package.json` file with default values, skipping all prompts. Perfect for rapid prototyping.
+
+**Initialize with specific values:**
+```bash
+npm init --name="my-project" --version="1.0.0" --yes
+```
+
+## Package Installation
+
+### Installing Dependencies
+
+**Install a package:**
+```bash
+npm install express
+```
+
+This installs the package and adds it to the `dependencies` section of `package.json`.
+
+**Install multiple packages:**
+```bash
+npm install express mongoose dotenv
+```
+
+**Install a specific version:**
+```bash
+npm install react@18.2.0
+```
+
+**Install the latest version:**
+```bash
+npm install package-name@latest
+```
+
+### Development Dependencies
+
+**Install as dev dependency:**
+```bash
+npm install --save-dev eslint
+```
+
+Development dependencies are only needed during development, not in production.
+
+**Shorthand:**
+```bash
+npm install -D prettier typescript
+```
+
+### Global Installation
+
+**Install packages globally:**
+```bash
+npm install -g nodemon
+```
+
+Global packages are available system-wide from the command line.
+
+**Common global packages:**
+```bash
+npm install -g npm@latest
+npm install -g create-react-app
+npm install -g typescript
+npm install -g pm2
+```
+
+### Installing from package.json
+
+**Install all dependencies:**
+```bash
+npm install
+```
+
+This reads `package.json` and installs all listed dependencies. Use this when cloning a project.
+
+**Install only production dependencies:**
+```bash
+npm install --production
+```
+
+This skips devDependencies, useful for deployment environments.
+
+**Clean install:**
+```bash
+npm ci
+```
+
+This performs a clean install using `package-lock.json`, ensuring exact dependency versions. Faster and more reliable for CI/CD pipelines.
+
+## Package Management
+
+### Updating Packages
+
+**Update a specific package:**
+```bash
+npm update express
+```
+
+**Update all packages:**
+```bash
+npm update
+```
+
+This updates packages within the version range specified in `package.json`.
+
+**Check for outdated packages:**
+```bash
+npm outdated
+```
+
+This displays packages that have newer versions available.
+
+### Uninstalling Packages
+
+**Uninstall a package:**
+```bash
+npm uninstall lodash
+```
+
+This removes the package and updates `package.json`.
+
+**Uninstall dev dependency:**
+```bash
+npm uninstall -D jest
+```
+
+**Uninstall global package:**
+```bash
+npm uninstall -g create-react-app
+```
+
+### Viewing Installed Packages
+
+**List installed packages:**
+```bash
+npm list
+```
+
+**List only top-level packages:**
+```bash
+npm list --depth=0
+```
+
+**List global packages:**
+```bash
+npm list -g --depth=0
+```
+
+**Check package version:**
+```bash
+npm view react version
+```
+
+## Running Scripts
+
+### Package Scripts
+
+**Run a script defined in package.json:**
+```bash
+npm run build
+```
+
+**Common npm scripts:**
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run test         # Run tests
+npm run lint         # Run linter
+npm start            # Start application (alias, no 'run' needed)
+npm test             # Run tests (alias, no 'run' needed)
+```
+
+**View all available scripts:**
+```bash
+npm run
+```
+
+### Special Scripts
+
+Some scripts have special behavior and don't require the `run` keyword:
+
+```bash
+npm start           # Runs 'start' script
+npm test            # Runs 'test' script
+npm stop            # Runs 'stop' script
+npm restart         # Runs 'restart' script
+```
+
+## Security and Auditing
+
+### Security Audits
+
+**Run security audit:**
+```bash
+npm audit
+```
+
+This scans your dependencies for known security vulnerabilities and displays a detailed report.
+
+**Fix vulnerabilities automatically:**
+```bash
+npm audit fix
+```
+
+This attempts to fix vulnerabilities by updating to compatible versions.
+
+**Fix with breaking changes:**
+```bash
+npm audit fix --force
+```
+
+⚠️ **Warning**: This may install breaking changes and could break your application. Always test thoroughly after running this command.
+
+**Get detailed audit report:**
+```bash
+npm audit --json
+```
+
+### Understanding Audit Reports
+
+When running `npm audit`, you may see:
+
+- **Severity levels**: Low, Moderate, High, Critical
+- **Vulnerability types**: Remote code execution, Cross-site scripting, Denial of service, etc.
+- **Affected packages**: Which dependencies are vulnerable
+- **Fix available**: Whether a non-breaking fix exists
+
+## Cache Management
+
+### NPM Cache
+
+**Clear npm cache:**
+```bash
+npm cache clean --force
+```
+
+Useful when experiencing installation issues or corrupted packages.
+
+**Verify cache integrity:**
+```bash
+npm cache verify
+```
+
+**View cache location:**
+```bash
+npm config get cache
+```
+
+## Configuration
+
+### NPM Config
+
+**View all config settings:**
+```bash
+npm config list
+```
+
+**Get specific config value:**
+```bash
+npm config get registry
+```
+
+**Set config value:**
+```bash
+npm config set registry https://registry.npmjs.org/
+```
+
+**Delete config value:**
+```bash
+npm config delete proxy
+```
+
+**Edit config file directly:**
+```bash
+npm config edit
+```
+
+### Common Configuration Options
+
+**Set default author:**
+```bash
+npm config set init-author-name "Your Name"
+npm config set init-author-email "your@email.com"
+```
+
+**Set default license:**
+```bash
+npm config set init-license "MIT"
+```
+
+**Set private registry:**
+```bash
+npm config set registry https://your-registry.com
+```
+
+## Package Information
+
+### Exploring Packages
+
+**View package information:**
+```bash
+npm view express
+```
+
+**View specific package field:**
+```bash
+npm view react version
+npm view next description
+npm view typescript dependencies
+```
+
+**View all available versions:**
+```bash
+npm view lodash versions
+```
+
+**Search for packages:**
+```bash
+npm search react router
+```
+
+**View package homepage:**
+```bash
+npm repo express
+```
+
+**View package documentation:**
+```bash
+npm docs react
+```
+
+## Version Management
+
+### Semantic Versioning
+
+**Increment version:**
+```bash
+npm version patch    # 1.0.0 -> 1.0.1
+npm version minor    # 1.0.0 -> 1.1.0
+npm version major    # 1.0.0 -> 2.0.0
+```
+
+**Set specific version:**
+```bash
+npm version 2.0.0
+```
+
+### Understanding Version Syntax
+
+In `package.json`, version ranges use special syntax:
+
+- `"1.2.3"` - Exact version
+- `"^1.2.3"` - Compatible with 1.x.x (most common)
+- `"~1.2.3"` - Approximately equivalent to version
+- `">=1.2.3"` - Greater than or equal to
+- `"*"` or `"latest"` - Latest version (not recommended)
+
+## Publishing Packages
+
+### Preparing for Publication
+
+**Login to npm:**
+```bash
+npm login
+```
+
+**Check logged-in user:**
+```bash
+npm whoami
+```
+
+**Publish package:**
+```bash
+npm publish
+```
+
+**Publish scoped package (public):**
+```bash
+npm publish --access public
+```
+
+**Unpublish package:**
+```bash
+npm unpublish package-name@version
+```
+
+⚠️ **Warning**: Unpublishing is permanent and can break dependent projects. Only unpublish within 72 hours of publishing.
+
+## Troubleshooting Common Issues
+
+### Installation Problems
+
+**Problem: EACCES permission errors**
+```bash
+# Solution: Fix npm permissions (never use sudo)
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+# Add to PATH: export PATH=~/.npm-global/bin:$PATH
+```
+
+**Problem: Package not found**
+```bash
+# Solution: Clear cache and reinstall
+npm cache clean --force
+rm -rf node_modules package-lock.json
+npm install
+```
+
+**Problem: Dependency conflicts**
+```bash
+# Solution: Use legacy peer deps
+npm install --legacy-peer-deps
+```
+
+**Problem: Outdated npm**
+```bash
+# Solution: Update npm itself
+npm install -g npm@latest
+```
+
+### Build Failures
+
+**Problem: Out of memory during build**
+```bash
+# Solution: Increase Node memory limit
+export NODE_OPTIONS="--max-old-space-size=4096"
+npm run build
+```
+
+**Problem: Deprecated warnings**
+- Most deprecation warnings are informational
+- Only critical if they affect your production code
+- Wait for dependency updates rather than forcing upgrades
+
+### Audit Issues
+
+**When to worry about vulnerabilities:**
+- ✅ **Do fix**: High/Critical severity in production dependencies
+- ⚠️ **Consider**: Moderate severity with available fixes
+- ℹ️ **Can ignore**: Low severity in dev dependencies
+- ℹ️ **Can ignore**: Vulnerabilities in transitive dependencies that don't affect your use case
+
+**Safe approach:**
+```bash
+# 1. Check what would change
+npm outdated
+
+# 2. Try safe fixes
+npm audit fix
+
+# 3. Test thoroughly
+npm run build
+npm test
+
+# 4. Only if necessary and after backup
+npm audit fix --force
+```
+
+## Best Practices
+
+### Dependency Management
+
+1. **Use package-lock.json**: Commit it to version control for consistent installs
+2. **Review dependencies**: Don't blindly install packages
+3. **Keep updated**: Regularly check for updates with `npm outdated`
+4. **Minimal dependencies**: Only install what you need
+5. **Check bundle size**: Use tools like bundlephobia.com
+
+### Security
+
+1. **Run audits regularly**: `npm audit` before deployments
+2. **Review vulnerability reports**: Understand the impact before fixing
+3. **Update carefully**: Test after updates, especially with `--force`
+4. **Use .npmrc**: Configure registry and security settings
+5. **Enable 2FA**: Protect your npm account
+
+### Performance
+
+1. **Use npm ci in CI/CD**: Faster and more reliable than `npm install`
+2. **Leverage caching**: CI systems can cache `node_modules`
+3. **Prune dev dependencies**: Use `--production` in production environments
+4. **Limit global packages**: Install project-specific when possible
+
+### Scripts Organization
+
+Example `package.json` scripts section:
+```json
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "clean": "rm -rf .next node_modules",
+    "reinstall": "npm run clean && npm install"
+  }
+}
+```
+
+## Advanced Commands
+
+### Link Local Packages
+
+**Create symlink:**
+```bash
+cd /path/to/my-package
+npm link
+```
+
+**Use linked package:**
+```bash
+cd /path/to/my-project
+npm link my-package
+```
+
+**Unlink:**
+```bash
+npm unlink my-package
+```
+
+### Package Execution
+
+**Run package without installing:**
+```bash
+npx create-next-app@latest my-app
+```
+
+NPX downloads and executes packages temporarily, perfect for one-off commands.
+
+**Run local binary:**
+```bash
+npx eslint src/
+```
+
+### Workspace Management (Monorepos)
+
+**Install in workspace:**
+```bash
+npm install --workspace=packages/app-1
+```
+
+**Run script in workspace:**
+```bash
+npm run build --workspace=packages/app-1
+```
+
+**Run in all workspaces:**
+```bash
+npm run test --workspaces
+```
+
+### Dependency Analysis
+
+**View dependency tree:**
+```bash
+npm ls
+npm ls --all                    # Show all dependencies
+npm ls express                  # Show specific package
+npm ls --depth=1                # Limit depth
+```
+
+**Find duplicate packages:**
+```bash
+npm dedupe
+```
+
+This command simplifies the dependency tree by removing duplicate packages.
+
+**Prune extraneous packages:**
+```bash
+npm prune
+```
+
+Removes packages not listed in `package.json`.
+
+**Prune dev dependencies:**
+```bash
+npm prune --production
+```
+
+### Package Scripts Utilities
+
+**List all lifecycle scripts:**
+```bash
+npm run env
+```
+
+Shows environment variables available to scripts.
+
+**Run package binary directly:**
+```bash
+npm exec eslint src/
+```
+
+Alternative to npx, runs a command from a local or remote package.
+
+**Pass arguments to scripts:**
+```bash
+npm run build -- --watch
+npm test -- --coverage
+```
+
+The `--` separator passes arguments to the underlying script.
+
+### Registry Management
+
+**Set custom registry:**
+```bash
+npm config set registry https://registry.npmjs.org/
+```
+
+**Check current registry:**
+```bash
+npm config get registry
+```
+
+**Use different registry for specific scope:**
+```bash
+npm config set @mycompany:registry https://npm.mycompany.com
+```
+
+**Login to registry:**
+```bash
+npm login --registry=https://npm.mycompany.com
+```
+
+**Logout from registry:**
+```bash
+npm logout
+```
+
+### Environment and Diagnostics
+
+**Check npm environment:**
+```bash
+npm doctor
+```
+
+Runs multiple checks to verify npm environment is configured correctly.
+
+**View npm version:**
+```bash
+npm --version
+npm -v
+```
+
+**View Node.js version:**
+```bash
+node --version
+node -v
+```
+
+**Get help for commands:**
+```bash
+npm help
+npm help install
+npm help-search install
+```
+
+**View npm bin path:**
+```bash
+npm bin                         # Local bin path
+npm bin -g                      # Global bin path
+```
+
+**Get npm root:**
+```bash
+npm root                        # Local node_modules path
+npm root -g                     # Global node_modules path
+```
+
+### Package Diff
+
+**Compare package versions:**
+```bash
+npm diff --diff=react@17.0.0 --diff=react@18.0.0
+```
+
+Shows differences between two package versions.
+
+**Diff current vs registry:**
+```bash
+npm diff
+```
+
+### Organization Management
+
+**Create organization:**
+```bash
+npm org create myorg
+```
+
+**Add user to organization:**
+```bash
+npm org set myorg myuser developer
+```
+
+**Remove user from organization:**
+```bash
+npm org rm myorg myuser
+```
+
+**List organization members:**
+```bash
+npm org ls myorg
+```
+
+### Access Control
+
+**Make package public:**
+```bash
+npm access public
+```
+
+**Make package restricted:**
+```bash
+npm access restricted
+```
+
+**Grant access to user:**
+```bash
+npm access grant read-write myorg:myteam my-package
+```
+
+**Revoke access:**
+```bash
+npm access revoke myorg:myteam my-package
+```
+
+**List collaborators:**
+```bash
+npm access ls-collaborators my-package
+```
+
+### Star and Search
+
+**Star a package:**
+```bash
+npm star express
+```
+
+**Unstar a package:**
+```bash
+npm unstar express
+```
+
+**List starred packages:**
+```bash
+npm stars
+npm stars username
+```
+
+### Distribution Tags
+
+**Add tag to version:**
+```bash
+npm dist-tag add my-package@1.2.3 beta
+```
+
+**Remove tag:**
+```bash
+npm dist-tag rm my-package beta
+```
+
+**List tags:**
+```bash
+npm dist-tag ls my-package
+```
+
+### Team Management
+
+**Create team:**
+```bash
+npm team create myorg:myteam
+```
+
+**Delete team:**
+```bash
+npm team destroy myorg:myteam
+```
+
+**Add user to team:**
+```bash
+npm team add myorg:myteam username
+```
+
+**Remove user from team:**
+```bash
+npm team rm myorg:myteam username
+```
+
+**List teams:**
+```bash
+npm team ls myorg
+```
+
+### Token Management
+
+**Create auth token:**
+```bash
+npm token create
+npm token create --read-only
+npm token create --cidr=192.168.1.0/24
+```
+
+**List tokens:**
+```bash
+npm token list
+```
+
+**Revoke token:**
+```bash
+npm token revoke <token-id>
+```
+
+### Deprecation
+
+**Deprecate a package version:**
+```bash
+npm deprecate my-package@1.0.0 "This version has critical bugs"
+```
+
+**Deprecate all versions:**
+```bash
+npm deprecate my-package@* "Package is no longer maintained"
+```
+
+### Installation Options
+
+**Install with legacy peer dependencies:**
+```bash
+npm install --legacy-peer-deps
+```
+
+Ignores peer dependency conflicts, useful for React 18 migrations.
+
+**Install exact versions:**
+```bash
+npm install --save-exact react
+```
+
+Saves exact version without ^ or ~ range.
+
+**Install optional dependencies:**
+```bash
+npm install --no-optional
+```
+
+Skips optional dependencies during installation.
+
+**Dry run installation:**
+```bash
+npm install --dry-run
+```
+
+Shows what would be installed without actually installing.
+
+**Force reinstall:**
+```bash
+npm install --force
+```
+
+Forces fetching of remote resources even if cached.
+
+### Build and Rebuild
+
+**Rebuild native modules:**
+```bash
+npm rebuild
+```
+
+Rebuilds native addons for current Node.js version.
+
+**Rebuild specific package:**
+```bash
+npm rebuild node-sass
+```
+
+### Funding Information
+
+**View funding info:**
+```bash
+npm fund
+```
+
+Displays funding information for installed packages.
+
+**View specific package funding:**
+```bash
+npm fund express
+```
+
+### Completion
+
+**Install shell completion:**
+```bash
+npm completion >> ~/.bashrc
+npm completion >> ~/.zshrc
+```
+
+Enables tab completion for npm commands in your shell.
+
+### Pack and Publishing
+
+**Create tarball:**
+```bash
+npm pack
+```
+
+Creates a `.tgz` file that can be installed.
+
+**Install from tarball:**
+```bash
+npm install ./my-package-1.0.0.tgz
+```
+
+**Test package before publishing:**
+```bash
+npm publish --dry-run
+```
+
+**Publish with tag:**
+```bash
+npm publish --tag beta
+```
+
+**Publish scoped package:**
+```bash
+npm publish --access public @username/package
+```
+
+## NPM vs Other Package Managers
+
+### Comparison with Alternatives
+
+**Yarn:**
+- Faster installation (parallel downloads)
+- Workspaces support
+- Command: `yarn add package-name`
+
+**PNPM:**
+- Disk space efficient (hard links)
+- Strict dependency resolution
+- Command: `pnpm add package-name`
+
+**When to use NPM:**
+- Default choice for most projects
+- Better compatibility
+- Simpler for beginners
+- Sufficient for most use cases
+
+## Quick Reference Cheat Sheet
+
+```bash
+# Installation
+npm install                    # Install from package.json
+npm install <package>          # Install package
+npm install -D <package>       # Install dev dependency
+npm install -g <package>       # Install globally
+npm install --legacy-peer-deps # Install ignoring peer deps
+npm install --save-exact       # Install exact version
+npm ci                         # Clean install
+npm install --dry-run          # Preview installation
+
+# Removal
+npm uninstall <package>        # Remove package
+npm uninstall -D <package>     # Remove dev dependency
+npm uninstall -g <package>     # Remove global package
+npm prune                      # Remove extraneous packages
+npm prune --production         # Remove dev dependencies
+
+# Updates
+npm update                     # Update packages
+npm update <package>           # Update specific package
+npm outdated                   # Check outdated packages
+npm install <package>@latest   # Update to latest
+
+# Information
+npm list                       # List installed packages
+npm list -g --depth=0          # List global packages
+npm list --depth=0             # List top-level only
+npm view <package>             # View package info
+npm view <package> versions    # View all versions
+npm search <term>              # Search packages
+npm info <package>             # Detailed package info
+npm docs <package>             # Open package docs
+npm repo <package>             # Open package repo
+npm home <package>             # Open package homepage
+npm bugs <package>             # Open issues page
+
+# Scripts
+npm run <script>               # Run script
+npm run                        # List all scripts
+npm start                      # Run start script
+npm test                       # Run test script
+npm run build                  # Run build script
+npm run <script> -- --flag     # Pass arguments to script
+npm exec <cmd>                 # Execute command from package
+npx <package>                  # Execute package without install
+
+# Security
+npm audit                      # Security audit
+npm audit --json               # Audit in JSON format
+npm audit fix                  # Fix vulnerabilities
+npm audit fix --force          # Fix with breaking changes
+npm audit signatures           # Verify package signatures
+
+# Maintenance
+npm cache clean --force        # Clear cache
+npm cache verify               # Verify cache integrity
+npm config list                # View config
+npm config get <key>           # Get config value
+npm config set <key> <value>   # Set config value
+npm doctor                     # Check environment
+npm dedupe                     # Remove duplicate packages
+npm rebuild                    # Rebuild native modules
+npm fund                       # Show funding info
+
+# Version Management
+npm version patch              # Bump patch version
+npm version minor              # Bump minor version
+npm version major              # Bump major version
+npm version <version>          # Set specific version
+npm version                    # Show current version
+
+# Publishing
+npm login                      # Login to registry
+npm whoami                     # Check logged user
+npm publish                    # Publish package
+npm publish --dry-run          # Test publish
+npm publish --access public    # Publish scoped package
+npm unpublish <pkg>@<version>  # Unpublish version
+npm deprecate <pkg> "<msg>"    # Deprecate package
+npm pack                       # Create tarball
+
+# Registry
+npm config get registry        # Get current registry
+npm config set registry <url>  # Set registry
+npm ping                       # Ping registry
+npm logout                     # Logout from registry
+
+# Token Management
+npm token create               # Create auth token
+npm token list                 # List tokens
+npm token revoke <id>          # Revoke token
+
+# Tags
+npm dist-tag add <pkg>@<v> <tag>  # Add tag
+npm dist-tag rm <pkg> <tag>       # Remove tag
+npm dist-tag ls <pkg>             # List tags
+
+# Workspaces (Monorepos)
+npm install -w <workspace>     # Install in workspace
+npm run <script> -w <workspace> # Run in workspace
+npm run <script> --workspaces  # Run in all workspaces
+
+# Utilities
+npm root                       # Show node_modules path
+npm root -g                    # Show global path
+npm bin                        # Show bin path
+npm bin -g                     # Show global bin path
+npm help <command>             # Get help
+npm diff                       # Show package diff
+npm star <package>             # Star package
+npm stars                      # List starred packages
+
+# Environment
+npm --version                  # NPM version
+npm -v                         # NPM version (short)
+node --version                 # Node version
+npm completion                 # Shell completion script
+```
+
+## Conclusion
+
+NPM is an essential tool in the JavaScript ecosystem, providing powerful package management capabilities. Understanding these commands enables efficient dependency management, security maintenance, and project automation. Regular practice with these commands will improve your development workflow and help you build more maintainable applications.
+
+Remember to:
+- Keep dependencies updated
+- Run security audits regularly
+- Use semantic versioning
+- Test after dependency changes
+- Commit package-lock.json
+- Document custom scripts
+
+With these npm commands in your toolkit, you're well-equipped to manage JavaScript projects of any size and complexity.
