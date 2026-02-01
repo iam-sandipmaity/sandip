@@ -195,5 +195,5 @@ MIT License - feel free to use this template for your own portfolio.
 
 ---
 
-**Made with ❤️ and TypeScript**
+**Made with ❤️ and TypeScript **
 
