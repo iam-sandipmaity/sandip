@@ -13,6 +13,15 @@ export const projects: Project[] = [
         github: 'https://github.com/iam-sandipmaity/SnapTools',
     },
     {
+    title: 'Video Downloader',
+    description: 'Developed a comprehensive video downloading solution with an Android APK app and accompanying website. Built with modern web technologies to showcase app features, provide download links, and maintain detailed app documentation. Includes user-friendly interface for browsing and downloading videos across various platforms.',
+    tags: ['Android', 'Mobile App', 'Web Platform', 'Video Processing'],
+    link: 'https://video.sandipmaity.me',
+    github: 'https://github.com/iam-sandipmaity/video-downloader',
+    website: 'https://github.com/iam-sandipmaity/video-downloader-site'
+},
+
+    {
     title: 'SeriesRating – TV Series Rating Visualizer',
     description: 'Built an interactive web app to explore IMDb TV series ratings in a clean, visual format. Fetches real-time data from the OMDb API and displays episode-wise ratings using heatmap-style visualizations for quick pattern recognition. Includes fast search, detailed breakdowns, and a responsive UI optimized for performance.',
     tags: ['HTML', 'CSS', 'JavaScript', 'OMDb API', 'Data Visualization'],
