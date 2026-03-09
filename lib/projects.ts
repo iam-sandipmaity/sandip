@@ -14,7 +14,7 @@ export const projects: Project[] = [
     },
     {
         title: 'Video Downloader - Android App',
-        description: 'Developed a comprehensive Android video downloading application with full APK deployment. Built using native Android development tools for seamless video processing, multiple format support, and user-friendly download management. Includes efficient background processing and storage optimization for smooth user experience.',
+        description: 'Developed a comprehensive Android video downloading application with full APK deployment. Built using native Android development tools for seamless video processing, multiple format support, and user-friendly download management. Includes efficient background processing and smooth user experience.',
         tags: ['Android', 'Mobile App', 'Video Processing', 'APK'],
         link: 'https://video.sandipmaity.me',
         github: 'https://github.com/iam-sandipmaity/video-downloader',
