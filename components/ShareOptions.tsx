@@ -13,7 +13,7 @@ export default function ShareOptions({ title, url }: ShareOptionsProps) {
     const [canNativeShare, setCanNativeShare] = useState(false);
 
     useEffect(() => {
-        if (navigator.share) {
+        if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
             setCanNativeShare(true);
         }
     }, []);
