@@ -1,5 +1,6 @@
 import type { MDXComponents } from 'mdx/types';
 import CodeBlock from '@/components/CodeBlock';
+import MDXImage from '@/components/MDXImage';
 
 /**
  * Custom MDX components for blog posts
@@ -9,5 +10,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     return {
         ...components,
         pre: CodeBlock,
+        img: MDXImage,
+        Image: MDXImage,
     };
 }

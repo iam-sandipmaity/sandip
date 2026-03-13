@@ -11,6 +11,8 @@ import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import MDXImage from '@/components/MDXImage';
+import ShareOptions from '@/components/ShareOptions';
 
 interface BlogPostPageProps {
     params: {
@@ -90,6 +92,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             },
             components: {
                 pre: CodeBlock,
+                img: MDXImage,
+                Image: MDXImage,
             },
         });
 
@@ -156,6 +160,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <div className="prose prose-invert max-w-none">
                     {MDXContent}
                 </div>
+
+                {/* Share Options */}
+                <ShareOptions title={post.title} url={`/blog/${slugString}`} />
             </article>
         );
     } catch {
