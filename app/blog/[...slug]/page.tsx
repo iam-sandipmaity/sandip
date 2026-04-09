@@ -130,7 +130,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                 {/* Post Header */}
                 <header className="mb-12">
-                    <time className="text-base text-muted font-mono mb-4 block">
+                    <time className="text-base text-muted font-mono mb-4 block" suppressHydrationWarning>
                         {new Date(post.date).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',
@@ -208,7 +208,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4 capitalize">
                         {breadcrumbs[breadcrumbs.length - 1].name}
                     </h1>
-                    <p className="font-mono text-2xl text-muted leading-relaxed">
+                    <p className="font-mono text-xl text-muted leading-relaxed">
                         Posts in the {slugString} section
                     </p>
                 </div>
