@@ -193,8 +193,8 @@ html.light {
   /* Soft off-white */
   --color-surface: 241 245 249;
   /* Light gray surface */
-  --color-muted: 100 116 139;
-  /* Slate gray for secondary text */
+  --color-muted: 95 95 100;
+  /* Soft ash gray for light mode */
   --color-subtle-text: 15 23 42;
   /* Deep slate for main text */
   --color-accent-teal: 0 168 150;
