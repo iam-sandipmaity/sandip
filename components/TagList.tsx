@@ -22,7 +22,7 @@ export default function TagList({ tags, maxVisible = 6 }: TagListProps) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     if (tags.length === 0) {
-        return <p className="text-muted text-sm">No tags yet.</p>;
+        return <p className="font-mono text-muted text-sm">No tags yet.</p>;
     }
 
     const visibleTags = isExpanded ? tags : tags.slice(0, maxVisible);
@@ -44,7 +44,7 @@ export default function TagList({ tags, maxVisible = 6 }: TagListProps) {
             {hasMore && (
                 <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="text-sm text-accent-teal hover:text-accent-hover transition-colors font-medium"
+                    className="font-mono text-sm text-accent-teal hover:text-accent-hover transition-colors font-medium"
                 >
                     {isExpanded ? 'Hide tags' : `+${remainingCount} tags`}
                 </button>
