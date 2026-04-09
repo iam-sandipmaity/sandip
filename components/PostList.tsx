@@ -21,7 +21,7 @@ export default function PostList({ posts, showTags = true }: PostListProps) {
             {posts.map((post) => (
                 <article key={post.slug} className="group">
                     <div className="flex flex-col gap-1">
-                        <time className="text-xs text-muted font-mono">
+                        <time className="text-base text-muted font-mono" suppressHydrationWarning>
                             {new Date(post.date).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'short',
@@ -30,7 +30,7 @@ export default function PostList({ posts, showTags = true }: PostListProps) {
                         </time>
 
                         <Link href={`/blog/${post.slug}`}>
-                            <h3 className="text-lg font-mono font-semibold text-subtle-text group-hover:text-accent-teal transition-colors relative inline-block after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-px after:border-b after:border-dotted after:border-accent-teal after:opacity-0 group-hover:after:opacity-100">
+                            <h3 className="text-xl font-mono font-semibold text-subtle-text group-hover:text-accent-teal transition-colors relative inline-block after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-px after:border-b after:border-dotted after:border-accent-teal after:opacity-0 group-hover:after:opacity-100">
                                 {post.title}
                             </h3>
                         </Link>
