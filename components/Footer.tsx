@@ -6,6 +6,7 @@ const footerLinks = [
     { href: '/blog', label: 'Blog' },
     { href: '/projects', label: 'Projects' },
     { href: '/reads', label: 'Reads' },
+    { href: '/contact', label: 'Contact' },
 ];
 
 /**
@@ -20,7 +21,7 @@ export default function Footer() {
             <div className="max-w-5xl mx-auto px-6 py-8">
                 <div className="flex flex-col items-center gap-4">
                     {/* Footer Navigation */}
-                    <nav className="flex flex-wrap items-center justify-center gap-4 text-sm">
+                    <nav className="font-mono flex flex-wrap items-center justify-center gap-4 text-sm">
                         {footerLinks.map((link) => (
                             <Link
                                 key={link.href}
@@ -33,7 +34,7 @@ export default function Footer() {
                     </nav>
 
                     {/* Copyright */}
-                    <p className="text-sm text-muted text-center">
+                    <p className="font-mono text-sm text-muted text-center">
                         © 2025 - {currentYear} Sandip Maity. All rights reserved.
                     </p>
                 </div>
