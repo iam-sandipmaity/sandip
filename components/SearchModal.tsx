@@ -13,8 +13,7 @@ export interface SearchResult {
 }
 
 /**
- * Search modal component with keyboard shortcuts and fuzzy search
- * Opens with Cmd/Ctrl + K or clicking the search button
+ * Search modal - clean design with blur backdrop
  */
 export default function SearchModal() {
     const [isOpen, setIsOpen] = useState(false);
@@ -22,31 +21,16 @@ export default function SearchModal() {
     const [results, setResults] = useState<SearchResult[]>([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
-    const [recentSearches, setRecentSearches] = useState<string[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
-
-    // Load recent searches from localStorage
-    useEffect(() => {
-        const saved = localStorage.getItem('recentSearches');
-        if (saved) {
-            try {
-                setRecentSearches(JSON.parse(saved));
-            } catch (e) {
-                console.error('Failed to load recent searches:', e);
-            }
-        }
-    }, []);
 
     // Handle keyboard shortcuts
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            // Open search with Cmd/Ctrl + K
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                 e.preventDefault();
                 setIsOpen(true);
             }
-            // Close with Escape
             if (e.key === 'Escape') {
                 setIsOpen(false);
             }
@@ -63,7 +47,19 @@ export default function SearchModal() {
         }
     }, [isOpen]);
 
-    // Search functionality with API call
+    // Lock body scroll when modal is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
+
+    // Search functionality
     useEffect(() => {
         if (!query.trim()) {
             setResults([]);
@@ -84,7 +80,7 @@ export default function SearchModal() {
             } finally {
                 setIsLoading(false);
             }
-        }, 150); // Debounce search by 150ms
+        }, 150);
 
         return () => clearTimeout(searchTimeout);
     }, [query]);
@@ -99,30 +95,10 @@ export default function SearchModal() {
             setSelectedIndex((prev) => (prev > 0 ? prev - 1 : 0));
         } else if (e.key === 'Enter' && results[selectedIndex]) {
             e.preventDefault();
-            handleResultClick(results[selectedIndex].url);
+            setIsOpen(false);
+            setQuery('');
+            router.push(results[selectedIndex].url);
         }
-    };
-
-    const handleResultClick = (url: string) => {
-        // Save to recent searches if there's a query
-        if (query.trim()) {
-            const updated = [query, ...recentSearches.filter(s => s !== query)].slice(0, 5);
-            setRecentSearches(updated);
-            localStorage.setItem('recentSearches', JSON.stringify(updated));
-        }
-
-        setIsOpen(false);
-        setQuery('');
-        router.push(url);
-    };
-
-    const handleRecentSearchClick = (search: string) => {
-        setQuery(search);
-    };
-
-    const clearRecentSearches = () => {
-        setRecentSearches([]);
-        localStorage.removeItem('recentSearches');
     };
 
     const handleClose = () => {
@@ -130,41 +106,34 @@ export default function SearchModal() {
         setQuery('');
     };
 
-    // Detect OS for keyboard shortcut display
-    const isMac = typeof window !== 'undefined' && navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-    const shortcutKey = isMac ? '⌘' : 'Ctrl';
-
     return (
         <>
+            {/* Search Button - minimal, text style */}
             <button
                 onClick={() => setIsOpen(true)}
-                className="group relative flex items-center gap-2 px-3 py-2 rounded-lg bg-surface hover:bg-accent-teal/10 border border-surface hover:border-accent-teal/30 transition-all duration-200"
+                className="font-mono flex items-center gap-2 text-sm text-muted hover:text-accent-teal transition-colors"
                 aria-label="Search"
-                title={`Search (${shortcutKey}+K)`}
+                title="Search"
             >
-                <FiSearch className="w-4 h-4 text-muted group-hover:text-accent-teal transition-colors" />
-                <span className="hidden lg:inline-block text-sm text-muted group-hover:text-accent-teal transition-colors">
-                    Search
-                </span>
-                <kbd className="hidden lg:flex items-center gap-0.5 px-2 py-0.5 text-xs font-mono bg-mid-dark border border-surface rounded group-hover:border-accent-teal/30 text-muted group-hover:text-accent-teal transition-all">
-                    <span key="shortcut-key">{shortcutKey}</span>
-                    <span key="k-key">K</span>
-                </kbd>
+                <FiSearch className="w-4 h-4" />
             </button>
 
-            {/* Modal Overlay */}
+            {/* Modal Overlay with blur */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-near-black/80 backdrop-blur-sm z-50 flex items-start justify-center pt-[20vh] px-4"
+                    className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] px-4"
                     onClick={handleClose}
                 >
-                    {/* Search Modal */}
+                    {/* Blur backdrop */}
+                    <div className="absolute inset-0 bg-near-black/60 backdrop-blur-md" />
+
+                    {/* Search Modal with box */}
                     <div
-                        className="w-full max-w-2xl bg-mid-dark border border-surface rounded-lg shadow-2xl shadow-accent-teal/10 overflow-hidden"
+                        className="relative w-full max-w-xl bg-near-black border border-surface rounded-lg shadow-xl"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Search Input */}
-                        <div className="flex items-center gap-3 px-4 py-3 border-b border-surface">
+                        <div className="flex items-center gap-3 px-4 py-3 border-b border-surface/50">
                             <FiSearch className="w-5 h-5 text-muted flex-shrink-0" />
                             <input
                                 ref={inputRef}
@@ -172,42 +141,35 @@ export default function SearchModal() {
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
                                 onKeyDown={handleKeyDown}
-                                placeholder="Search pages, posts, projects, tags..."
-                                className="flex-1 bg-transparent text-subtle-text placeholder:text-muted outline-none text-lg"
+                                placeholder="Search..."
+                                className="flex-1 bg-transparent text-subtle-text placeholder:text-muted outline-none"
                             />
                             <button
                                 onClick={handleClose}
-                                className="p-1 hover:bg-surface rounded transition-colors"
-                                aria-label="Close search"
+                                className="text-xs text-muted hover:text-accent-teal transition-colors font-mono"
+                                aria-label="Close"
                             >
-                                <FiX className="w-5 h-5 text-muted" />
+                                ESC
                             </button>
                         </div>
 
-                        {/* Search Results */}
-                        <div className="max-h-[60vh] overflow-y-auto">
+                        {/* Results */}
+                        <div className="max-h-[50vh] overflow-y-auto">
                             {query && isLoading && (
-                                <div className="px-4 py-8 text-center text-muted">
-                                    <div className="inline-block w-6 h-6 border-2 border-accent-teal border-t-transparent rounded-full animate-spin mb-2"></div>
-                                    <p>Searching...</p>
+                                <div className="font-mono text-center text-muted text-sm py-6">
+                                    Searching...
                                 </div>
                             )}
 
                             {query && !isLoading && results.length === 0 && (
-                                <div className="px-4 py-8 text-center text-muted">
-                                    No results found for &quot;{query}&quot;
+                                <div className="font-mono text-center text-muted text-sm py-6">
+                                    No results for &quot;{query}&quot;
                                 </div>
                             )}
 
                             {!query && (
-                                <div className="px-4 py-8 text-center text-muted text-sm">
-                                    <p className="mb-2">Start typing to search...</p>
-                                    <p className="text-xs">
-                                        Use <kbd className="px-2 py-1 bg-surface rounded text-accent-teal">↑</kbd>{' '}
-                                        <kbd className="px-2 py-1 bg-surface rounded text-accent-teal">↓</kbd> to navigate,{' '}
-                                        <kbd className="px-2 py-1 bg-surface rounded text-accent-teal">Enter</kbd> to select,{' '}
-                                        <kbd className="px-2 py-1 bg-surface rounded text-accent-teal">Esc</kbd> to close
-                                    </p>
+                                <div className="font-mono text-center text-muted text-sm py-6">
+                                    <p>Type to search posts, projects, pages...</p>
                                 </div>
                             )}
 
@@ -216,49 +178,21 @@ export default function SearchModal() {
                                     {results.map((result, index) => (
                                         <button
                                             key={result.url}
-                                            onClick={() => handleResultClick(result.url)}
-                                            className={`w-full px-4 py-3 flex items-start gap-3 transition-colors text-left ${index === selectedIndex
-                                                ? 'bg-surface border-l-2 border-accent-teal'
-                                                : 'hover:bg-surface/50'
-                                                }`}
+                                            onClick={() => {
+                                                setIsOpen(false);
+                                                setQuery('');
+                                                router.push(result.url);
+                                            }}
+                                            className={`
+                                                w-full px-4 py-2.5 text-left transition-colors flex items-center gap-3
+                                                ${index === selectedIndex
+                                                    ? 'bg-surface text-subtle-text'
+                                                    : 'text-muted hover:text-subtle-text hover:bg-surface/50'
+                                                }
+                                            `}
                                         >
-                                            <div className="flex-1">
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    <span
-                                                        className={`text-xs px-2 py-0.5 rounded-full ${result.type === 'post'
-                                                            ? 'bg-accent-teal/20 text-accent-teal'
-                                                            : result.type === 'project'
-                                                                ? 'bg-purple-500/20 text-purple-400'
-                                                                : 'bg-surface text-muted'
-                                                            }`}
-                                                    >
-                                                        {result.type}
-                                                    </span>
-                                                    <h4 className="font-medium text-subtle-text">
-                                                        {result.title}
-                                                    </h4>
-                                                </div>
-                                                <p className="text-sm text-muted line-clamp-1">
-                                                    {result.description}
-                                                </p>
-                                                {result.tags && result.tags.length > 0 && (
-                                                    <div className="flex flex-wrap gap-1.5 mt-2">
-                                                        {result.tags.slice(0, 5).map((tag, tagIndex) => (
-                                                            <span
-                                                                key={tagIndex}
-                                                                className="text-xs px-2 py-0.5 rounded bg-accent-teal/10 text-accent-teal/80 border border-accent-teal/20"
-                                                            >
-                                                                {tag}
-                                                            </span>
-                                                        ))}
-                                                        {result.tags.length > 5 && (
-                                                            <span className="text-xs text-muted">
-                                                                +{result.tags.length - 5} more
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                )}
-                                            </div>
+                                            <span className="text-sm">{result.title}</span>
+                                            <span className="text-xs opacity-50 ml-auto capitalize">{result.type}</span>
                                         </button>
                                     ))}
                                 </div>
