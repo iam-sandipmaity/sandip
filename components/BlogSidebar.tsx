@@ -17,7 +17,6 @@ export default function BlogSidebar({ hierarchy, allPosts }: BlogSidebarProps) {
     const [selectedSection, setSelectedSection] = useState('');
     const [isExpanded, setIsExpanded] = useState(false);
 
-    // Reset selection when resetTrigger changes (e.g., clear filter)
     useEffect(() => {
         if (resetTrigger > 0) {
             setSelectedSection('');
@@ -27,11 +26,9 @@ export default function BlogSidebar({ hierarchy, allPosts }: BlogSidebarProps) {
     const handleSectionSelect = (path: string) => {
         setSelectedSection(path);
         if (path === '') {
-            // Show all posts
             setFilteredPosts(allPosts);
             setActiveFilter('');
         } else {
-            // Filter posts by section path
             const filtered = allPosts.filter((post) => post.slug.startsWith(path + '/'));
             setFilteredPosts(filtered);
             setActiveFilter(path);
@@ -40,36 +37,38 @@ export default function BlogSidebar({ hierarchy, allPosts }: BlogSidebarProps) {
 
     return (
         <div>
-            {/* Header with toggle button for mobile */}
             <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-mono font-semibold text-subtle-text">
-                    Browse Sections
+                    Browse
                 </h2>
                 <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="max-[469px]:flex hidden p-2 hover:bg-surface rounded-lg transition-colors"
-                    aria-label={isExpanded ? 'Collapse sections' : 'Expand sections'}
+                    className="max-[469px]:flex hidden p-2 hover:bg-surface rounded transition-colors"
+                    aria-label={isExpanded ? 'Collapse' : 'Expand'}
                 >
                     {isExpanded ? (
-                        <FiMinus className="w-5 h-5 text-accent-teal" />
+                        <FiMinus className="w-4 h-4 text-accent-teal" />
                     ) : (
-                        <FiPlus className="w-5 h-5 text-accent-teal" />
+                        <FiPlus className="w-4 h-4 text-accent-teal" />
                     )}
                 </button>
             </div>
 
-            {/* All Posts button - always visible */}
+            {/* All Posts - minimal button */}
             <button
                 onClick={() => handleSectionSelect('')}
-                className={`w-full text-left px-4 py-2 rounded-lg mb-2 transition-colors ${selectedSection === ''
-                    ? 'bg-accent-teal/20 text-accent-teal border border-accent-teal/30'
-                    : 'bg-surface text-subtle-text hover:bg-accent-teal/10 border border-surface'
-                    }`}
+                className={`
+                    font-mono w-full text-left px-3 py-2 mb-2 text-sm transition-colors border-b border-transparent
+                    ${selectedSection === ''
+                        ? 'text-accent-teal border-accent-teal'
+                        : 'text-muted hover:text-accent-teal'
+                    }
+                `}
             >
                 All Posts
             </button>
 
-            {/* Section tree - collapsible on mobile */}
+            {/* Section tree */}
             <div className={`min-[470px]:block ${isExpanded ? 'block' : 'hidden max-[469px]:hidden'}`}>
                 <BrowseSection
                     hierarchy={hierarchy}
