@@ -1,8 +1,3 @@
-import createMDX from '@next/mdx';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeSlug from 'rehype-slug';
-import remarkGfm from 'remark-gfm';
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
@@ -17,9 +12,6 @@ const nextConfig = {
   // Performance optimizations
   swcMinify: true,
 
-  // Optimize fonts and reduce render-blocking
-  optimizeFonts: true,
-
   // Headers for security, CDN caching and performance
   async headers() {
     return [
@@ -29,7 +21,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload',
+            value: 'max-age=31536000; includeSubDomains; preload',
           },
           {
             key: 'X-Content-Type-Options',
@@ -38,10 +30,6 @@ const nextConfig = {
           {
             key: 'X-Frame-Options',
             value: 'DENY',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
           },
           {
             key: 'Referrer-Policy',
@@ -75,12 +63,4 @@ const nextConfig = {
   },
 };
 
-const withMDX = createMDX({
-  extension: /\.mdx?$/,
-  options: {
-    remarkPlugins: [remarkGfm],
-    rehypePlugins: [rehypeHighlight, rehypeSlug],
-  },
-});
-
-export default withMDX(nextConfig);
+export default nextConfig;
