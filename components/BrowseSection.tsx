@@ -46,7 +46,7 @@ function SectionItem({ node, selectedSection, onSectionSelect, level }: SectionI
 
                 <button
                     onClick={() => onSectionSelect(node.path)}
-                    className="font-mono flex-1 text-left text-sm flex items-center justify-between gap-2"
+                    className="font-mono flex-1 text-left text-base flex items-center justify-between gap-2"
                 >
                     <span>{node.name}</span>
                     <span className="text-xs text-muted">({node.postCount})</span>
