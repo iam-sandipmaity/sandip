@@ -41,7 +41,7 @@ export default function BlogPage() {
                     <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4">
                         Blog
                     </h1>
-                    <p className="font-mono text-lg text-muted leading-relaxed">
+                    <p className="font-mono text-2xl text-muted leading-relaxed">
                         My thinking and learnings.
                     </p>
                 </div>
