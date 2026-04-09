@@ -8,5 +8,12 @@ import { type ThemeProviderProps } from 'next-themes/dist/types';
  * Enables dark/light mode switching with localStorage persistence
  */
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-    return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+    return (
+        <NextThemesProvider 
+            {...props} 
+            suppressHydrationWarning
+        >
+            {children}
+        </NextThemesProvider>
+    );
 }
