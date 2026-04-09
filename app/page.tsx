@@ -79,17 +79,17 @@ export default function Home() {
                 </p>
 
                 {/* CTA Buttons */}
-                <div className="flex flex-wrap gap-4 mb-8">
+                <div className="flex flex-wrap gap-6 mb-8">
                     <Link
                         href="/projects"
-                        className="font-mono inline-flex items-center gap-2 px-6 py-3 bg-accent-teal text-gray-900 font-medium rounded-lg hover:bg-accent-teal/10 transition-colors"
+                        className="font-mono inline-flex items-center gap-2 text-lg text-muted hover:text-accent-teal transition-colors group"
                     >
                         View Projects
-                        <FiArrowRight className="w-4 h-4" />
+                        <FiArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                     </Link>
                     <Link
                         href="/blog"
-                        className="font-mono inline-flex items-center gap-2 px-6 py-3 border border-accent-teal text-accent-teal font-medium rounded-lg hover:bg-accent-teal/10 transition-colors"
+                        className="font-mono inline-flex items-center gap-2 text-lg text-muted hover:text-accent-teal transition-colors"
                     >
                         Read Blog
                     </Link>
