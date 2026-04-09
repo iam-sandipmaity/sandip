@@ -38,6 +38,9 @@
   margin: 0;
 }
 
+/* Katex math rendering */
+@import 'katex/dist/katex.min.css';
+
 html {
   scroll-behavior: smooth;
 }

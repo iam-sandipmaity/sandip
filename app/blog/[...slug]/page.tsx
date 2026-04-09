@@ -10,6 +10,8 @@ import Link from 'next/link';
 import CodeBlock from '@/components/CodeBlock';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import MDXImage from '@/components/MDXImage';
 import ShareOptions from '@/components/ShareOptions';
 
@@ -85,8 +87,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             options: {
                 parseFrontmatter: false,
                 mdxOptions: {
-                    remarkPlugins: [remarkGfm],
-                    rehypePlugins: [rehypeHighlight],
+                    remarkPlugins: [remarkGfm, remarkMath],
+                    rehypePlugins: [rehypeHighlight, rehypeKatex],
                 },
             },
             components: {
