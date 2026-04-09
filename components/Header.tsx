@@ -21,7 +21,7 @@ const navLinks = [
  * Responsive with mobile menu
  */
 export default function Header() {
-    const pathname = usePathname();
+    const pathname = usePathname() || '/';
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     // Prevent body scroll when mobile menu is open
@@ -72,23 +72,21 @@ export default function Header() {
                         {/* Desktop Navigation */}
                         <nav className="hidden md:flex items-center gap-1">
                             {navLinks.map((link) => {
-                                const isActive = pathname === link.href;
+                                const isActive = pathname === link.href || 
+                                    (link.href !== '/' && pathname.startsWith(link.href));
                                 return (
                                     <Link
                                         key={link.href}
                                         href={link.href}
-                                        className={`
-                    px-3 py-2 text-sm font-medium transition-colors relative
-                    ${isActive
-                                                ? 'text-accent-teal'
-                                                : 'text-subtle-text hover:text-accent-teal'
-                                            }
-                  `}
+                                        className={isActive
+                                            ? 'font-mono px-3 py-2 text-sm font-medium transition-colors relative text-accent-teal'
+                                            : 'font-mono px-3 py-2 text-sm font-medium transition-colors relative text-subtle-text hover:text-accent-teal'
+                                        }
                                     >
                                         {link.label}
-                                        {/* Dotted underline for active link (lrns.me style) */}
+                                        {/* Dotted underline for active link */}
                                         {isActive && (
-                                            <span className="absolute bottom-0 left-0 right-0 h-0.5 border-b-2 border-dotted border-accent-teal" />
+                                            <span className="absolute -bottom-1 left-0 right-0 h-px border-b border-dotted border-accent-teal" />
                                         )}
                                     </Link>
                                 );
@@ -151,19 +149,17 @@ export default function Header() {
                             {/* Navigation Links */}
                             <div className="flex flex-col gap-2 p-4 flex-1 overflow-y-auto">
                                 {navLinks.map((link) => {
-                                    const isActive = pathname === link.href;
+                                    const isActive = pathname === link.href || 
+                                        (link.href !== '/' && pathname.startsWith(link.href));
                                     return (
                                         <Link
                                             key={link.href}
                                             href={link.href}
                                             onClick={() => setMobileMenuOpen(false)}
-                                            className={`
-                                                px-4 py-3 text-sm font-medium transition-all rounded-lg
-                                                ${isActive
-                                                    ? 'text-accent-teal bg-surface border-l-2 border-accent-teal'
-                                                    : 'text-subtle-text hover:text-accent-teal hover:bg-surface hover:translate-x-1'
-                                                }
-                                            `}
+                                            className={isActive
+                                                ? 'font-mono px-4 py-3 text-sm font-medium transition-all rounded-lg text-accent-teal bg-surface border-l-2 border-accent-teal'
+                                                : 'font-mono px-4 py-3 text-sm font-medium transition-all rounded-lg text-subtle-text hover:text-accent-teal hover:bg-surface hover:translate-x-1'
+                                            }
                                         >
                                             {link.label}
                                         </Link>
