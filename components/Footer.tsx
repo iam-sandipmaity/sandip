@@ -21,7 +21,7 @@ export default function Footer() {
             <div className="max-w-5xl mx-auto px-6 py-8">
                 <div className="flex flex-col items-center gap-4">
                     {/* Footer Navigation */}
-                    <nav className="font-mono flex flex-wrap items-center justify-center gap-4 text-sm">
+                    <nav className="font-mono flex flex-wrap items-center justify-center gap-4 text-base">
                         {footerLinks.map((link) => (
                             <Link
                                 key={link.href}
@@ -34,7 +34,7 @@ export default function Footer() {
                     </nav>
 
                     {/* Copyright */}
-                    <p className="font-mono text-sm text-muted text-center">
+                    <p className="font-mono text-base text-muted text-center">
                         © 2025 - {currentYear} Sandip Maity. All rights reserved.
                     </p>
                 </div>
