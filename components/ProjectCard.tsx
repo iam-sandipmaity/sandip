@@ -19,12 +19,14 @@ interface ProjectCardProps {
  * No boxes, just clean typography
  */
 export default function ProjectCard({ project }: ProjectCardProps) {
+    const projectUrl = project.link || project.github;
+
     return (
         <article className="group">
             <div className="flex items-start justify-between gap-4 mb-2">
                 <h3 className="text-xl font-mono font-semibold text-subtle-text group-hover:text-accent-teal transition-colors relative inline-block">
-                    {project.link || project.github ? (
-                        <Link href={project.link || project.github} className="after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-px after:border-b after:border-dotted after:border-accent-teal after:opacity-0 group-hover:after:opacity-100">
+                    {projectUrl ? (
+                        <Link href={projectUrl} className="after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-px after:border-b after:border-dotted after:border-accent-teal after:opacity-0 group-hover:after:opacity-100">
                             {project.title}
                         </Link>
                     ) : (
