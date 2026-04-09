@@ -1,18 +1,19 @@
 import type { Metadata } from 'next';
 import { getAllProjects } from '@/lib/projects';
 import ProjectCard from '@/components/ProjectCard';
+import { siteConfig } from '@/lib/config';
 
 export const metadata: Metadata = {
     title: 'Projects - Arduino, STM32 & IoT Solutions',
     description: 'Explore embedded systems projects featuring Arduino, STM32, ESP32, circuit design, PCB development, and IoT solutions. Practical implementations and technical documentation.',
     alternates: {
-        canonical: 'https://sandipmaity.me/projects',
+        canonical: `${siteConfig.url}/projects`,
     },
     openGraph: {
         title: 'Embedded Systems Projects by Sandip Maity',
         description: 'Explore embedded systems projects featuring Arduino, STM32, ESP32, circuit design, PCB development, and IoT solutions.',
-        url: 'https://sandipmaity.me/projects',
-        siteName: 'Sandip Maity Portfolio',
+        url: `${siteConfig.url}/projects`,
+        siteName: siteConfig.name,
         images: [
             {
                 url: '/og?title=My Projects',
@@ -28,13 +29,13 @@ export const metadata: Metadata = {
         card: 'summary_large_image',
         title: 'Embedded Systems Projects by Sandip Maity',
         description: 'Explore embedded systems projects featuring Arduino, STM32, ESP32, circuit design, PCB development, and IoT solutions.',
-        creator: '@iam_sandipmaity',
+        creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
         images: ['/og?title=My Projects'],
     },
 };
 
 /**
- * Projects page displaying all projects
+ * Projects page - minimal, clean design
  */
 export default function ProjectsPage() {
     const projects = getAllProjects();
@@ -53,31 +54,30 @@ export default function ProjectsPage() {
                                 '@type': 'ListItem',
                                 position: 1,
                                 name: 'Home',
-                                item: 'https://sandipmaity.me',
+                                item: siteConfig.url,
                             },
                             {
                                 '@type': 'ListItem',
                                 position: 2,
                                 name: 'Projects',
-                                item: 'https://sandipmaity.me/projects',
+                                item: `${siteConfig.url}/projects`,
                             },
                         ],
                     }),
                 }}
             />
 
-            <div className="mb-12">
+            <div className="mb-16">
                 <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4">
                     Projects
                 </h1>
-                <p className="text-lg text-muted leading-relaxed">
-                    A selection of things I&apos;ve built. Each project represents a learning journey
-                    and an opportunity to solve interesting problems.
+                <p className="font-mono text-lg text-muted leading-relaxed">
+                    A selection of things I&apos;ve built. Each project represents a learning journey.
                 </p>
             </div>
 
-            {/* Projects List */}
-            <div className="space-y-6">
+            {/* Projects - clean list without boxes */}
+            <div className="space-y-12">
                 {projects.map((project) => (
                     <ProjectCard key={project.title} project={project} />
                 ))}
@@ -85,19 +85,9 @@ export default function ProjectsPage() {
 
             {projects.length === 0 && (
                 <div className="text-center py-16">
-                    <p className="text-muted">No projects yet. Check back soon!</p>
+                    <p className="font-mono text-muted">No projects yet. Check back soon!</p>
                 </div>
             )}
-
-            {/* More Projects Coming Soon Section */}
-            <div className="mt-16 p-8 bg-mid-dark border border-surface rounded-lg text-center">
-                <h2 className="text-2xl font-mono font-semibold text-accent-teal mb-4">
-                    More Projects Coming Soon!
-                </h2>
-                <p className="text-muted leading-relaxed mb-6">
-                    Stay tuned for exciting updates as I continue building and learning.
-                </p>
-            </div>
         </div>
     );
 }
