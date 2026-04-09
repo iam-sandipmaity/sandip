@@ -20,8 +20,8 @@
   /* Crisp white with subtle blue tint */
 
   /* Vibrant coral & ocean accent colors */
-  --color-accent-teal: 255 127 80;
-  /* Vibrant coral-orange - main accent */
+  --color-accent-teal: 0 210 211;
+  /* Bright cyan-teal - techy & distinctive */
   --color-accent-green: 64 224 208;
   /* Bright turquoise */
   --color-accent-hover: 255 160 122;
@@ -194,12 +194,12 @@ html.light {
   /* Slate gray for secondary text */
   --color-subtle-text: 15 23 42;
   /* Deep slate for main text */
-  --color-accent-teal: 255 87 51;
-  /* Vibrant coral-red for light mode */
+  --color-accent-teal: 0 168 150;
+  /* Teal for light mode */
   --color-accent-green: 14 165 233;
   /* Bright sky blue */
-  --color-accent-hover: 255 120 90;
-  /* Lighter coral on hover */
+  --color-accent-hover: 0 140 120;
+  /* Darker teal on hover */
   --color-accent-purple: 59 130 246;
   /* Bright blue */
   --color-accent-pink: 239 68 68;
