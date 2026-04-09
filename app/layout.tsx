@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
-import 'katex/dist/katex.min.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -116,6 +115,23 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning className={`${inter.variable} ${jetbrainsMono.variable}`}>
             <head>
+                {/* Theme script - must be before any React code to prevent hydration mismatch */}
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            (function() {
+                                try {
+                                    var theme = localStorage.getItem('theme');
+                                    if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                                        document.documentElement.classList.add('dark');
+                                    } else {
+                                        document.documentElement.classList.remove('dark');
+                                    }
+                                } catch (e) {}
+                            })();
+                        `,
+                    }}
+                />
                 {/* Preconnect to external domains for performance */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -186,6 +202,7 @@ export default function RootLayout({
                     defaultTheme="dark"
                     enableSystem
                     disableTransitionOnChange
+                    enableTransition={false}
                 >
                     <div className="min-h-screen flex flex-col">
                         <Header />
