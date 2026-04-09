@@ -49,7 +49,7 @@ export default function TagPage({ params }: TagPageProps) {
                 <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4">
                     Posts tagged <span className="text-accent-teal">&quot;{tag}&quot;</span>
                 </h1>
-                <p className="font-mono text-lg text-muted">
+                <p className="font-mono text-2xl text-muted">
                     {posts.length} {posts.length === 1 ? 'post' : 'posts'} found
                 </p>
             </div>
