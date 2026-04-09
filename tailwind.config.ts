@@ -28,6 +28,8 @@ const config: Config = {
                 DEFAULT: {
                     css: {
                         maxWidth: '70ch',
+                        fontSize: '1.125rem', // 18px - larger for blog content
+                        lineHeight: '1.8',
                         color: 'rgb(var(--color-subtle-text))',
                         a: {
                             color: 'rgb(var(--color-accent-teal))',
