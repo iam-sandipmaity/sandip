@@ -5,41 +5,30 @@ import { BlogFilterProvider } from '@/components/BlogFilterContext';
 import BlogSidebar from '../../components/BlogSidebar';
 import BlogMainContent from '../../components/BlogMainContent';
 import TagList from '@/components/TagList';
+import { siteConfig } from '@/lib/config';
 
 export const metadata: Metadata = {
     title: 'Blog',
-    description: 'Thoughts on embedded systems, electronics, circuit design, and technology. Technical articles and learning journey.',
-    alternates: {
-        canonical: 'https://sandipmaity.me/blog',
-    },
+    description: 'Thoughts on embedded systems, electronics, circuit design, and technology.',
+    alternates: { canonical: `${siteConfig.url}/blog` },
     openGraph: {
         title: 'Blog - Sandip Maity',
-        description: 'Thoughts on embedded systems, electronics, circuit design, and technology. Technical articles and learning journey.',
-        url: 'https://sandipmaity.me/blog',
-        siteName: 'Sandip Maity Portfolio',
-        images: [
-            {
-                url: '/og?title=Blog',
-                width: 1200,
-                height: 630,
-                alt: 'Sandip Maity Blog',
-            },
-        ],
+        description: 'Thoughts on embedded systems, electronics, and technology.',
+        url: `${siteConfig.url}/blog`,
+        siteName: siteConfig.name,
+        images: [{ url: '/og?title=Blog', width: 1200, height: 630, alt: 'Sandip Maity Blog' }],
         locale: 'en_US',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
         title: 'Blog - Sandip Maity',
-        description: 'Thoughts on embedded systems, electronics, circuit design, and technology.',
-        creator: '@iam_sandipmaity',
+        description: 'Thoughts on embedded systems and technology.',
+        creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
         images: ['/og?title=Blog'],
     },
 };
 
-/**
- * Blog index page with all posts and tag cloud
- */
 export default function BlogPage() {
     const posts = getAllPosts();
     const tagsWithCounts = getAllTagsWithCounts();
@@ -52,21 +41,17 @@ export default function BlogPage() {
                     <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4">
                         Blog
                     </h1>
-                    <p className="text-lg text-muted leading-relaxed">
-                        My thinking and my learnings.
+                    <p className="font-mono text-lg text-muted leading-relaxed">
+                        My thinking and learnings.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 min-[470px]:grid-cols-3 gap-12">
-                    {/* Sidebar - appears first on mobile, right on desktop */}
                     <aside className="min-[470px]:col-span-1 min-[470px]:order-2 order-1">
                         <div className="min-[470px]:sticky top-24 space-y-8">
-                            {/* Browse Sections */}
                             <BlogSidebar hierarchy={hierarchy} allPosts={posts} />
-
-                            {/* Tags */}
                             <div>
-                                <h2 className="text-xl font-mono font-semibold text-subtle-text mb-4">
+                                <h2 className="text-lg font-mono font-semibold text-subtle-text mb-4">
                                     Tags
                                 </h2>
                                 <TagList tags={tagsWithCounts} maxVisible={6} />
@@ -74,7 +59,6 @@ export default function BlogPage() {
                         </div>
                     </aside>
 
-                    {/* Main Content - appears second on mobile, left on desktop */}
                     <div className="min-[470px]:col-span-2 min-[470px]:order-1 order-2">
                         <BlogMainContent allPosts={posts} />
                     </div>
