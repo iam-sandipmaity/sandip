@@ -149,7 +149,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             />
             {/* Post Header */}
             <header className="mb-12">
-                <time className="text-sm text-muted font-mono mb-4 block">
+                <time className="text-base text-muted font-mono mb-4 block">
                     {new Date(post.date).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'long',
@@ -175,7 +175,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </header>
 
             {/* MDX Content */}
-            <div className="prose prose-invert max-w-none">
+            <div className="prose prose-invert font-mono max-w-none">
                 {MDXContent}
             </div>
 
