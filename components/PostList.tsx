@@ -35,7 +35,7 @@ export default function PostList({ posts, showTags = true }: PostListProps) {
                             </h3>
                         </Link>
 
-                        <p className="font-mono text-muted text-sm leading-relaxed">
+                        <p className="font-mono text-muted text-base leading-relaxed">
                             {post.summary}
                         </p>
 
