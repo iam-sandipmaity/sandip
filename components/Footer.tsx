@@ -17,7 +17,7 @@ export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="border-t border-surface mt-20">
+        <footer className="border-t border-surface mt-20" suppressHydrationWarning>
             <div className="max-w-5xl mx-auto px-6 py-8">
                 <div className="flex flex-col items-center gap-4">
                     {/* Footer Navigation */}
