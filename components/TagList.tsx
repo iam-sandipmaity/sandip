@@ -22,7 +22,7 @@ export default function TagList({ tags, maxVisible = 6 }: TagListProps) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     if (tags.length === 0) {
-        return <p className="font-mono text-muted text-sm">No tags yet.</p>;
+        return <p className="font-mono text-muted text-base">No tags yet.</p>;
     }
 
     const visibleTags = isExpanded ? tags : tags.slice(0, maxVisible);
