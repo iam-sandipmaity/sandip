@@ -1,47 +1,34 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
-import { FiCode, FiCpu, FiZap, FiTool, FiBookOpen, FiTarget } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiTwitter, FiMail } from 'react-icons/fi';
+import { siteConfig } from '@/lib/config';
 
 export const metadata: Metadata = {
     title: 'About - Embedded Developer & Engineer',
-    description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions. Learn about my skills and journey.',
+    description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions.',
     alternates: {
-        canonical: 'https://sandipmaity.me/about',
+        canonical: `${siteConfig.url}/about`,
     },
     openGraph: {
         title: 'About Sandip Maity - Embedded Developer',
-        description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions.',
-        url: 'https://sandipmaity.me/about',
-        siteName: 'Sandip Maity Portfolio',
-        images: [
-            {
-                url: '/og?title=About Me',
-                width: 1200,
-                height: 630,
-                alt: 'About Sandip Maity',
-            },
-        ],
+        description: 'Electronics and Communication Engineering student passionate about embedded systems.',
+        url: `${siteConfig.url}/about`,
+        siteName: siteConfig.name,
+        images: [{ url: '/og?title=About Me', width: 1200, height: 630, alt: 'About Sandip Maity' }],
         locale: 'en_US',
         type: 'profile',
     },
     twitter: {
         card: 'summary_large_image',
         title: 'About Sandip Maity - Embedded Developer',
-        description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions.',
-        creator: '@iam_sandipmaity',
+        description: 'Electronics and Communication Engineering student passionate about embedded systems.',
+        creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
         images: ['/og?title=About Me'],
     },
 };
 
-/**
- * About page with bio and skills
- */
 export default function AboutPage() {
-    // ...existing code...
-
     return (
         <div className="max-w-4xl mx-auto px-6 py-16">
-            {/* Breadcrumb Structured Data */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
@@ -49,308 +36,103 @@ export default function AboutPage() {
                         '@context': 'https://schema.org',
                         '@type': 'BreadcrumbList',
                         itemListElement: [
-                            {
-                                '@type': 'ListItem',
-                                position: 1,
-                                name: 'Home',
-                                item: 'https://sandipmaity.me',
-                            },
-                            {
-                                '@type': 'ListItem',
-                                position: 2,
-                                name: 'About',
-                                item: 'https://sandipmaity.me/about',
-                            },
+                            { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+                            { '@type': 'ListItem', position: 2, name: 'About', item: `${siteConfig.url}/about` },
                         ],
                     }),
                 }}
             />
 
             {/* Header */}
-            <div className="mb-12">
+            <section className="mb-16">
                 <h1 className="text-4xl md:text-5xl font-mono font-bold text-subtle-text mb-4">
                     About Me
                 </h1>
-                <div className="h-1 w-20 bg-accent-teal rounded-full"></div>
-            </div>
+                <div className="h-px bg-surface w-24" />
+            </section>
 
-            {/* Introduction Card */}
-            <div className="mb-12 p-8 bg-mid-dark border border-surface rounded-xl hover:border-accent-teal/30 transition-colors">
-                <p className="text-lg text-subtle-text leading-relaxed mb-4">
-                    Hi, I&apos;m <span className="text-accent-teal font-semibold">Sandip Maity</span>.
+            {/* Introduction */}
+            <section className="mb-12">
+                <p className="text-xl md:text-2xl font-mono text-subtle-text leading-relaxed">
+                    Hi, I&apos;m <span className="text-accent-teal">{siteConfig.author}</span>.
                 </p>
-                <p className="text-muted leading-relaxed mb-4">
-                    I&apos;m an Electronics and Communication Engineering student passionate about building smart,
-                    efficient, and reliable hardware–software systems.
+                <p className="font-mono text-lg text-muted leading-relaxed mt-4">
+                    An Electronics and Communication Engineering student building the future with code and circuits.
                 </p>
-                <p className="text-muted leading-relaxed">
-                    Currently, I&apos;m working on improving my embedded system skills, building impactful electronics
-                    projects, and sharing my learning journey through my work. I believe in clean design, thoughtful
-                    engineering, and constantly pushing my boundaries as I grow.
-                </p>
-            </div>
+            </section>
+
+            {/* What I do */}
+            <section className="mb-12">
+                <h2 className="text-lg font-mono font-semibold text-subtle-text mb-4">
+                    What I do
+                </h2>
+                <div className="font-mono text-muted leading-relaxed space-y-4">
+                    <p>
+                        I design and develop embedded systems, from circuit schematics to firmware. 
+                        My work focuses on IoT solutions, hardware-software integration, and building 
+                        reliable systems that solve real problems.
+                    </p>
+                    <p>
+                        I also build websites with Next.js, combining clean design with thoughtful 
+                        engineering to create fast, accessible user experiences.
+                    </p>
+                    <p>
+                        Currently exploring STM32, ESP32, and PCB design while documenting my learning 
+                        through blog posts and projects.
+                    </p>
+                </div>
+            </section>
+
+            {/* Connect */}
+            <section className="mb-12">
+                <h2 className="text-lg font-mono font-semibold text-subtle-text mb-4">
+                    Connect
+                </h2>
+                <div className="flex flex-wrap gap-6">
+                    <a
+                        href={siteConfig.social.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
+                    >
+                        <FiGithub className="w-5 h-5" />
+                        <span className="text-sm font-mono">GitHub</span>
+                    </a>
+                    <a
+                        href={siteConfig.social.twitter}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
+                    >
+                        <FiTwitter className="w-5 h-5" />
+                        <span className="text-sm font-mono">Twitter</span>
+                    </a>
+                    <a
+                        href={siteConfig.social.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
+                    >
+                        <FiLinkedin className="w-5 h-5" />
+                        <span className="text-sm font-mono">LinkedIn</span>
+                    </a>
+                    <a
+                        href="mailto:sandipmaity81@gmail.com"
+                        className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
+                    >
+                        <FiMail className="w-5 h-5" />
+                        <span className="text-sm font-mono">Email</span>
+                    </a>
+                </div>
+            </section>
 
             {/* Quote */}
-            <div className="mb-16 p-8 bg-gradient-to-br from-mid-dark to-surface border border-accent-teal/20 rounded-xl">
-                <p className="text-muted text-center italic text-lg">
-                    &quot;Engineering is the closest thing to magic that exists in the world.&quot;
+            <section className="py-8 border-t border-b border-dotted border-surface/30">
+                <p className="text-muted italic text-lg font-mono text-center">
+                    &ldquo;Engineering is the closest thing to magic that exists in the world.&rdquo;
                 </p>
-                <p className="text-accent-teal text-center mt-2 font-medium">— Elon Musk</p>
-            </div>
+                <p className="text-accent-teal text-center mt-3 font-mono font-medium">— Elon Musk</p>
+            </section>
         </div>
     );
 }
-
-
-
-
-
-
-
-
-
-
-// Fully commented out original code:
-
-// import type { Metadata } from 'next';
-// import Image from 'next/image';
-// import { FiCode, FiCpu, FiZap, FiTool, FiBookOpen, FiTarget } from 'react-icons/fi';
-
-// export const metadata: Metadata = {
-//     title: 'About - Embedded Developer & Engineer',
-//     description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions. Learn about my skills and journey.',
-//     alternates: {
-//         canonical: 'https://sandipmaity.me/about',
-//     },
-//     openGraph: {
-//         title: 'About Sandip Maity - Embedded Developer',
-//         description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions.',
-//         url: 'https://sandipmaity.me/about',
-//         siteName: 'Sandip Maity Portfolio',
-//         images: [
-//             {
-//                 url: '/og?title=About Me',
-//                 width: 1200,
-//                 height: 630,
-//                 alt: 'About Sandip Maity',
-//             },
-//         ],
-//         locale: 'en_US',
-//         type: 'profile',
-//     },
-//     twitter: {
-//         card: 'summary_large_image',
-//         title: 'About Sandip Maity - Embedded Developer',
-//         description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions.',
-//         creator: '@iam_sandipmaity',
-//         images: ['/og?title=About Me'],
-//     },
-// };
-
-// /**
-//  * About page with bio and skills
-//  */
-// export default function AboutPage() {
-//     const skillCategories = [
-//         {
-//             title: 'Programming',
-//             icon: FiCode,
-//             skills: ['C/C++', 'Embedded C', 'Python', 'MATLAB'],
-//         },
-//         {
-//             title: 'Microcontrollers',
-//             icon: FiCpu,
-//             skills: ['Arduino', 'STM32', 'ESP32'],
-//         },
-//         {
-//             title: 'Hardware Design',
-//             icon: FiTool,
-//             skills: ['Circuit Design', 'PCB Design', 'LT Spice'],
-//         },
-//         {
-//             title: 'Systems',
-//             icon: FiZap,
-//             skills: ['IoT Systems', 'Real-time Systems'],
-//         },
-//     ];
-
-
-
-
-//     const currentActivities = [
-//         {
-//             icon: FiCpu,
-//             title: 'Embedded Systems Development',
-//             description: 'Building projects with Arduino, STM32, and real-time C/C++',
-//         },
-//         {
-//             icon: FiTool,
-//             title: 'Circuit & PCB Design',
-//             description: 'Designing and testing circuits, PCBs, and IoT-based hardware solutions',
-//         },
-//         {
-//             icon: FiZap,
-//             title: 'Microcontroller Exploration',
-//             description: 'Exploring sensors, communication protocols, and embedded systems',
-//         },
-//         {
-//             icon: FiCode,
-//             title: 'Full-Stack Development',
-//             description: 'Expanding skills into web development and modern frameworks',
-//         },
-//         {
-//             icon: FiBookOpen,
-//             title: 'Learning & Documenting',
-//             description: 'Sharing my journey across electronics and engineering',
-//         },
-//     ];
-
-//     return (
-//         <div className="max-w-4xl mx-auto px-6 py-16">
-//             {/* Breadcrumb Structured Data */}
-//             <script
-//                 type="application/ld+json"
-//                 dangerouslySetInnerHTML={{
-//                     __html: JSON.stringify({
-//                         '@context': 'https://schema.org',
-//                         '@type': 'BreadcrumbList',
-//                         itemListElement: [
-//                             {
-//                                 '@type': 'ListItem',
-//                                 position: 1,
-//                                 name: 'Home',
-//                                 item: 'https://sandipmaity.me',
-//                             },
-//                             {
-//                                 '@type': 'ListItem',
-//                                 position: 2,
-//                                 name: 'About',
-//                                 item: 'https://sandipmaity.me/about',
-//                             },
-//                         ],
-//                     }),
-//                 }}
-//             />
-
-//             {/* Header */}
-//             <div className="mb-12">
-//                 <h1 className="text-4xl md:text-5xl font-mono font-bold text-subtle-text mb-4">
-//                     About Me
-//                 </h1>
-//                 <div className="h-1 w-20 bg-accent-teal rounded-full"></div>
-//             </div>
-
-//             {/* Introduction Card */}
-//             <div className="mb-12 p-8 bg-mid-dark border border-surface rounded-xl hover:border-accent-teal/30 transition-colors">
-//                 <p className="text-lg text-subtle-text leading-relaxed mb-4">
-//                     Hi, I&apos;m <span className="text-accent-teal font-semibold">Sandip Maity</span>.
-//                 </p>
-//                 <p className="text-muted leading-relaxed mb-4">
-//                     I&apos;m an Electronics and Communication Engineering student passionate about building smart,
-//                     efficient, and reliable hardware–software systems.
-//                 </p>
-//                 <p className="text-muted leading-relaxed">
-//                     Currently, I&apos;m working on improving my embedded system skills, building impactful electronics
-//                     projects, and sharing my learning journey through my work. I believe in clean design, thoughtful
-//                     engineering, and constantly pushing my boundaries as I grow.
-//                 </p>
-//             </div>
-
-//             {/* Skills Section */}
-//             <div className="mb-16">
-//                 <div className="flex items-center gap-3 mb-8">
-//                     <FiTarget className="w-7 h-7 text-accent-teal flex-shrink-0 self-center" />
-//                     <h2 className="text-2xl md:text-3xl font-mono font-semibold text-subtle-text">
-//                         Core Skills
-//                     </h2>
-//                 </div>
-
-//                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-//                     {skillCategories.map((category) => {
-//                         const Icon = category.icon;
-//                         return (
-//                             <div
-//                                 key={category.title}
-//                                 className="p-6 bg-mid-dark border border-surface rounded-xl hover:border-accent-teal/30 transition-all hover:shadow-lg hover:shadow-accent-teal/5"
-//                             >
-//                                 <div className="flex items-center gap-3 mb-4">
-//                                     <div className="p-2 bg-surface rounded-lg">
-//                                         <Icon className="w-5 h-5 text-accent-teal" />
-//                                     </div>
-//                                     <h3 className="text-lg font-mono font-semibold text-subtle-text">
-//                                         {category.title}
-//                                     </h3>
-//                                 </div>
-//                                 <div className="flex flex-wrap gap-2">
-//                                     {category.skills.map((skill) => (
-//                                         <span
-//                                             key={skill}
-//                                             className="px-3 py-1 bg-surface border border-accent-teal/20 text-accent-teal rounded-lg text-sm font-medium hover:border-accent-teal/40 transition-colors"
-//                                         >
-//                                             {skill}
-//                                         </span>
-//                                     ))}
-//                                 </div>
-//                             </div>
-//                         );
-//                     })}
-//                 </div>
-
-//                 <div className="flex justify-center">
-//                     <Image
-//                         src="https://usagif.com/wp-content/uploads/cat-typing-2.gif"
-//                         alt="Cat typing on keyboard GIF"
-//                         width={256}
-//                         height={256}
-//                         className="w-64 h-64 object-cover rounded-xl shadow-lg border border-accent-teal/20"
-//                         unoptimized
-//                     />
-//                 </div>
-//             </div>
-
-//             {/* Quote */}
-//             <div className="mb-16 p-8 bg-gradient-to-br from-mid-dark to-surface border border-accent-teal/20 rounded-xl">
-//                 <p className="text-muted text-center italic text-lg">
-//                     &quot;Engineering is the closest thing to magic that exists in the world.&quot;
-//                 </p>
-//                 <p className="text-accent-teal text-center mt-2 font-medium">— Elon Musk</p>
-//             </div>
-
-//             {/* Current Activities */}
-//             <div>
-//                 <div className="flex items-center gap-3 mb-8">
-//                     <FiZap className="w-7 h-7 text-accent-teal flex-shrink-0 self-center" />
-//                     <h2 className="text-2xl md:text-3xl font-mono font-semibold text-subtle-text">
-//                         What I&apos;m Up To
-//                     </h2>
-//                 </div>
-
-//                 <div className="space-y-4">
-//                     {currentActivities.map((activity, index) => {
-//                         const Icon = activity.icon;
-//                         return (
-//                             <div
-//                                 key={index}
-//                                 className="group p-6 bg-mid-dark border border-surface rounded-xl hover:border-accent-teal/30 transition-all hover:shadow-lg hover:shadow-accent-teal/5"
-//                             >
-//                                 <div className="flex items-start gap-4">
-//                                     <div className="p-3 bg-surface rounded-lg group-hover:bg-accent-teal/10 transition-colors">
-//                                         <Icon className="w-5 h-5 text-accent-teal" />
-//                                     </div>
-//                                     <div className="flex-1">
-//                                         <h3 className="text-lg font-semibold text-subtle-text mb-2">
-//                                             {activity.title}
-//                                         </h3>
-//                                         <p className="text-muted leading-relaxed">
-//                                             {activity.description}
-//                                         </p>
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                         );
-//                     })}
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
