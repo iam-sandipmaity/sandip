@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getAllPostSlugs, getPostBySlug, getPostsBySection, getSubsections, getBreadcrumbs } from '@/lib/posts';
 import { tagToSlug } from '@/lib/utils';
+import { siteConfig } from '@/lib/config';
 import TagPill from '@/components/TagPill';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import PostList from '@/components/PostList';
@@ -9,8 +10,6 @@ import Link from 'next/link';
 import CodeBlock from '@/components/CodeBlock';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
 import MDXImage from '@/components/MDXImage';
 import ShareOptions from '@/components/ShareOptions';
 
@@ -86,8 +85,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             options: {
                 parseFrontmatter: false,
                 mdxOptions: {
-                    remarkPlugins: [remarkGfm, remarkMath],
-                    rehypePlugins: [rehypeHighlight, rehypeKatex],
+                    remarkPlugins: [remarkGfm],
+                    rehypePlugins: [rehypeHighlight],
                 },
             },
             components: {
@@ -104,7 +103,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <article className="max-w-3xl mx-auto px-6 py-16">
                 {/* Breadcrumb Navigation */}
                 <div className="mb-6">
-                    <div className="flex items-center gap-2 text-sm text-muted">
+                    <div className="font-mono flex items-center gap-2 text-sm text-muted">
                         <Link
                             href="/blog"
                             className="hover:text-accent-teal transition-colors"
@@ -157,7 +156,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </header>
 
                 {/* MDX Content */}
-                <div className="prose prose-invert max-w-none">
+                <div className="prose prose-invert font-mono max-w-none">
                     {MDXContent}
                 </div>
 
@@ -179,7 +178,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="max-w-5xl mx-auto px-6 py-16">
                 {/* Breadcrumb Navigation */}
                 <div className="mb-6">
-                    <div className="flex items-center gap-2 text-sm text-muted">
+                    <div className="font-mono flex items-center gap-2 text-sm text-muted">
                         <Link
                             href="/blog"
                             className="hover:text-accent-teal transition-colors"
@@ -209,23 +208,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4 capitalize">
                         {breadcrumbs[breadcrumbs.length - 1].name}
                     </h1>
-                    <p className="text-lg text-muted leading-relaxed">
+                    <p className="font-mono text-lg text-muted leading-relaxed">
                         Posts in the {slugString} section
                     </p>
                 </div>
 
                 {/* Subsections Navigation (if any) */}
                 {subsections.length > 0 && (
-                    <div className="mb-8 p-4 bg-surface border border-accent-teal/20 rounded-lg">
-                        <h2 className="text-sm font-mono font-semibold text-accent-teal mb-3">
+                    <div className="mb-8">
+                        <h2 className="font-mono text-sm text-muted mb-3">
                             Subsections in {breadcrumbs[breadcrumbs.length - 1].name}
                         </h2>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-3">
                             {subsections.map((subsection) => (
                                 <Link
                                     key={subsection}
                                     href={`/blog/${slugString}/${subsection}`}
-                                    className="px-4 py-2 bg-mid-dark border border-surface text-subtle-text rounded-lg text-sm font-medium hover:border-accent-teal/30 hover:text-accent-teal transition-colors capitalize"
+                                    className="font-mono text-sm text-muted hover:text-accent-teal transition-colors capitalize"
                                 >
                                     {subsection}
                                 </Link>
@@ -239,7 +238,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <PostList posts={posts} />
                 ) : (
                     <div className="text-center py-16">
-                        <p className="text-muted">
+                        <p className="font-mono text-muted">
                             No posts directly in this section. Check the subsections above.
                         </p>
                     </div>
