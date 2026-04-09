@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getAllPostSlugs, getPostBySlug } from '@/lib/posts';
 import { tagToSlug } from '@/lib/utils';
+import { siteConfig } from '@/lib/config';
 import TagPill from '@/components/TagPill';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import rehypeHighlight from 'rehype-highlight';
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     try {
         const post = getPostBySlug(params.slug);
         const ogImage = `/og?title=${encodeURIComponent(post.title)}`;
-        const url = `https://sandipmaity.me/blog/${params.slug}`;
+        const url = `${siteConfig.url}/blog/${params.slug}`;
 
         return {
             title: post.title,
@@ -40,7 +41,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
                 title: post.title,
                 description: post.summary,
                 url: url,
-                siteName: 'Sandip Maity Portfolio',
+                siteName: siteConfig.name,
                 images: [
                     {
                         url: ogImage,
@@ -52,14 +53,14 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
                 locale: 'en_US',
                 type: 'article',
                 publishedTime: post.date,
-                authors: ['Sandip Maity'],
+                authors: [siteConfig.author],
                 tags: post.tags,
             },
             twitter: {
                 card: 'summary_large_image',
                 title: post.title,
                 description: post.summary,
-                creator: '@iam_sandipmaity',
+                creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
                 images: [ogImage],
             },
         };
@@ -112,11 +113,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                             datePublished: post.date,
                             dateModified: post.date,
                             description: post.summary,
-                            image: [`https://sandipmaity.me/og?title=${encodeURIComponent(post.title)}`],
-                            url: `https://sandipmaity.me/blog/${params.slug}`,
+                            image: [`${siteConfig.url}/og?title=${encodeURIComponent(post.title)}`],
+                            url: `${siteConfig.url}/blog/${params.slug}`,
                             author: {
                                 '@type': 'Person',
-                                name: 'Sandip Maity',
+                                name: siteConfig.author,
                             },
                         },
                         {
@@ -127,19 +128,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                     '@type': 'ListItem',
                                     position: 1,
                                     name: 'Home',
-                                    item: 'https://sandipmaity.me',
+                                    item: siteConfig.url,
                                 },
                                 {
                                     '@type': 'ListItem',
                                     position: 2,
                                     name: 'Blog',
-                                    item: 'https://sandipmaity.me/blog',
+                                    item: `${siteConfig.url}/blog`,
                                 },
                                 {
                                     '@type': 'ListItem',
                                     position: 3,
                                     name: post.title,
-                                    item: `https://sandipmaity.me/blog/${params.slug}`,
+                                    item: `${siteConfig.url}/blog/${params.slug}`,
                                 },
                             ],
                         }
