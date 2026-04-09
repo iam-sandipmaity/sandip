@@ -58,14 +58,14 @@ export default function BlogSidebar({ hierarchy, allPosts }: BlogSidebarProps) {
             <button
                 onClick={() => handleSectionSelect('')}
                 className={`
-                    font-mono w-full text-left px-3 py-2 mb-2 text-sm transition-colors border-b border-transparent
+                    font-mono w-full text-left px-3 py-2 mb-2 text-base transition-colors border-b border-transparent
                     ${selectedSection === ''
                         ? 'text-accent-teal border-accent-teal'
                         : 'text-muted hover:text-accent-teal'
                     }
                 `}
             >
-                All Posts
+                All Posts <span className="text-xs text-muted">({allPosts.length})</span>
             </button>
 
             {/* Section tree */}
