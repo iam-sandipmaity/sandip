@@ -13,8 +13,8 @@ interface TagPillProps {
 export default function TagPill({ tag, href, variant = 'default' }: TagPillProps) {
     const baseClasses = `
     font-mono inline-block text-accent-teal hover:text-accent-hover
-    transition-colors text-xs underline decoration-accent-teal/30 underline-offset-2
-    ${variant === 'small' ? '' : 'text-sm'}
+    transition-colors text-sm underline decoration-accent-teal/30 underline-offset-2
+    ${variant === 'small' ? '' : 'text-base'}
   `;
 
     if (href) {
