@@ -89,7 +89,7 @@ export default function BlogMainContent({ allPosts }: BlogMainContentProps) {
                     </nav>
 
                     {/* Page indicator */}
-                    <p className="font-mono text-base text-muted text-center mt-4">
+                    <p className="font-mono text-base text-muted text-center mt-4" suppressHydrationWarning>
                         Page {currentPage} of {totalPages}
                     </p>
                 </div>
