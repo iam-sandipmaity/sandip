@@ -1,29 +1,23 @@
 import type { Metadata } from 'next';
+import { siteConfig } from '@/lib/config';
 
 export const metadata: Metadata = {
     title: 'Reads',
-    description: 'Books, articles, and resources I\'ve found valuable for embedded systems, electronics, and personal development.',
+    description: 'Books, articles, and resources I\'ve found valuable for embedded systems and personal development.',
     openGraph: {
         title: 'Reads - Sandip Maity',
-        description: 'Books, articles, and resources I\'ve found valuable for embedded systems, electronics, and personal development.',
-        url: 'https://sandipmaity.me/reads',
-        siteName: 'Sandip Maity Portfolio',
-        images: [
-            {
-                url: '/og?title=Reads',
-                width: 1200,
-                height: 630,
-                alt: 'Sandip Maity Reads',
-            },
-        ],
+        description: 'Books, articles, and resources I\'ve found valuable.',
+        url: `${siteConfig.url}/reads`,
+        siteName: siteConfig.name,
+        images: [{ url: '/og?title=Reads', width: 1200, height: 630, alt: 'Sandip Maity Reads' }],
         locale: 'en_US',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
         title: 'Reads - Sandip Maity',
-        description: 'Books, articles, and resources I\'ve found valuable for embedded systems, electronics, and personal development.',
-        creator: '@iam_sandipmaity',
+        description: 'Books, articles, and resources I\'ve found valuable.',
+        creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
         images: ['/og?title=Reads'],
     },
 };
@@ -41,92 +35,23 @@ const reads: ReadItem[] = [
         title: 'Rich Dad Poor Dad',
         author: 'Robert Kiyosaki',
         type: 'book',
-        note: 'Eye-opening perspective on money, assets, and financial literacy. Changed how I think about building wealth and making money work for me.',
+        note: 'Eye-opening perspective on money, assets, and financial literacy. Changed how I think about building wealth.',
     },
     {
         title: 'Coffee Can Investing',
         author: 'Saurabh Mukherjea',
         type: 'book',
-        note: 'Great insights into long-term investing in quality businesses. Reinforced my belief in patience and discipline in wealth creation.',
+        note: 'Great insights into long-term investing in quality businesses. Reinforced patience and discipline.',
     },
-    // {
-    //     title: 'Getting Started with Arduino',
-    //     author: 'Massimo Banzi',
-    //     type: 'article',
-    //     url: 'https://www.arduino.cc/en/Guide',
-    //     note: 'Official Arduino guide that helped me start my embedded systems journey. Clear explanations and practical examples.',
-    // },
-    // {
-    //     title: 'Understanding Microcontroller Interrupts',
-    //     author: 'Embedded Systems Community',
-    //     type: 'article',
-    //     url: 'https://www.embedded.com/introduction-to-interrupts/',
-    //     note: 'Excellent breakdown of how interrupts work in microcontrollers. Essential knowledge for real-time embedded programming.',
-    // },
-    // {
-    //     title: 'The Psychology of Money',
-    //     author: 'Morgan Housel',
-    //     type: 'article',
-    //     url: 'https://www.collaborativefund.com/blog/the-psychology-of-money/',
-    //     note: 'Insightful essay on how behavior and mindset matter more than intelligence when it comes to money. Complements Rich Dad Poor Dad perfectly.',
-    // },
-    // {
-    //     title: 'STM32 HAL Documentation',
-    //     author: 'STMicroelectronics',
-    //     type: 'resource',
-    //     url: 'https://www.st.com/en/embedded-software/stm32cube-mcu-mpu-packages.html',
-    //     note: 'Comprehensive documentation for STM32 microcontrollers. Invaluable reference for working with ARM Cortex-M based systems.',
-    // },
-    // {
-    //     title: 'CircuitJS Simulator',
-    //     author: 'Paul Falstad',
-    //     type: 'resource',
-    //     url: 'https://www.falstad.com/circuit/',
-    //     note: 'Interactive circuit simulator that runs in the browser. Great for quickly testing circuit ideas and understanding behavior.',
-    // },
-    // {
-    //     title: 'Embedded Systems Programming',
-    //     author: 'Various Authors',
-    //     type: 'resource',
-    //     url: 'https://www.embedded.com/',
-    //     note: 'Excellent resource for embedded systems articles, tutorials, and industry insights. Regularly updated with practical content.',
-    // },
 ];
 
-/**
- * Reads page - simple list of books, articles, and resources
- */
 export default function ReadsPage() {
     const books = reads.filter((r) => r.type === 'book');
     const articles = reads.filter((r) => r.type === 'article');
     const resources = reads.filter((r) => r.type === 'resource');
 
-    const renderReadItem = (item: ReadItem) => (
-        <div key={item.title} className="p-6 bg-mid-dark border border-surface rounded-lg hover:border-accent-teal/30 transition-colors">
-            <h3 className="text-lg font-mono font-semibold text-subtle-text mb-2">
-                {item.url ? (
-                    <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-accent-teal transition-colors"
-                    >
-                        {item.title} ↗
-                    </a>
-                ) : (
-                    item.title
-                )}
-            </h3>
-            {item.author && (
-                <p className="text-sm text-muted mb-3">by {item.author}</p>
-            )}
-            <p className="text-muted leading-relaxed">{item.note}</p>
-        </div>
-    );
-
     return (
         <div className="max-w-4xl mx-auto px-6 py-16">
-            {/* Breadcrumb Structured Data */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
@@ -134,18 +59,8 @@ export default function ReadsPage() {
                         '@context': 'https://schema.org',
                         '@type': 'BreadcrumbList',
                         itemListElement: [
-                            {
-                                '@type': 'ListItem',
-                                position: 1,
-                                name: 'Home',
-                                item: 'https://sandipmaity.me',
-                            },
-                            {
-                                '@type': 'ListItem',
-                                position: 2,
-                                name: 'Reads',
-                                item: 'https://sandipmaity.me/reads',
-                            },
+                            { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+                            { '@type': 'ListItem', position: 2, name: 'Reads', item: `${siteConfig.url}/reads` },
                         ],
                     }),
                 }}
@@ -155,9 +70,8 @@ export default function ReadsPage() {
                 <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4">
                     Reads
                 </h1>
-                <p className="text-lg text-muted leading-relaxed">
-                    Books, articles, and resources that have shaped my personal and mental
-                    development and beyond.
+                <p className="font-mono text-lg text-muted leading-relaxed">
+                    Books, articles, and resources that have shaped my thinking.
                 </p>
             </div>
 
@@ -167,8 +81,21 @@ export default function ReadsPage() {
                     <h2 className="text-2xl font-mono font-semibold text-subtle-text mb-6">
                         Books
                     </h2>
-                    <div className="space-y-4">
-                        {books.map(renderReadItem)}
+                    <div className="space-y-8">
+                        {books.map((item) => (
+                            <article key={item.title} className="group">
+                                <h3 className="text-lg font-mono font-semibold text-subtle-text mb-1 group-hover:text-accent-teal transition-colors">
+                                    {item.url ? (
+                                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent-teal">
+                                            {item.title} ↗
+                                        </a>
+                                    ) : item.title}
+                                </h3>
+                                {item.author && <p className="font-mono text-sm text-muted mb-2">by {item.author}</p>}
+                                <p className="font-mono text-muted leading-relaxed">{item.note}</p>
+                                <div className="mt-6 border-b border-dotted border-surface/30" />
+                            </article>
+                        ))}
                     </div>
                 </section>
             )}
@@ -179,8 +106,20 @@ export default function ReadsPage() {
                     <h2 className="text-2xl font-mono font-semibold text-subtle-text mb-6">
                         Articles
                     </h2>
-                    <div className="space-y-4">
-                        {articles.map(renderReadItem)}
+                    <div className="space-y-8">
+                        {articles.map((item) => (
+                            <article key={item.title} className="group">
+                                <h3 className="text-lg font-mono font-semibold text-subtle-text mb-1 group-hover:text-accent-teal transition-colors">
+                                    {item.url ? (
+                                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent-teal">
+                                            {item.title} ↗
+                                        </a>
+                                    ) : item.title}
+                                </h3>
+                                <p className="font-mono text-muted leading-relaxed">{item.note}</p>
+                                <div className="mt-6 border-b border-dotted border-surface/30" />
+                            </article>
+                        ))}
                     </div>
                 </section>
             )}
@@ -191,8 +130,20 @@ export default function ReadsPage() {
                     <h2 className="text-2xl font-mono font-semibold text-subtle-text mb-6">
                         Resources
                     </h2>
-                    <div className="space-y-4">
-                        {resources.map(renderReadItem)}
+                    <div className="space-y-8">
+                        {resources.map((item) => (
+                            <article key={item.title} className="group">
+                                <h3 className="text-lg font-mono font-semibold text-subtle-text mb-1 group-hover:text-accent-teal transition-colors">
+                                    {item.url ? (
+                                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent-teal">
+                                            {item.title} ↗
+                                        </a>
+                                    ) : item.title}
+                                </h3>
+                                <p className="font-mono text-muted leading-relaxed">{item.note}</p>
+                                <div className="mt-6 border-b border-dotted border-surface/30" />
+                            </article>
+                        ))}
                     </div>
                 </section>
             )}
