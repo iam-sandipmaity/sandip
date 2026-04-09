@@ -79,8 +79,8 @@ export default function Header() {
                                         key={link.href}
                                         href={link.href}
                                         className={isActive
-                                            ? 'font-mono px-3 py-2 text-sm font-medium transition-colors relative text-accent-teal'
-                                            : 'font-mono px-3 py-2 text-sm font-medium transition-colors relative text-subtle-text hover:text-accent-teal'
+                                            ? 'font-mono px-3 py-2 text-base font-medium transition-colors relative text-accent-teal'
+                                            : 'font-mono px-3 py-2 text-base font-medium transition-colors relative text-subtle-text hover:text-accent-teal'
                                         }
                                     >
                                         {link.label}
@@ -157,8 +157,8 @@ export default function Header() {
                                             href={link.href}
                                             onClick={() => setMobileMenuOpen(false)}
                                             className={isActive
-                                                ? 'font-mono px-4 py-3 text-sm font-medium transition-all rounded-lg text-accent-teal bg-surface border-l-2 border-accent-teal'
-                                                : 'font-mono px-4 py-3 text-sm font-medium transition-all rounded-lg text-subtle-text hover:text-accent-teal hover:bg-surface hover:translate-x-1'
+                                                ? 'font-mono px-4 py-3 text-base font-medium transition-all rounded-lg text-accent-teal bg-surface border-l-2 border-accent-teal'
+                                                : 'font-mono px-4 py-3 text-base font-medium transition-all rounded-lg text-subtle-text hover:text-accent-teal hover:bg-surface hover:translate-x-1'
                                             }
                                         >
                                             {link.label}
