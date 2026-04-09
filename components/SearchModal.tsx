@@ -111,11 +111,11 @@ export default function SearchModal() {
             {/* Search Button - minimal, text style */}
             <button
                 onClick={() => setIsOpen(true)}
-                className="font-mono flex items-center gap-2 text-sm text-muted hover:text-accent-teal transition-colors"
+                className="font-mono flex items-center gap-2 text-base text-muted hover:text-accent-teal transition-colors"
                 aria-label="Search"
                 title="Search"
             >
-                <FiSearch className="w-4 h-4" />
+                <FiSearch className="w-5 h-5" />
             </button>
 
             {/* Modal Overlay with blur */}
@@ -156,19 +156,19 @@ export default function SearchModal() {
                         {/* Results */}
                         <div className="max-h-[50vh] overflow-y-auto">
                             {query && isLoading && (
-                                <div className="font-mono text-center text-muted text-sm py-6">
+                                <div className="font-mono text-center text-muted text-base py-6">
                                     Searching...
                                 </div>
                             )}
 
                             {query && !isLoading && results.length === 0 && (
-                                <div className="font-mono text-center text-muted text-sm py-6">
+                                <div className="font-mono text-center text-muted text-base py-6">
                                     No results for &quot;{query}&quot;
                                 </div>
                             )}
 
                             {!query && (
-                                <div className="font-mono text-center text-muted text-sm py-6">
+                                <div className="font-mono text-center text-muted text-base py-6">
                                     <p>Type to search posts, projects, pages...</p>
                                 </div>
                             )}
@@ -191,7 +191,7 @@ export default function SearchModal() {
                                                 }
                                             `}
                                         >
-                                            <span className="text-sm">{result.title}</span>
+                                            <span className="text-base">{result.title}</span>
                                             <span className="text-xs opacity-50 ml-auto capitalize">{result.type}</span>
                                         </button>
                                     ))}
