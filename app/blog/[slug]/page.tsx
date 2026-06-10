@@ -11,6 +11,7 @@ import rehypeKatex from 'rehype-katex';
 import CodeBlock from '@/components/CodeBlock';
 import MDXImage from '@/components/MDXImage';
 import ShareOptions from '@/components/ShareOptions';
+import { formatPostDate, toIsoDateString } from '@/lib/date';
 
 interface BlogPostPageProps {
     params: {
@@ -53,7 +54,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
                 ],
                 locale: 'en_US',
                 type: 'article',
-                publishedTime: post.date,
+                publishedTime: toIsoDateString(post.date),
                 authors: [siteConfig.author],
                 tags: post.tags,
             },
@@ -113,8 +114,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                             '@context': 'https://schema.org',
                             '@type': 'BlogPosting',
                             headline: post.title,
-                            datePublished: post.date,
-                            dateModified: post.date,
+                            datePublished: toIsoDateString(post.date),
+                            dateModified: toIsoDateString(post.date),
                             description: post.summary,
                             image: [`${siteConfig.url}/og?title=${encodeURIComponent(post.title)}`],
                             url: `${siteConfig.url}/blog/${params.slug}`,
@@ -158,11 +159,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                 <div className="font-mono text-base font-medium leading-6 text-subtle-text">
                     <time suppressHydrationWarning>
-                        {new Date(`${post.date}T00:00:00`).toLocaleDateString('en-GB', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                        })}
+                        {formatPostDate(post.date, 'long')}
                     </time>
                     <span aria-hidden="true"> / </span>
                     <span>{readingTime} min read</span>

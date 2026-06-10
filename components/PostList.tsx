@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import TagPill from './TagPill';
 import { tagToSlug } from '@/lib/utils';
+import { formatPostDate } from '@/lib/date';
 
 export interface Post {
     slug: string;
@@ -14,14 +15,6 @@ interface PostListProps {
     posts: Post[];
     showTags?: boolean;
     variant?: 'default' | 'compact' | 'editorial' | 'home';
-}
-
-function formatPostDate(date: string) {
-    return new Date(`${date}T00:00:00`).toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-    });
 }
 
 export default function PostList({ posts, showTags = true, variant = 'default' }: PostListProps) {

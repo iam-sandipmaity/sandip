@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { Post } from '@/components/PostList';
 import { tagToSlug, slugToTag } from './utils';
+import { parsePostDate, toIndianDateString } from './date';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
@@ -79,7 +80,7 @@ export function getPostBySlug(slug: string): PostData {
         slug,
         content,
         title: data.title,
-        date: data.date,
+        date: toIndianDateString(data.date),
         summary: data.summary,
         tags: data.tags || [],
     };
@@ -102,7 +103,7 @@ export function getAllPosts(): Post[] {
             };
         })
         .sort((a, b) => {
-            return new Date(b.date).getTime() - new Date(a.date).getTime();
+            return (parsePostDate(b.date)?.getTime() || 0) - (parsePostDate(a.date)?.getTime() || 0);
         });
 
     return posts;

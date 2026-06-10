@@ -13,6 +13,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import MDXImage from '@/components/MDXImage';
 import ShareOptions from '@/components/ShareOptions';
+import { formatPostDate } from '@/lib/date';
 
 interface BlogPostPageProps {
     params: {
@@ -138,11 +139,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                     <div className="font-mono text-base font-medium leading-6 text-subtle-text">
                         <time suppressHydrationWarning>
-                            {new Date(`${post.date}T00:00:00`).toLocaleDateString('en-GB', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                            })}
+                            {formatPostDate(post.date, 'long')}
                         </time>
                         <span aria-hidden="true"> / </span>
                         <span>{readingTime} min read</span>

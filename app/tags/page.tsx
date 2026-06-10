@@ -63,7 +63,7 @@ export default function TagsPage() {
                         <p key={tag} className="text-base leading-7 text-subtle-text">
                             <Link
                                 href={`/tags/${tagToSlug(tag)}`}
-                                className="underline decoration-current decoration-1 underline-offset-2 transition-colors hover:text-[#cf2644]"
+                                className="underline decoration-current decoration-1 underline-offset-2 transition-colors hover:text-accent-teal"
                             >
                                 #{tag}
                             </Link>

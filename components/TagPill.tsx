@@ -12,8 +12,8 @@ interface TagPillProps {
  */
 export default function TagPill({ tag, href, variant = 'default' }: TagPillProps) {
     const baseClasses = `
-    font-mono inline-flex items-center rounded-md bg-[#cf2644] font-normal text-white
-    no-underline transition-colors hover:bg-[#b91f39] hover:text-white
+    font-mono inline-flex items-center rounded-md bg-accent-teal font-normal text-near-black
+    no-underline transition-colors hover:bg-accent-hover hover:text-near-black
     ${variant === 'small' ? 'px-1.5 py-0.5 text-xs leading-5' : 'px-2 py-0.5 text-sm leading-6'}
   `;
 
