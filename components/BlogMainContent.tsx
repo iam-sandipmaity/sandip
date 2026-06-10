@@ -52,7 +52,7 @@ export default function BlogMainContent({ allPosts }: BlogMainContentProps) {
             )}
 
             {/* Post List */}
-            <PostList posts={paginatedPosts} variant="compact" />
+            <PostList posts={paginatedPosts} variant="editorial" />
 
             {/* Pagination */}
             {totalPages > 1 && (

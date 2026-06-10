@@ -13,7 +13,7 @@ export interface Post {
 interface PostListProps {
     posts: Post[];
     showTags?: boolean;
-    variant?: 'default' | 'compact';
+    variant?: 'default' | 'compact' | 'editorial';
 }
 
 function formatPostDate(date: string) {
@@ -25,6 +25,39 @@ function formatPostDate(date: string) {
 }
 
 export default function PostList({ posts, showTags = true, variant = 'default' }: PostListProps) {
+    if (variant === 'editorial') {
+        return (
+            <div className="font-mono">
+                <ol className="space-y-10">
+                    {posts.map((post) => (
+                        <li key={post.slug} className="grid gap-2 text-base min-[560px]:grid-cols-[8.5rem_1fr] min-[560px]:gap-6">
+                            <time className="text-muted" suppressHydrationWarning>
+                                {formatPostDate(post.date)}
+                            </time>
+
+                            <div className="min-w-0">
+                                <Link
+                                    href={`/blog/${post.slug}`}
+                                    className="w-fit text-subtle-text underline decoration-surface underline-offset-4 transition-colors hover:text-accent-teal hover:decoration-accent-teal"
+                                >
+                                    {post.title}
+                                </Link>
+
+                                <p className="mt-3 overflow-hidden text-base italic leading-7 text-subtle-text [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
+                                    &ldquo;{post.summary}&rdquo;
+                                </p>
+                            </div>
+                        </li>
+                    ))}
+                </ol>
+
+                {posts.length === 0 && (
+                    <p className="text-muted">No posts found.</p>
+                )}
+            </div>
+        );
+    }
+
     if (variant === 'compact') {
         return (
             <div className="font-mono">
