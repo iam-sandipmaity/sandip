@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { FiGithub, FiLinkedin, FiMail, FiTwitter, FiArrowRight } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiMail, FiTwitter } from 'react-icons/fi';
 import { getRecentPosts } from '@/lib/posts';
-import { getFeaturedProjects } from '@/lib/projects';
 import { siteConfig } from '@/lib/config';
 import PostList from '@/components/PostList';
-import ProjectCard from '@/components/ProjectCard';
 
 export const metadata: Metadata = {
     title: siteConfig.title,
@@ -35,13 +33,34 @@ export const metadata: Metadata = {
     },
 };
 
+const contactLinks = [
+    {
+        href: siteConfig.social.github,
+        label: 'GitHub',
+        icon: FiGithub,
+    },
+    {
+        href: siteConfig.social.linkedin,
+        label: 'LinkedIn',
+        icon: FiLinkedin,
+    },
+    {
+        href: `mailto:${siteConfig.email}`,
+        label: 'Email',
+        icon: FiMail,
+    },
+    {
+        href: siteConfig.social.twitter,
+        label: 'X',
+        icon: FiTwitter,
+    },
+];
+
 export default function Home() {
-    const recentPosts = getRecentPosts(2);
-    const featuredProjects = getFeaturedProjects(2);
+    const recentPosts = getRecentPosts(10);
 
     return (
         <>
-            {/* Schema.org structured data for homepage */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
@@ -65,109 +84,46 @@ export default function Home() {
                     }),
                 }}
             />
-            <div className="max-w-4xl mx-auto px-6 py-16">
-            {/* Hero Section */}
-            <section className="mb-20">
-                <h1 className="text-4xl md:text-5xl font-mono font-bold text-subtle-text mb-6 leading-tight">
-                    Building elegant solutions<br />
-                    {/* <span className="text-accent-teal">one line at a time.</span> */}
-                    <span className="text-accent-teal">from code to circuits.</span>
-                </h1>
-                <p className="font-mono text-lg text-muted leading-relaxed mb-8 max-w-2xl">
-                    Embedded developer, circuit designer, and occasional maker. I create practical
-                    IoT solutions and document the process as I grow.
-                </p>
 
-                {/* CTA Buttons */}
-                <div className="flex flex-wrap gap-6 mb-8">
-                    <Link
-                        href="/projects"
-                        className="font-mono inline-flex items-center gap-2 text-lg text-muted hover:text-accent-teal transition-colors group"
-                    >
-                        View Projects
-                        <FiArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                    </Link>
-                    <Link
-                        href="/blog"
-                        className="font-mono inline-flex items-center gap-2 text-lg text-muted hover:text-accent-teal transition-colors"
-                    >
-                        Read Blog
-                    </Link>
-                </div>
+            <div className="mx-auto max-w-3xl px-6 py-24 md:py-28">
+                <section className="mb-20 font-mono">
+                    <h1 className="mb-8 text-3xl font-bold text-subtle-text md:text-4xl">
+                        Hello World!
+                    </h1>
 
-                {/* Social Links */}
-                <div className="flex items-center gap-4">
-                    <a
-                        href={siteConfig.social.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 text-muted hover:text-accent-teal transition-colors"
-                        aria-label="GitHub"
-                    >
-                        <FiGithub className="w-6 h-6" />
-                    </a>
-                    <a
-                        href={siteConfig.social.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 text-muted hover:text-accent-teal transition-colors"
-                        aria-label="LinkedIn"
-                    >
-                        <FiLinkedin className="w-6 h-6" />
-                    </a>
-                    <a
-                        href={`mailto:${siteConfig.email}`}
-                        className="p-2 text-muted hover:text-accent-teal transition-colors"
-                        aria-label="Email"
-                    >
-                        <FiMail className="w-6 h-6" />
-                    </a>
-                    <a
-                        href={siteConfig.social.twitter}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 text-muted hover:text-accent-teal transition-colors"
-                        aria-label="Twitter/X"
-                    >
-                        <FiTwitter className="w-6 h-6" />
-                    </a>
-                </div>
-            </section>
+                    <p className="mb-7 max-w-2xl text-base leading-8 text-subtle-text">
+                        I build tiny systems from code and circuits.
+                    </p>
 
-            {/* Featured Projects */}
-            {featuredProjects.length > 0 && (
-                <section className="mb-20">
-                    <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-2xl font-mono font-semibold text-subtle-text">
-                            Featured Projects
-                        </h2>
-                        <Link href="/projects" className="font-mono text-sm text-accent-teal hover:text-accent-hover transition-colors">
-                            View all →
-                        </Link>
-                    </div>
-                    <div className="space-y-6">
-                        {featuredProjects.map((project) => (
-                            <ProjectCard key={project.title} project={project} />
+                    <div className="flex items-center gap-5 text-muted">
+                        {contactLinks.map(({ href, label, icon: Icon }) => (
+                            <a
+                                key={label}
+                                href={href}
+                                target={href.startsWith('mailto:') ? undefined : '_blank'}
+                                rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                                className="transition-colors hover:text-accent-teal"
+                                aria-label={label}
+                            >
+                                <Icon className="h-6 w-6" />
+                            </a>
                         ))}
                     </div>
                 </section>
-            )}
 
-            {/* Recent Posts */}
-            {recentPosts.length > 0 && (
                 <section>
-                    <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-2xl font-mono font-semibold text-subtle-text">
-                            Recent Posts
+                    <div className="mb-7 flex items-baseline justify-between gap-4">
+                        <h2 className="font-mono text-2xl font-bold text-subtle-text">
+                            Posts
                         </h2>
-                        <Link href="/blog" className="font-mono text-sm text-accent-teal hover:text-accent-hover transition-colors">
-                            View all →
+                        <Link href="/blog" className="font-mono text-sm text-muted hover:text-accent-teal">
+                            All posts
                         </Link>
                     </div>
-                    <PostList posts={recentPosts} showTags={false} />
+
+                    <PostList posts={recentPosts} variant="compact" />
                 </section>
-            )}
-        </div>
+            </div>
         </>
     );
 }

@@ -12,9 +12,6 @@ export interface SearchResult {
     tags?: string[];
 }
 
-/**
- * Search modal - clean design with blur backdrop
- */
 export default function SearchModal() {
     const [isOpen, setIsOpen] = useState(false);
     const [query, setQuery] = useState('');
@@ -108,10 +105,9 @@ export default function SearchModal() {
 
     return (
         <>
-            {/* Search Button - minimal, text style */}
             <button
                 onClick={() => setIsOpen(true)}
-                className="font-mono flex items-center gap-2 text-base text-muted hover:text-accent-teal transition-colors"
+                className="flex items-center gap-2 p-1.5 text-muted transition-colors hover:text-accent-teal"
                 aria-label="Search"
                 title="Search"
             >
@@ -125,11 +121,10 @@ export default function SearchModal() {
                     onClick={handleClose}
                 >
                     {/* Blur backdrop */}
-                    <div className="absolute inset-0 bg-near-black/60 backdrop-blur-md" />
+                    <div className="absolute inset-0 bg-near-black/70 backdrop-blur-sm" />
 
-                    {/* Search Modal with box */}
                     <div
-                        className="relative w-full max-w-xl bg-near-black border border-surface rounded-lg shadow-xl"
+                        className="relative w-full max-w-xl rounded border border-surface bg-near-black shadow-xl"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Search Input */}
@@ -142,11 +137,11 @@ export default function SearchModal() {
                                 onChange={(e) => setQuery(e.target.value)}
                                 onKeyDown={handleKeyDown}
                                 placeholder="Search..."
-                                className="flex-1 bg-transparent text-subtle-text placeholder:text-muted outline-none"
+                                className="flex-1 bg-transparent font-mono text-subtle-text outline-none placeholder:text-muted"
                             />
                             <button
                                 onClick={handleClose}
-                                className="text-xs text-muted hover:text-accent-teal transition-colors font-mono"
+                                className="font-mono text-xs text-muted transition-colors hover:text-accent-teal"
                                 aria-label="Close"
                             >
                                 ESC
@@ -184,7 +179,7 @@ export default function SearchModal() {
                                                 router.push(result.url);
                                             }}
                                             className={`
-                                                w-full px-4 py-2.5 text-left transition-colors flex items-center gap-3
+                                                flex w-full items-center gap-3 px-4 py-2.5 text-left font-mono transition-colors
                                                 ${index === selectedIndex
                                                     ? 'bg-surface text-subtle-text'
                                                     : 'text-muted hover:text-subtle-text hover:bg-surface/50'

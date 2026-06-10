@@ -2,42 +2,30 @@ import Link from 'next/link';
 
 const footerLinks = [
     { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
     { href: '/blog', label: 'Blog' },
-    { href: '/projects', label: 'Projects' },
-    { href: '/reads', label: 'Reads' },
-    { href: '/contact', label: 'Contact' },
+    { href: '/about', label: 'About' },
 ];
 
-/**
- * Footer component with copyright and navigation links
- * Minimal, centered layout
- */
 export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="border-t border-surface mt-20" suppressHydrationWarning>
-            <div className="max-w-5xl mx-auto px-6 py-8">
-                <div className="flex flex-col items-center gap-4">
-                    {/* Footer Navigation */}
-                    <nav className="font-mono flex flex-wrap items-center justify-center gap-4 text-base">
-                        {footerLinks.map((link) => (
-                            <Link
-                                key={link.href}
-                                href={link.href}
-                                className="text-muted hover:text-accent-teal transition-colors"
-                            >
+        <footer className="mt-24 pb-8" suppressHydrationWarning>
+            <div className="mx-auto flex max-w-3xl flex-col gap-4 px-6 font-mono text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+                <p>Copyright © {currentYear} Sandip Maity</p>
+
+                <nav className="flex flex-wrap items-center">
+                    {footerLinks.map((link, index) => (
+                        <span key={link.href} className="flex items-center">
+                            {index > 0 && (
+                                <span className="mx-2 h-4 border-l border-surface" aria-hidden="true" />
+                            )}
+                            <Link href={link.href} className="hover:text-accent-teal">
                                 {link.label}
                             </Link>
-                        ))}
-                    </nav>
-
-                    {/* Copyright */}
-                    <p className="font-mono text-base text-muted text-center">
-                        © 2025 - {currentYear} Sandip Maity. All rights reserved.
-                    </p>
-                </div>
+                        </span>
+                    ))}
+                </nav>
             </div>
         </footer>
     );

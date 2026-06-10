@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import PostList from '@/components/PostList';
 import { Post } from '@/components/PostList';
 import { useBlogFilter } from './BlogFilterContext';
@@ -16,6 +16,10 @@ export default function BlogMainContent({ allPosts }: BlogMainContentProps) {
     const [currentPage, setCurrentPage] = useState(1);
 
     const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [filteredPosts]);
 
     const paginatedPosts = useMemo(() => {
         const start = (currentPage - 1) * POSTS_PER_PAGE;
@@ -48,7 +52,7 @@ export default function BlogMainContent({ allPosts }: BlogMainContentProps) {
             )}
 
             {/* Post List */}
-            <PostList posts={paginatedPosts} />
+            <PostList posts={paginatedPosts} variant="compact" />
 
             {/* Pagination */}
             {totalPages > 1 && (

@@ -13,20 +13,52 @@ export interface Post {
 interface PostListProps {
     posts: Post[];
     showTags?: boolean;
+    variant?: 'default' | 'compact';
 }
 
-export default function PostList({ posts, showTags = true }: PostListProps) {
+function formatPostDate(date: string) {
+    return new Date(`${date}T00:00:00`).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+    });
+}
+
+export default function PostList({ posts, showTags = true, variant = 'default' }: PostListProps) {
+    if (variant === 'compact') {
+        return (
+            <div className="font-mono">
+                <ol className="space-y-3">
+                    {posts.map((post) => (
+                        <li key={post.slug} className="grid gap-1 text-sm sm:grid-cols-[9rem_1fr] sm:gap-6">
+                            <time className="text-muted" suppressHydrationWarning>
+                                {formatPostDate(post.date)}
+                            </time>
+
+                            <Link
+                                href={`/blog/${post.slug}`}
+                                className="w-fit text-subtle-text underline decoration-surface underline-offset-4 transition-colors hover:text-accent-teal hover:decoration-accent-teal"
+                            >
+                                {post.title}
+                            </Link>
+                        </li>
+                    ))}
+                </ol>
+
+                {posts.length === 0 && (
+                    <p className="text-muted">No posts found.</p>
+                )}
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-8">
             {posts.map((post) => (
                 <article key={post.slug} className="group">
                     <div className="flex flex-col gap-1">
                         <time className="text-base text-muted font-mono" suppressHydrationWarning>
-                            {new Date(post.date).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'short',
-                                day: 'numeric',
-                            })}
+                            {formatPostDate(post.date)}
                         </time>
 
                         <Link href={`/blog/${post.slug}`}>

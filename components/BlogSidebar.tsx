@@ -15,7 +15,7 @@ interface BlogSidebarProps {
 export default function BlogSidebar({ hierarchy, allPosts }: BlogSidebarProps) {
     const { setFilteredPosts, setActiveFilter, resetTrigger } = useBlogFilter();
     const [selectedSection, setSelectedSection] = useState('');
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(true);
 
     useEffect(() => {
         if (resetTrigger > 0) {
@@ -43,7 +43,7 @@ export default function BlogSidebar({ hierarchy, allPosts }: BlogSidebarProps) {
                 </h2>
                 <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="max-[469px]:flex hidden p-2 hover:bg-surface rounded transition-colors"
+                    className="flex p-2 rounded transition-colors hover:bg-surface min-[700px]:hidden"
                     aria-label={isExpanded ? 'Collapse' : 'Expand'}
                 >
                     {isExpanded ? (
@@ -69,7 +69,7 @@ export default function BlogSidebar({ hierarchy, allPosts }: BlogSidebarProps) {
             </button>
 
             {/* Section tree */}
-            <div className={`min-[470px]:block ${isExpanded ? 'block' : 'hidden max-[469px]:hidden'}`}>
+            <div className={`min-[700px]:block ${isExpanded ? 'block' : 'hidden'}`}>
                 <BrowseSection
                     hierarchy={hierarchy}
                     selectedSection={selectedSection}

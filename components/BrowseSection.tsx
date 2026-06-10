@@ -37,16 +37,18 @@ function SectionItem({ node, selectedSection, onSectionSelect, level }: SectionI
                 {hasChildren ? (
                     <button
                         onClick={() => setIsExpanded(!isExpanded)}
-                        className="w-4 h-4 flex items-center justify-center text-xs font-mono"
+                        className="flex h-4 w-4 items-center justify-center font-mono text-xs"
                         aria-label={isExpanded ? 'Collapse' : 'Expand'}
                     >
-                        {isExpanded ? '−' : '+'}
+                        {isExpanded ? '-' : '+'}
                     </button>
-                ) : <span className="w-4" />}
+                ) : (
+                    <span className="w-4" />
+                )}
 
                 <button
                     onClick={() => onSectionSelect(node.path)}
-                    className="font-mono flex-1 text-left text-base flex items-center justify-between gap-2"
+                    className="flex flex-1 items-center justify-between gap-2 text-left font-mono text-base"
                 >
                     <span>{node.name}</span>
                     <span className="text-xs text-muted">({node.postCount})</span>
@@ -84,7 +86,7 @@ export default function BrowseSection({ hierarchy, selectedSection, onSectionSel
                     />
                 ))
             ) : (
-                <p className="font-mono text-muted text-sm">No sections.</p>
+                <p className="font-mono text-sm text-muted">No sections.</p>
             )}
         </div>
     );
