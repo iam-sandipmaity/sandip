@@ -77,7 +77,7 @@ export default function PostList({ posts, showTags = true, variant = 'default' }
                                     <TagPill
                                         key={tag}
                                         tag={tag}
-                                        href={`/blog/tags/${tagToSlug(tag)}`}
+                                        href={`/tags/${tagToSlug(tag)}`}
                                         variant="small"
                                     />
                                 ))}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
 import TagPill from './TagPill';
 import { tagToSlug } from '@/lib/utils';
 
@@ -19,14 +19,11 @@ interface TagListProps {
  * Shows most used tags first, with option to show all tags
  */
 export default function TagList({ tags, maxVisible = 6 }: TagListProps) {
-    const [isExpanded, setIsExpanded] = useState(false);
-
     if (tags.length === 0) {
         return <p className="font-mono text-muted text-base">No tags yet.</p>;
     }
 
-    const visibleTags = isExpanded ? tags : tags.slice(0, maxVisible);
-    const remainingCount = tags.length - maxVisible;
+    const visibleTags = tags.slice(0, maxVisible);
     const hasMore = tags.length > maxVisible;
 
     return (
@@ -36,18 +33,18 @@ export default function TagList({ tags, maxVisible = 6 }: TagListProps) {
                     <TagPill
                         key={tag}
                         tag={tag}
-                        href={`/blog/tags/${tagToSlug(tag)}`}
+                        href={`/tags/${tagToSlug(tag)}`}
                     />
                 ))}
             </div>
 
             {hasMore && (
-                <button
-                    onClick={() => setIsExpanded(!isExpanded)}
+                <Link
+                    href="/tags"
                     className="block w-full pt-1 text-center font-mono text-base font-medium text-subtle-text transition-colors hover:text-[#cf2644]"
                 >
-                    {isExpanded ? 'Show less' : 'View all ->'}
-                </button>
+                    {'View all ->'}
+                </Link>
             )}
         </div>
     );

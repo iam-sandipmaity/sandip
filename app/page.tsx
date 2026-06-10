@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { FiGithub, FiLinkedin, FiMail, FiTwitter } from 'react-icons/fi';
+import { FiGithub, FiGlobe, FiMail } from 'react-icons/fi';
+import { FaXTwitter } from 'react-icons/fa6';
 import { getRecentPosts } from '@/lib/posts';
 import { siteConfig } from '@/lib/config';
 import PostList from '@/components/PostList';
@@ -40,11 +41,6 @@ const contactLinks = [
         icon: FiGithub,
     },
     {
-        href: siteConfig.social.linkedin,
-        label: 'LinkedIn',
-        icon: FiLinkedin,
-    },
-    {
         href: `mailto:${siteConfig.email}`,
         label: 'Email',
         icon: FiMail,
@@ -52,12 +48,17 @@ const contactLinks = [
     {
         href: siteConfig.social.twitter,
         label: 'X',
-        icon: FiTwitter,
+        icon: FaXTwitter,
+    },
+    {
+        href: 'https://profile.sandipmaity.me',
+        label: 'Profile',
+        icon: FiGlobe,
     },
 ];
 
 export default function Home() {
-    const recentPosts = getRecentPosts(10);
+    const recentPosts = getRecentPosts(7);
 
     return (
         <>
@@ -78,7 +79,7 @@ export default function Home() {
                             sameAs: [
                                 siteConfig.social.github,
                                 siteConfig.social.twitter,
-                                siteConfig.social.linkedin,
+                                'https://profile.sandipmaity.me',
                             ],
                         },
                     }),

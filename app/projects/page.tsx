@@ -41,7 +41,7 @@ export default function ProjectsPage() {
     const projects = getAllProjects();
 
     return (
-        <div className="max-w-4xl mx-auto px-6 py-16">
+        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
             {/* Breadcrumb Structured Data */}
             <script
                 type="application/ld+json"
@@ -67,24 +67,23 @@ export default function ProjectsPage() {
                 }}
             />
 
-            <div className="mb-16">
-                <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4">
+            <section className="mb-12 font-mono">
+                <h1 className="mb-6 text-3xl font-bold leading-tight text-subtle-text md:text-4xl">
                     Projects
                 </h1>
-                <p className="font-mono text-lg text-muted leading-relaxed">
-                    A selection of things I&apos;ve built. Each project represents a learning journey.
+                <p className="max-w-2xl text-base leading-8 text-muted">
+                    A small archive of things I built, shipped, broke, fixed, and learned from.
                 </p>
-            </div>
+            </section>
 
-            {/* Projects - clean list without boxes */}
-            <div className="space-y-12">
+            <section className="divide-y divide-dotted divide-surface/70 border-y border-dotted border-surface/70">
                 {projects.map((project) => (
                     <ProjectCard key={project.title} project={project} />
                 ))}
-            </div>
+            </section>
 
             {projects.length === 0 && (
-                <div className="text-center py-16">
+                <div className="py-16">
                     <p className="font-mono text-muted">No projects yet. Check back soon!</p>
                 </div>
             )}

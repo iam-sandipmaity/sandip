@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
-import { FiMail, FiGithub, FiLinkedin, FiTwitter } from 'react-icons/fi';
+import { FiGithub, FiGlobe, FiMail } from 'react-icons/fi';
+import { FaXTwitter } from 'react-icons/fa6';
 import { siteConfig } from '@/lib/config';
 
 export const metadata: Metadata = {
     title: 'Contact',
-    description: 'Get in touch for project collaborations, technical discussions, or to connect about embedded systems.',
+    description: 'Ways to reach Sandip Maity.',
     openGraph: {
         title: 'Contact Sandip Maity',
-        description: 'Get in touch for project collaborations or technical discussions.',
+        description: 'Ways to reach Sandip Maity.',
         url: `${siteConfig.url}/contact`,
         siteName: siteConfig.name,
         images: [{ url: '/og?title=Contact Me', width: 1200, height: 630, alt: 'Contact Sandip Maity' }],
@@ -17,15 +18,42 @@ export const metadata: Metadata = {
     twitter: {
         card: 'summary_large_image',
         title: 'Contact Sandip Maity',
-        description: 'Get in touch for project collaborations or technical discussions.',
+        description: 'Ways to reach Sandip Maity.',
         creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
         images: ['/og?title=Contact Me'],
     },
 };
 
 export default function ContactPage() {
+    const links = [
+        {
+            href: `mailto:${siteConfig.email}`,
+            label: 'Email',
+            value: siteConfig.email,
+            icon: FiMail,
+        },
+        {
+            href: siteConfig.social.github,
+            label: 'GitHub',
+            value: '@iam-sandipmaity',
+            icon: FiGithub,
+        },
+        {
+            href: siteConfig.social.twitter,
+            label: 'X',
+            value: '@iam_sandipmaity',
+            icon: FaXTwitter,
+        },
+        {
+            href: 'https://profile.sandipmaity.me',
+            label: 'Profile',
+            value: 'profile.sandipmaity.me',
+            icon: FiGlobe,
+        },
+    ];
+
     return (
-        <div className="max-w-4xl mx-auto px-6 py-16">
+        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
@@ -40,63 +68,36 @@ export default function ContactPage() {
                 }}
             />
 
-            <div className="mb-12 text-center">
-                <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4">
-                    Get in Touch
+            <section className="mb-12 font-mono">
+                <h1 className="mb-6 text-3xl font-bold leading-tight text-subtle-text md:text-4xl">
+                    Contact
                 </h1>
-                <p className="font-mono text-lg text-muted leading-relaxed max-w-2xl mx-auto">
-                    Have a question or want to work together? Feel free to reach out.
+                <p className="max-w-2xl text-base leading-8 text-muted">
+                    The easiest way to reach me is email. I am also around on the usual places,
+                    mostly reading, learning, and occasionally posting something.
                 </p>
-            </div>
+            </section>
 
-            {/* Social Links - inline, no boxes */}
-            <div className="flex flex-wrap justify-center gap-8 mb-12">
-                <a
-                    href={`mailto:${siteConfig.email}`}
-                    className="font-mono flex items-center gap-3 text-muted hover:text-accent-teal transition-colors"
-                    aria-label="Email"
-                >
-                    <FiMail className="w-5 h-5" />
-                    <span>Email</span>
-                </a>
-
-                <a
-                    href={siteConfig.social.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-mono flex items-center gap-3 text-muted hover:text-accent-teal transition-colors"
-                    aria-label="GitHub"
-                >
-                    <FiGithub className="w-5 h-5" />
-                    <span>GitHub</span>
-                </a>
-
-                <a
-                    href={siteConfig.social.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-mono flex items-center gap-3 text-muted hover:text-accent-teal transition-colors"
-                    aria-label="LinkedIn"
-                >
-                    <FiLinkedin className="w-5 h-5" />
-                    <span>LinkedIn</span>
-                </a>
-
-                <a
-                    href={siteConfig.social.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-mono flex items-center gap-3 text-muted hover:text-accent-teal transition-colors"
-                    aria-label="Twitter/X"
-                >
-                    <FiTwitter className="w-5 h-5" />
-                    <span>Twitter</span>
-                </a>
-            </div>
-
-            <p className="font-mono text-muted text-sm text-center">
-                I typically respond within 24-48 hours.
-            </p>
+            <section className="font-mono">
+                <div className="divide-y divide-dotted divide-surface/70 border-y border-dotted border-surface/70">
+                    {links.map(({ href, label, value, icon: Icon }) => (
+                        <a
+                            key={label}
+                            href={href}
+                            target={href.startsWith('mailto:') ? undefined : '_blank'}
+                            rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                            className="group flex items-center justify-between gap-4 py-4 text-muted transition-colors hover:text-accent-teal"
+                            aria-label={label}
+                        >
+                            <span className="flex items-center gap-3 text-subtle-text transition-colors group-hover:text-accent-teal">
+                                <Icon className="h-5 w-5 text-muted transition-colors group-hover:text-accent-teal" />
+                                <span>{label}</span>
+                            </span>
+                            <span className="min-w-0 truncate text-right text-sm">{value}</span>
+                        </a>
+                    ))}
+                </div>
+            </section>
         </div>
     );
 }

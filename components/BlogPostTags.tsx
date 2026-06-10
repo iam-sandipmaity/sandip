@@ -33,7 +33,7 @@ export default function BlogPostTags({ tags }: BlogPostTagsProps) {
                 {tags.map((tag, index) => (
                     <span key={tag}>
                         <Link
-                            href={`/blog/tags/${tagToSlug(tag)}`}
+                            href={`/tags/${tagToSlug(tag)}`}
                             className="underline decoration-current decoration-1 underline-offset-2 transition-colors hover:text-[#cf2644]"
                         >
                             #{tag}

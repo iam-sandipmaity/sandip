@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { FiGithub, FiLinkedin, FiTwitter, FiMail } from 'react-icons/fi';
+import { FiGithub, FiGlobe, FiMail } from 'react-icons/fi';
+import { FaXTwitter } from 'react-icons/fa6';
 import { siteConfig } from '@/lib/config';
 
 export const metadata: Metadata = {
@@ -27,6 +28,29 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+    const connectLinks = [
+        {
+            href: siteConfig.social.github,
+            label: 'GitHub',
+            icon: FiGithub,
+        },
+        {
+            href: siteConfig.social.twitter,
+            label: 'X',
+            icon: FaXTwitter,
+        },
+        {
+            href: `mailto:${siteConfig.email}`,
+            label: 'Email',
+            icon: FiMail,
+        },
+        {
+            href: 'https://profile.sandipmaity.me',
+            label: 'Profile',
+            icon: FiGlobe,
+        },
+    ];
+
     return (
         <div className="max-w-4xl mx-auto px-6 py-16">
             <script
@@ -86,40 +110,18 @@ export default function AboutPage() {
                     Connect
                 </h2>
                 <div className="flex flex-wrap gap-6">
-                    <a
-                        href={siteConfig.social.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
-                    >
-                        <FiGithub className="w-5 h-5" />
-                        <span className="text-sm font-mono">GitHub</span>
-                    </a>
-                    <a
-                        href={siteConfig.social.twitter}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
-                    >
-                        <FiTwitter className="w-5 h-5" />
-                        <span className="text-sm font-mono">Twitter</span>
-                    </a>
-                    <a
-                        href={siteConfig.social.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
-                    >
-                        <FiLinkedin className="w-5 h-5" />
-                        <span className="text-sm font-mono">LinkedIn</span>
-                    </a>
-                    <a
-                        href="mailto:sandipmaity81@gmail.com"
-                        className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
-                    >
-                        <FiMail className="w-5 h-5" />
-                        <span className="text-sm font-mono">Email</span>
-                    </a>
+                    {connectLinks.map(({ href, label, icon: Icon }) => (
+                        <a
+                            key={label}
+                            href={href}
+                            target={href.startsWith('mailto:') ? undefined : '_blank'}
+                            rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                            className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
+                        >
+                            <Icon className="w-5 h-5" />
+                            <span className="text-sm font-mono">{label}</span>
+                        </a>
+                    ))}
                 </div>
             </section>
 
