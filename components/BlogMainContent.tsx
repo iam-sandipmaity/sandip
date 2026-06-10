@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import PostList from '@/components/PostList';
 import { Post } from '@/components/PostList';
 import { useBlogFilter } from './BlogFilterContext';
@@ -16,6 +16,10 @@ export default function BlogMainContent({ allPosts }: BlogMainContentProps) {
     const [currentPage, setCurrentPage] = useState(1);
 
     const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [filteredPosts]);
 
     const paginatedPosts = useMemo(() => {
         const start = (currentPage - 1) * POSTS_PER_PAGE;
@@ -48,19 +52,19 @@ export default function BlogMainContent({ allPosts }: BlogMainContentProps) {
             )}
 
             {/* Post List */}
-            <PostList posts={paginatedPosts} />
+            <PostList posts={paginatedPosts} variant="editorial" />
 
             {/* Pagination */}
             {totalPages > 1 && (
-                <div className="mt-12 pt-6 border-t border-dotted border-surface/30">
-                    <nav className="flex items-center justify-center gap-2">
+                <div className="mt-12">
+                    <nav className="flex items-center justify-center gap-3">
                         {/* Previous */}
                         <button
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1}
-                            className="font-mono px-3 py-2 text-base text-muted hover:text-accent-teal transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            className="font-mono text-base text-muted transition-colors hover:text-accent-teal disabled:cursor-not-allowed disabled:text-muted/35"
                         >
-                            ← Prev
+                            {'<- Prev'}
                         </button>
 
                         {/* Page Numbers */}
@@ -68,10 +72,10 @@ export default function BlogMainContent({ allPosts }: BlogMainContentProps) {
                             <button
                                 key={page}
                                 onClick={() => handlePageChange(page)}
-                                className={`font-mono w-10 h-10 text-base rounded-lg transition-colors ${
+                                className={`h-12 w-12 rounded-lg font-mono text-base transition-colors ${
                                     page === currentPage
-                                        ? 'bg-accent-teal text-gray-900 font-medium'
-                                        : 'text-muted hover:text-accent-teal hover:bg-surface'
+                                        ? 'bg-accent-teal text-near-black'
+                                        : 'text-subtle-text hover:text-accent-teal'
                                 }`}
                             >
                                 {page}
@@ -82,14 +86,14 @@ export default function BlogMainContent({ allPosts }: BlogMainContentProps) {
                         <button
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}
-                            className="font-mono px-3 py-2 text-base text-muted hover:text-accent-teal transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                            className="font-mono text-base text-subtle-text transition-colors hover:text-accent-teal disabled:cursor-not-allowed disabled:text-muted/35"
                         >
-                            Next →
+                            {'Next ->'}
                         </button>
                     </nav>
 
                     {/* Page indicator */}
-                    <p className="font-mono text-base text-muted text-center mt-4" suppressHydrationWarning>
+                    <p className="mt-5 text-center font-mono text-base text-muted" suppressHydrationWarning>
                         Page {currentPage} of {totalPages}
                     </p>
                 </div>

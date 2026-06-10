@@ -1,9 +1,8 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getAllPostSlugs, getPostBySlug, getPostsBySection, getSubsections, getBreadcrumbs } from '@/lib/posts';
-import { tagToSlug } from '@/lib/utils';
+import { getAllPostSlugs, getPostBySlug, getPostsBySection, getSubsections, getBreadcrumbs, getReadingTimeMinutes } from '@/lib/posts';
 import { siteConfig } from '@/lib/config';
-import TagPill from '@/components/TagPill';
+import BlogPostTags from '@/components/BlogPostTags';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import PostList from '@/components/PostList';
 import Link from 'next/link';
@@ -14,6 +13,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import MDXImage from '@/components/MDXImage';
 import ShareOptions from '@/components/ShareOptions';
+import { formatPostDate } from '@/lib/date';
 
 interface BlogPostPageProps {
     params: {
@@ -100,6 +100,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         // Get breadcrumbs for the post
         const breadcrumbs = getBreadcrumbs(slugString);
+        const readingTime = getReadingTimeMinutes(post.content);
 
         return (
             <article className="max-w-3xl mx-auto px-6 py-16">
@@ -131,30 +132,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
 
                 {/* Post Header */}
-                <header className="mb-12">
-                    <time className="text-base text-muted font-mono mb-4 block" suppressHydrationWarning>
-                        {new Date(post.date).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                        })}
-                    </time>
-
-                    <h1 className="text-4xl font-mono font-bold text-subtle-text mb-6">
+                <header className="mb-16">
+                    <h1 className="mb-3 font-mono text-3xl font-semibold leading-tight text-subtle-text md:text-4xl">
                         {post.title}
                     </h1>
 
-                    {post.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
-                            {post.tags.map((tag) => (
-                                <TagPill
-                                    key={tag}
-                                    tag={tag}
-                                    href={`/blog/tags/${tagToSlug(tag)}`}
-                                />
-                            ))}
-                        </div>
-                    )}
+                    <div className="font-mono text-base font-medium leading-6 text-subtle-text">
+                        <time suppressHydrationWarning>
+                            {formatPostDate(post.date, 'long')}
+                        </time>
+                        <span aria-hidden="true"> / </span>
+                        <span>{readingTime} min read</span>
+                    </div>
+
+                    <BlogPostTags tags={post.tags} />
                 </header>
 
                 {/* MDX Content */}
@@ -177,7 +168,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         }
 
         return (
-            <div className="max-w-5xl mx-auto px-6 py-16">
+            <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
                 {/* Breadcrumb Navigation */}
                 <div className="mb-6">
                     <div className="font-mono flex items-center gap-2 text-sm text-muted">
@@ -207,7 +198,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                 {/* Page Header */}
                 <div className="mb-12">
-                    <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4 capitalize">
+                    <h1 className="text-4xl font-mono font-semibold text-subtle-text mb-4 capitalize">
                         {breadcrumbs[breadcrumbs.length - 1].name}
                     </h1>
                     <p className="font-mono text-xl text-muted leading-relaxed">

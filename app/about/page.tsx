@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { FiGithub, FiLinkedin, FiTwitter, FiMail } from 'react-icons/fi';
+import { FiGithub, FiGlobe, FiMail } from 'react-icons/fi';
+import { FaXTwitter } from 'react-icons/fa6';
 import { siteConfig } from '@/lib/config';
 
 export const metadata: Metadata = {
@@ -27,8 +28,31 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+    const connectLinks = [
+        {
+            href: siteConfig.social.github,
+            label: 'GitHub',
+            icon: FiGithub,
+        },
+        {
+            href: siteConfig.social.twitter,
+            label: 'X',
+            icon: FaXTwitter,
+        },
+        {
+            href: `mailto:${siteConfig.email}`,
+            label: 'Email',
+            icon: FiMail,
+        },
+        {
+            href: 'https://profile.sandipmaity.me',
+            label: 'Profile',
+            icon: FiGlobe,
+        },
+    ];
+
     return (
-        <div className="max-w-4xl mx-auto px-6 py-16">
+        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
@@ -45,7 +69,7 @@ export default function AboutPage() {
 
             {/* Header */}
             <section className="mb-16">
-                <h1 className="text-4xl md:text-5xl font-mono font-bold text-subtle-text mb-4">
+                <h1 className="text-3xl md:text-4xl font-mono font-semibold text-subtle-text mb-4">
                     About Me
                 </h1>
                 <div className="h-px bg-surface w-24" />
@@ -53,7 +77,7 @@ export default function AboutPage() {
 
             {/* Introduction */}
             <section className="mb-12">
-                <p className="text-xl md:text-2xl font-mono text-subtle-text leading-relaxed">
+                <p className="text-lg md:text-xl font-mono text-subtle-text leading-relaxed">
                     Hi, I&apos;m <span className="text-accent-teal">{siteConfig.author}</span>.
                 </p>
                 <p className="font-mono text-lg text-muted leading-relaxed mt-4">
@@ -63,66 +87,41 @@ export default function AboutPage() {
 
             {/* What I do */}
             <section className="mb-12">
-                <h2 className="text-lg font-mono font-semibold text-subtle-text mb-4">
+                <h2 className="text-lg font-mono font-medium text-subtle-text mb-4">
                     What I do
                 </h2>
                 <div className="font-mono text-muted leading-relaxed space-y-4">
                     <p>
-                        I design and develop embedded systems, from circuit schematics to firmware. 
-                        My work focuses on IoT solutions, hardware-software integration, and building 
-                        reliable systems that solve real problems.
+                        I don&apos;t know what I am doing at all.
                     </p>
                     <p>
-                        I also build websites with Next.js, combining clean design with thoughtful 
-                        engineering to create fast, accessible user experiences.
+                        Most days I am just trying things, breaking things, learning a little, and
+                        pretending the confusing parts are part of the plan.
                     </p>
                     <p>
-                        Currently exploring STM32, ESP32, and PCB design while documenting my learning 
-                        through blog posts and projects.
+                        That is the whole method for now.
                     </p>
                 </div>
             </section>
 
             {/* Connect */}
             <section className="mb-12">
-                <h2 className="text-lg font-mono font-semibold text-subtle-text mb-4">
+                <h2 className="text-lg font-mono font-medium text-subtle-text mb-4">
                     Connect
                 </h2>
                 <div className="flex flex-wrap gap-6">
-                    <a
-                        href={siteConfig.social.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
-                    >
-                        <FiGithub className="w-5 h-5" />
-                        <span className="text-sm font-mono">GitHub</span>
-                    </a>
-                    <a
-                        href={siteConfig.social.twitter}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
-                    >
-                        <FiTwitter className="w-5 h-5" />
-                        <span className="text-sm font-mono">Twitter</span>
-                    </a>
-                    <a
-                        href={siteConfig.social.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
-                    >
-                        <FiLinkedin className="w-5 h-5" />
-                        <span className="text-sm font-mono">LinkedIn</span>
-                    </a>
-                    <a
-                        href="mailto:sandipmaity81@gmail.com"
-                        className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
-                    >
-                        <FiMail className="w-5 h-5" />
-                        <span className="text-sm font-mono">Email</span>
-                    </a>
+                    {connectLinks.map(({ href, label, icon: Icon }) => (
+                        <a
+                            key={label}
+                            href={href}
+                            target={href.startsWith('mailto:') ? undefined : '_blank'}
+                            rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                            className="flex items-center gap-2 text-muted hover:text-accent-teal transition-colors"
+                        >
+                            <Icon className="w-5 h-5" />
+                            <span className="text-sm font-mono">{label}</span>
+                        </a>
+                    ))}
                 </div>
             </section>
 

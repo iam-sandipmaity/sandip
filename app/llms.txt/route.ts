@@ -59,7 +59,7 @@ export async function GET() {
 - **Sitemap**: [${baseUrl}/sitemap.xml](${baseUrl}/sitemap.xml)
 - **GitHub**: [github.com/iam-sandipmaity](https://github.com/iam-sandipmaity)
 - **Twitter**: [@iam_sandipmaity](https://twitter.com/iam_sandipmaity)
-- **LinkedIn**: [linkedin.com/in/sandipmaity](https://linkedin.com/in/sandipmaity)
+- **Profile**: [profile.sandipmaity.me](https://profile.sandipmaity.me)
 `;
     
     return new Response(content, {

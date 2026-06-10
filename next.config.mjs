@@ -1,6 +1,12 @@
+const noStoreHeaders = [
+  {
+    key: 'Cache-Control',
+    value: 'no-store, no-cache, must-revalidate, proxy-revalidate',
+  },
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   reactStrictMode: true,
 
   // Image optimization
@@ -14,7 +20,7 @@ const nextConfig = {
 
   // Headers for security, CDN caching and performance
   async headers() {
-    return [
+    const headers = [
       {
         // Apply security headers to all routes
         source: '/:path*',
@@ -42,6 +48,10 @@ const nextConfig = {
         ],
       },
       {
+        source: '/sw.js',
+        headers: noStoreHeaders,
+      },
+      {
         source: '/:all*(svg|jpg|jpeg|png|gif|ico|webp|avif)',
         headers: [
           {
@@ -50,16 +60,16 @@ const nextConfig = {
           },
         ],
       },
-      {
-        source: '/_next/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
     ];
+
+    if (process.env.NODE_ENV === 'development') {
+      headers.push({
+        source: '/_next/static/:path*',
+        headers: noStoreHeaders,
+      });
+    }
+
+    return headers;
   },
 };
 

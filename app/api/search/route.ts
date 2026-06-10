@@ -17,6 +17,7 @@ const staticPages: SearchResult[] = [
     { type: 'page', title: 'About', description: 'Learn more about me', url: '/about' },
     { type: 'page', title: 'Projects', description: 'View all my projects', url: '/projects' },
     { type: 'page', title: 'Blog', description: 'Read my blog posts', url: '/blog' },
+    { type: 'page', title: 'Tags', description: 'Browse blog posts by tag', url: '/tags' },
     { type: 'page', title: 'Reads', description: 'My reading list and recommendations', url: '/reads' },
     { type: 'page', title: 'Contact', description: 'Get in touch with me', url: '/contact' },
 ];

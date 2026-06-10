@@ -2,42 +2,33 @@ import Link from 'next/link';
 
 const footerLinks = [
     { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
     { href: '/blog', label: 'Blog' },
-    { href: '/projects', label: 'Projects' },
     { href: '/reads', label: 'Reads' },
+    { href: '/projects', label: 'Projects' },
+    { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
 ];
 
-/**
- * Footer component with copyright and navigation links
- * Minimal, centered layout
- */
 export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="border-t border-surface mt-20" suppressHydrationWarning>
-            <div className="max-w-5xl mx-auto px-6 py-8">
-                <div className="flex flex-col items-center gap-4">
-                    {/* Footer Navigation */}
-                    <nav className="font-mono flex flex-wrap items-center justify-center gap-4 text-base">
-                        {footerLinks.map((link) => (
-                            <Link
-                                key={link.href}
-                                href={link.href}
-                                className="text-muted hover:text-accent-teal transition-colors"
-                            >
+        <footer className="mt-24 border-t border-dotted border-surface/50 py-8" suppressHydrationWarning>
+            <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-6 text-center font-mono text-sm text-muted sm:flex-row sm:justify-between sm:text-left">
+                <p className="leading-6">Copyright © {currentYear} Sandip Maity</p>
+
+                <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 leading-6 sm:justify-end sm:gap-x-0">
+                    {footerLinks.map((link, index) => (
+                        <span key={link.href} className="flex items-center">
+                            {index > 0 && (
+                                <span className="mx-3 hidden h-4 border-l border-dotted border-surface sm:block" aria-hidden="true" />
+                            )}
+                            <Link href={link.href} className="transition-colors hover:text-accent-teal">
                                 {link.label}
                             </Link>
-                        ))}
-                    </nav>
-
-                    {/* Copyright */}
-                    <p className="font-mono text-base text-muted text-center">
-                        © 2025 - {currentYear} Sandip Maity. All rights reserved.
-                    </p>
-                </div>
+                        </span>
+                    ))}
+                </nav>
             </div>
         </footer>
     );

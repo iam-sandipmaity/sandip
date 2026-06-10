@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import TagPill from './TagPill';
 import { tagToSlug } from '@/lib/utils';
+import { formatPostDate } from '@/lib/date';
 
 export interface Post {
     slug: string;
@@ -13,24 +14,108 @@ export interface Post {
 interface PostListProps {
     posts: Post[];
     showTags?: boolean;
+    variant?: 'default' | 'compact' | 'editorial' | 'home';
 }
 
-export default function PostList({ posts, showTags = true }: PostListProps) {
+export default function PostList({ posts, showTags = true, variant = 'default' }: PostListProps) {
+    if (variant === 'home') {
+        return (
+            <div className="font-mono">
+                <ol className="space-y-6">
+                    {posts.map((post) => (
+                        <li key={post.slug} className="grid gap-1 text-base min-[640px]:grid-cols-[9rem_1fr] min-[640px]:gap-6">
+                            <time className="text-muted" suppressHydrationWarning>
+                                {formatPostDate(post.date)}
+                            </time>
+
+                            <Link
+                                href={`/blog/${post.slug}`}
+                                className="w-fit max-w-full text-subtle-text underline decoration-surface decoration-1 underline-offset-4 transition-colors hover:text-accent-teal hover:decoration-accent-teal"
+                            >
+                                {post.title}
+                            </Link>
+                        </li>
+                    ))}
+                </ol>
+
+                {posts.length === 0 && (
+                    <p className="text-muted">No posts found.</p>
+                )}
+            </div>
+        );
+    }
+
+    if (variant === 'editorial') {
+        return (
+            <div className="font-mono">
+                <ol className="space-y-10">
+                    {posts.map((post) => (
+                        <li key={post.slug} className="grid gap-2 text-base min-[560px]:grid-cols-[8.5rem_1fr] min-[560px]:gap-6">
+                            <time className="text-muted" suppressHydrationWarning>
+                                {formatPostDate(post.date)}
+                            </time>
+
+                            <div className="min-w-0">
+                                <Link
+                                    href={`/blog/${post.slug}`}
+                                    className="w-fit text-subtle-text underline decoration-surface underline-offset-4 transition-colors hover:text-accent-teal hover:decoration-accent-teal"
+                                >
+                                    {post.title}
+                                </Link>
+
+                                <p className="mt-3 overflow-hidden text-base italic leading-7 text-subtle-text [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
+                                    &ldquo;{post.summary}&rdquo;
+                                </p>
+                            </div>
+                        </li>
+                    ))}
+                </ol>
+
+                {posts.length === 0 && (
+                    <p className="text-muted">No posts found.</p>
+                )}
+            </div>
+        );
+    }
+
+    if (variant === 'compact') {
+        return (
+            <div className="font-mono">
+                <ol className="space-y-3">
+                    {posts.map((post) => (
+                        <li key={post.slug} className="grid gap-1 text-sm sm:grid-cols-[9rem_1fr] sm:gap-6">
+                            <time className="text-muted" suppressHydrationWarning>
+                                {formatPostDate(post.date)}
+                            </time>
+
+                            <Link
+                                href={`/blog/${post.slug}`}
+                                className="w-fit text-subtle-text underline decoration-surface underline-offset-4 transition-colors hover:text-accent-teal hover:decoration-accent-teal"
+                            >
+                                {post.title}
+                            </Link>
+                        </li>
+                    ))}
+                </ol>
+
+                {posts.length === 0 && (
+                    <p className="text-muted">No posts found.</p>
+                )}
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-8">
             {posts.map((post) => (
                 <article key={post.slug} className="group">
                     <div className="flex flex-col gap-1">
                         <time className="text-base text-muted font-mono" suppressHydrationWarning>
-                            {new Date(post.date).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'short',
-                                day: 'numeric',
-                            })}
+                            {formatPostDate(post.date)}
                         </time>
 
                         <Link href={`/blog/${post.slug}`}>
-                            <h3 className="text-xl font-mono font-semibold text-subtle-text group-hover:text-accent-teal transition-colors relative inline-block after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-px after:border-b after:border-dotted after:border-accent-teal after:opacity-0 group-hover:after:opacity-100">
+                            <h3 className="text-xl font-mono font-medium text-subtle-text group-hover:text-accent-teal transition-colors relative inline-block after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-px after:border-b after:border-dotted after:border-accent-teal after:opacity-0 group-hover:after:opacity-100">
                                 {post.title}
                             </h3>
                         </Link>
@@ -45,7 +130,7 @@ export default function PostList({ posts, showTags = true }: PostListProps) {
                                     <TagPill
                                         key={tag}
                                         tag={tag}
-                                        href={`/blog/tags/${tagToSlug(tag)}`}
+                                        href={`/tags/${tagToSlug(tag)}`}
                                         variant="small"
                                     />
                                 ))}

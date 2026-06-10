@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { getAllPosts, getAllTagsWithCounts } from '@/lib/posts';
 import { getFolderHierarchy } from '@/lib/sections';
 import { BlogFilterProvider } from '@/components/BlogFilterContext';
-import BlogSidebar from '../../components/BlogSidebar';
-import BlogMainContent from '../../components/BlogMainContent';
+import BlogSidebar from '@/components/BlogSidebar';
+import BlogMainContent from '@/components/BlogMainContent';
 import TagList from '@/components/TagList';
 import { siteConfig } from '@/lib/config';
 
@@ -36,22 +36,30 @@ export default function BlogPage() {
 
     return (
         <BlogFilterProvider allPosts={posts}>
-            <div className="max-w-5xl mx-auto px-6 py-16">
-                <div className="mb-12">
-                    <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4">
-                        Blog
-                    </h1>
-                    <p className="font-mono text-xl text-muted leading-relaxed">
-                        My thinking and learnings.
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 min-[470px]:grid-cols-3 gap-12">
-                    <aside className="min-[470px]:col-span-1 min-[470px]:order-2 order-1">
-                        <div className="min-[470px]:sticky top-24 space-y-8">
+            <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+                <div className="grid grid-cols-1 gap-14 min-[820px]:grid-cols-[minmax(0,1fr)_16rem] min-[820px]:gap-16">
+                    <aside className="min-[820px]:order-2">
+                        <div className="space-y-12 min-[820px]:sticky min-[820px]:top-16">
                             <BlogSidebar hierarchy={hierarchy} allPosts={posts} />
+
                             <div>
-                                <h2 className="text-lg font-mono font-semibold text-subtle-text mb-4">
+                                <h2 className="mb-6 flex items-center gap-1.5 font-mono text-2xl font-semibold leading-none text-subtle-text">
+                                    <svg
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-6 w-6"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        fill="none"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M7.859 6h-2.834a2.025 2.025 0 0 0 -2.025 2.025v2.834c0 .537 .213 1.052 .593 1.432l6.116 6.116a2.025 2.025 0 0 0 2.864 0l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-6.117 -6.116a2.025 2.025 0 0 0 -1.431 -.593z" />
+                                        <path d="M17.573 18.407l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-7.117 -7.116" />
+                                        <path d="M6 9h-.01" />
+                                    </svg>
                                     Tags
                                 </h2>
                                 <TagList tags={tagsWithCounts} maxVisible={6} />
@@ -59,9 +67,13 @@ export default function BlogPage() {
                         </div>
                     </aside>
 
-                    <div className="min-[470px]:col-span-2 min-[470px]:order-1 order-2">
+                    <section className="min-[820px]:order-1 min-[820px]:pl-16">
+                        <h1 className="mb-7 font-mono text-2xl font-semibold text-subtle-text">
+                            Posts
+                        </h1>
+
                         <BlogMainContent allPosts={posts} />
-                    </div>
+                    </section>
                 </div>
             </div>
         </BlogFilterProvider>

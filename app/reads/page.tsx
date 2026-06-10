@@ -51,7 +51,7 @@ export default function ReadsPage() {
     const resources = reads.filter((r) => r.type === 'resource');
 
     return (
-        <div className="max-w-4xl mx-auto px-6 py-16">
+        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
@@ -67,7 +67,7 @@ export default function ReadsPage() {
             />
 
             <div className="mb-12">
-                <h1 className="text-4xl font-mono font-bold text-subtle-text mb-4">
+                <h1 className="text-3xl md:text-4xl font-mono font-semibold text-subtle-text mb-4">
                     Reads
                 </h1>
                 <p className="font-mono text-lg text-muted leading-relaxed">
@@ -78,13 +78,13 @@ export default function ReadsPage() {
             {/* Books */}
             {books.length > 0 && (
                 <section className="mb-12">
-                    <h2 className="text-2xl font-mono font-semibold text-subtle-text mb-6">
+                    <h2 className="text-2xl font-mono font-medium text-subtle-text mb-6">
                         Books
                     </h2>
                     <div className="space-y-8">
                         {books.map((item) => (
                             <article key={item.title} className="group">
-                                <h3 className="text-lg font-mono font-semibold text-subtle-text mb-1 group-hover:text-accent-teal transition-colors">
+                                <h3 className="text-lg font-mono font-medium text-subtle-text mb-1 group-hover:text-accent-teal transition-colors">
                                     {item.url ? (
                                         <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent-teal">
                                             {item.title} ↗
@@ -103,13 +103,13 @@ export default function ReadsPage() {
             {/* Articles */}
             {articles.length > 0 && (
                 <section className="mb-12">
-                    <h2 className="text-2xl font-mono font-semibold text-subtle-text mb-6">
+                    <h2 className="text-2xl font-mono font-medium text-subtle-text mb-6">
                         Articles
                     </h2>
                     <div className="space-y-8">
                         {articles.map((item) => (
                             <article key={item.title} className="group">
-                                <h3 className="text-lg font-mono font-semibold text-subtle-text mb-1 group-hover:text-accent-teal transition-colors">
+                                <h3 className="text-lg font-mono font-medium text-subtle-text mb-1 group-hover:text-accent-teal transition-colors">
                                     {item.url ? (
                                         <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent-teal">
                                             {item.title} ↗
@@ -127,13 +127,13 @@ export default function ReadsPage() {
             {/* Resources */}
             {resources.length > 0 && (
                 <section>
-                    <h2 className="text-2xl font-mono font-semibold text-subtle-text mb-6">
+                    <h2 className="text-2xl font-mono font-medium text-subtle-text mb-6">
                         Resources
                     </h2>
                     <div className="space-y-8">
                         {resources.map((item) => (
                             <article key={item.title} className="group">
-                                <h3 className="text-lg font-mono font-semibold text-subtle-text mb-1 group-hover:text-accent-teal transition-colors">
+                                <h3 className="text-lg font-mono font-medium text-subtle-text mb-1 group-hover:text-accent-teal transition-colors">
                                     {item.url ? (
                                         <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent-teal">
                                             {item.title} ↗

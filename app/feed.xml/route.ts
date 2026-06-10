@@ -1,4 +1,5 @@
 import { getAllPosts } from '@/lib/posts';
+import { toRssDateString } from '@/lib/date';
 
 /**
  * Generate RSS feed for blog posts
@@ -22,7 +23,7 @@ export async function GET() {
       <title>${escapeXml(post.title)}</title>
       <link>${siteUrl}/blog/${post.slug}</link>
       <description>${escapeXml(post.summary)}</description>
-      <pubDate>${new Date(post.date).toUTCString()}</pubDate>
+      <pubDate>${toRssDateString(post.date)}</pubDate>
       <guid>${siteUrl}/blog/${post.slug}</guid>
       ${post.tags.map((tag) => `<category>${escapeXml(tag)}</category>`).join('\n      ')}
     </item>`

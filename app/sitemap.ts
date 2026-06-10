@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
-import { getAllPostSlugs } from '@/lib/posts';
+import { getAllPostSlugs, getAllTags } from '@/lib/posts';
+import { tagToSlug } from '@/lib/utils';
 
 /**
  * Generate sitemap for SEO
@@ -7,6 +8,7 @@ import { getAllPostSlugs } from '@/lib/posts';
 export default function sitemap(): MetadataRoute.Sitemap {
     const siteUrl = 'https://sandipmaity.me';
     const postSlugs = getAllPostSlugs();
+    const tags = getAllTags();
 
     // Static pages
     const staticPages = [
@@ -14,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         '/about',
         '/projects',
         '/blog',
+        '/tags',
         '/reads',
         '/contact',
     ].map((route) => ({
@@ -31,5 +34,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.6,
     }));
 
-    return [...staticPages, ...blogPosts];
+    const tagPages = tags.map((tag) => ({
+        url: `${siteUrl}/tags/${tagToSlug(tag)}`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.5,
+    }));
+
+    return [...staticPages, ...blogPosts, ...tagPages];
 }

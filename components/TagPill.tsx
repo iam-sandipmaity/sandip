@@ -7,14 +7,14 @@ interface TagPillProps {
 }
 
 /**
- * Tag pill component with teal accent
+ * Tag pill component with red accent
  * Can be used as a link or static display
  */
 export default function TagPill({ tag, href, variant = 'default' }: TagPillProps) {
     const baseClasses = `
-    font-mono inline-block text-accent-teal hover:text-accent-hover
-    transition-colors text-sm underline decoration-accent-teal/30 underline-offset-2
-    ${variant === 'small' ? '' : 'text-base'}
+    font-mono inline-flex items-center rounded-md bg-accent-teal font-normal text-near-black
+    no-underline transition-colors hover:bg-accent-hover hover:text-near-black
+    ${variant === 'small' ? 'px-1.5 py-0.5 text-xs leading-5' : 'px-2 py-0.5 text-sm leading-6'}
   `;
 
     if (href) {

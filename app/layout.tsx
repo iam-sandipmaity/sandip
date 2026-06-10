@@ -3,8 +3,9 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
-import Header from '@/components/Header';
+import SiteHeader from '@/components/SiteHeader';
 import Footer from '@/components/Footer';
+import BrowserCacheCleanup from '@/components/BrowserCacheCleanup';
 
 const inter = Inter({
     subsets: ['latin'],
@@ -115,6 +116,46 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning className={`${inter.variable} ${jetbrainsMono.variable}`}>
             <head>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            (function() {
+                                try {
+                                    var key = 'sandip-prehydrate-cache-reset-v1';
+                                    if (sessionStorage.getItem(key)) return;
+                                    sessionStorage.setItem(key, 'true');
+
+                                    var jobs = [];
+                                    if ('serviceWorker' in navigator) {
+                                        jobs.push(
+                                            navigator.serviceWorker.getRegistrations()
+                                                .then(function(registrations) {
+                                                    return Promise.all(registrations.map(function(registration) {
+                                                        return registration.unregister();
+                                                    }));
+                                                })
+                                        );
+                                    }
+                                    if ('caches' in window) {
+                                        jobs.push(
+                                            caches.keys().then(function(keys) {
+                                                return Promise.all(keys.map(function(key) {
+                                                    return caches.delete(key);
+                                                }));
+                                            })
+                                        );
+                                    }
+
+                                    if (jobs.length) {
+                                        Promise.all(jobs).then(function() {
+                                            window.location.reload();
+                                        });
+                                    }
+                                } catch (e) {}
+                            })();
+                        `,
+                    }}
+                />
                 {/* Theme script - must be before any React code to prevent hydration mismatch */}
                 <script
                     dangerouslySetInnerHTML={{
@@ -172,7 +213,7 @@ export default function RootLayout({
                                 sameAs: [
                                     'https://github.com/iam-sandipmaity',
                                     'https://twitter.com/iam_sandipmaity',
-                                    'https://linkedin.com/in/sandipmaity',
+                                    'https://profile.sandipmaity.me',
                                 ],
                                 jobTitle: 'Electronics and Communication Engineering Student',
                                 description: 'Embedded systems developer specializing in Arduino, STM32, ESP32, IoT solutions, circuit design, and PCB development.',
@@ -203,8 +244,9 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
+                    <BrowserCacheCleanup />
                     <div className="min-h-screen flex flex-col">
-                        <Header />
+                        <SiteHeader />
                         <main className="flex-grow">
                             {children}
                         </main>
