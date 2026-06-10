@@ -1,202 +1,112 @@
-# Minimal Dark Portfolio
+# Sandip Maity
 
-A moody, minimal portfolio website built with Next.js 14, TypeScript, and Tailwind CSS. Inspired by [lrns.me](https://lrns.me), this portfolio features a dark aesthetic, restrained motion, and strong typographic hierarchy.
+A minimal personal site and blog built with Next.js, TypeScript, MDX, and Tailwind CSS. The design is inspired by lrns.me: quiet spacing, mono typography, simple content rails, theme-aware accents, and a blog-first reading experience.
 
-## ✨ Features
+## Features
 
-- **Modern Stack**: Next.js 14 (App Router), TypeScript, Tailwind CSS
-- **Dark Theme**: Moody color palette with teal/green accents
-- **MDX Blog**: Write blog posts in MDX with syntax highlighting
-- **Type-Safe**: Strict TypeScript configuration throughout
-- **Responsive**: Mobile-first design with elegant breakpoints
-- **Accessible**: Semantic HTML, keyboard navigation, ARIA labels
-- **SEO Optimized**: Meta tags, sitemap, RSS feed
-- **Theme Toggle**: Dark/light mode with localStorage persistence
-- **Tag System**: Filter blog posts by tags
-- **Minimal JS**: Server components by default, client components only where needed
+- Next.js 14 App Router with TypeScript
+- MDX blog posts with syntax highlighting, math support, RSS, and sitemap
+- Editorial blog index with date, title, and short quoted summaries
+- Tag pages at `/tags` and `/tags/[tag]`
+- Section browsing and filtering for nested blog folders
+- Minimal pages for About, Projects, Reads, and Contact
+- Dark/light theme with theme-aware accent colors
+- Monospace-first typography across the site
+- SEO metadata, Open Graph images, `llms.txt`, manifest, and structured data
+- Search modal and service-worker/cache cleanup support
 
-## 🚀 Quick Start
+## Stack
 
-### Prerequisites
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- MDX
+- React Icons
 
-- Node.js 18+ and npm
-
-### Installation
+## Quick Start
 
 ```bash
-# Clone the repository
-git clone <your-repo-url>
-cd RetroPortfolio
-
-# Install dependencies
 npm install
-
-# Run development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the site.
+Open `http://localhost:3000`.
 
-## 📁 Project Structure
+## Scripts
 
-```
-RetroPortfolio/
-├── app/                    # Next.js app directory
-│   ├── about/             # About page
-│   ├── blog/              # Blog pages
-│   │   ├── [slug]/        # Individual blog post
-│   │   └── tags/[tag]/    # Tag filter pages
-│   ├── contact/           # Contact page
-│   ├── projects/          # Projects page
-│   ├── reads/             # Reads page
-│   ├── feed.xml/          # RSS feed route
-│   ├── sitemap.ts         # Sitemap generation
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx           # Home page
-│   └── globals.css        # Global styles
-├── components/            # React components
-│   ├── Header.tsx         # Navigation header
-│   ├── Footer.tsx         # Footer
-│   ├── ThemeToggle.tsx    # Theme switcher
-│   ├── ThemeProvider.tsx  # Theme context
-│   ├── ProjectCard.tsx    # Project display
-│   ├── PostList.tsx       # Blog post list
-│   └── TagPill.tsx        # Tag component
-├── lib/                   # Utility functions
-│   ├── posts.ts           # MDX post utilities
-│   └── projects.ts        # Project data
-├── posts/                 # MDX blog posts
-│   ├── hello-world.mdx
-│   └── type-safe-api-client.mdx
-├── public/                # Static assets
-├── tailwind.config.ts     # Tailwind configuration
-├── next.config.mjs        # Next.js configuration
-└── tsconfig.json          # TypeScript configuration
+```bash
+npm run dev        # Start development server
+npm run build      # Build for production
+npm run start      # Start production server
+npm run lint       # Run Next.js lint
+npm run type-check # Run TypeScript type checking
 ```
 
-## 🎨 Customization
+## Project Structure
 
-### Update Personal Information
-
-1. **Site Metadata** (`app/layout.tsx`):
-   - Update title, description, author
-   - Add your social media handles
-   - Set your site URL
-
-2. **Header Logo** (`components/Header.tsx`):
-   - Replace "Your Name" with your name
-   - Customize the geometric logo SVG
-
-3. **Home Page** (`app/page.tsx`):
-   - Update tagline and description
-   - Change social media links
-
-4. **Projects** (`lib/projects.ts`):
-   - Replace sample projects with your own
-   - Add GitHub links and live demos
-
-5. **About Page** (`app/about/page.tsx`):
-   - Write your bio
-   - Update skills list
-   - Add your current activities
-
-### Color Scheme
-
-Edit `tailwind.config.ts` to customize colors:
-
-```typescript
-colors: {
-  'near-black': '#0f1112',    // Background
-  'mid-dark': '#1b1e1f',      // Surface
-  'accent-teal': '#5eead4',   // Primary accent
-  // ... more colors
-}
+```text
+app/
+  about/           About page
+  api/search/      Search endpoint
+  blog/            Blog index, posts, sections, and legacy tag route
+  contact/         Contact page
+  feed.xml/        RSS feed
+  llms.txt/        LLM-readable site summary
+  og/              Dynamic Open Graph image route
+  projects/        Projects page
+  reads/           Reading list
+  tags/            Tag index and tag detail pages
+components/        Shared UI components
+lib/               Site config, posts, projects, dates, utilities
+posts/             MDX blog posts
+public/            Static assets
 ```
 
-### Fonts
+## Blog Posts
 
-The site uses:
-- **Inter** for body text
-- **JetBrains Mono** for headings and code
-
-Change fonts in `app/layout.tsx` by importing different Google Fonts.
-
-## 📝 Writing Blog Posts
-
-Create a new `.mdx` file in the `posts/` directory:
+Create posts as `.mdx` files under `posts/`. Nested folders become nested blog routes.
 
 ```mdx
 ---
 title: "Your Post Title"
-date: "2024-01-15"
-summary: "A brief summary of your post"
-tags: ["typescript", "web", "tutorial"]
+date: "11-06-2026"
+summary: "A short summary shown on listing pages."
+tags: ["web", "notes"]
 ---
 
 # Your Post Title
 
-Your content here with full MDX support...
-
-```typescript
-// Code blocks with syntax highlighting
-const example = "Hello, World!";
-```
+Write here.
 ```
 
-The post will automatically appear in the blog index and be available at `/blog/your-file-name`.
+Dates are stored as Indian-style `dd-mm-yyyy` strings. The app parses old ISO dates too, but new posts should use `dd-mm-yyyy`.
 
-## 🛠️ Available Scripts
+## Tags
+
+- `/tags` lists every tag with post counts.
+- `/tags/[tag]` lists posts for a specific tag.
+- Blog post headers and listing tags link to the new tag routes.
+
+## Content
+
+- Site metadata and social/profile links live in `lib/config.ts`.
+- Blog parsing and sorting live in `lib/posts.ts`.
+- Date parsing and display helpers live in `lib/date.ts`.
+- Project data lives in `lib/projects.ts`.
+- Theme colors and typography are defined in `app/globals.css` and `tailwind.config.ts`.
+
+## Deployment
+
+The site is ready for Vercel or any platform that supports Next.js.
 
 ```bash
-# Development server
-npm run dev
-
-# Production build
 npm run build
-
-# Start production server
-npm start
-
-# Lint code
-npm run lint
-
-# Type check
-npm run type-check
+npm run start
 ```
 
-## 🚢 Deployment
+## Acknowledgments
 
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Import project in [Vercel](https://vercel.com)
-3. Deploy automatically
-
-### Other Platforms
-
-```bash
-# Build for production
-npm run build
-
-# The output will be in the `.next` directory
-# Deploy the entire project directory
-```
-
-## 📄 License
-
-MIT License - feel free to use this template for your own portfolio.
-
-## 🙏 Acknowledgments
-
-- Design inspiration: [lrns.me](https://lrns.me)
-- Built with [Next.js](https://nextjs.org)
-- Styled with [Tailwind CSS](https://tailwindcss.com)
-- Icons from [React Icons](https://react-icons.github.io/react-icons/)
-
----
-
-**Made with ❤️ and TypeScript **
-
-
-
-
+- Design inspiration: https://lrns.me
+- Built with Next.js and Tailwind CSS
+- Icons from React Icons
