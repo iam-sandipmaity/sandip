@@ -213,7 +213,7 @@ export default function RootLayout({
                                 sameAs: [
                                     'https://github.com/iam-sandipmaity',
                                     'https://twitter.com/iam_sandipmaity',
-                                    'https://linkedin.com/in/sandipmaity',
+                                    'https://profile.sandipmaity.me',
                                 ],
                                 jobTitle: 'Electronics and Communication Engineering Student',
                                 description: 'Embedded systems developer specializing in Arduino, STM32, ESP32, IoT solutions, circuit design, and PCB development.',

@@ -14,10 +14,10 @@ export default function Footer() {
 
     return (
         <footer className="mt-24 border-t border-dotted border-surface/50 py-8" suppressHydrationWarning>
-            <div className="mx-auto flex max-w-3xl flex-col gap-4 px-6 font-mono text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
-                <p className="leading-6">Copyright (c) {currentYear} Sandip Maity</p>
+            <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-6 text-center font-mono text-sm text-muted sm:flex-row sm:justify-between sm:text-left">
+                <p className="leading-6">Copyright © {currentYear} Sandip Maity</p>
 
-                <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 leading-6 sm:gap-x-0">
+                <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 leading-6 sm:justify-end sm:gap-x-0">
                     {footerLinks.map((link, index) => (
                         <span key={link.href} className="flex items-center">
                             {index > 0 && (
