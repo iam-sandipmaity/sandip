@@ -113,16 +113,16 @@ export default function Home() {
                 </section>
 
                 <section>
-                    <div className="mb-7 flex items-baseline justify-between gap-4">
-                        <h2 className="font-mono text-2xl font-semibold text-subtle-text">
+                    <div className="mb-9 flex items-baseline justify-between gap-4">
+                        <h2 className="font-mono text-2xl font-normal text-subtle-text md:text-3xl">
                             Posts
                         </h2>
-                        <Link href="/blog" className="font-mono text-sm text-muted hover:text-accent-teal">
+                        <Link href="/blog" className="font-mono text-base text-muted transition-colors hover:text-accent-teal">
                             All posts
                         </Link>
                     </div>
 
-                    <PostList posts={recentPosts} variant="compact" />
+                    <PostList posts={recentPosts} variant="home" />
                 </section>
             </div>
         </>

@@ -13,7 +13,7 @@ export interface Post {
 interface PostListProps {
     posts: Post[];
     showTags?: boolean;
-    variant?: 'default' | 'compact' | 'editorial';
+    variant?: 'default' | 'compact' | 'editorial' | 'home';
 }
 
 function formatPostDate(date: string) {
@@ -25,6 +25,33 @@ function formatPostDate(date: string) {
 }
 
 export default function PostList({ posts, showTags = true, variant = 'default' }: PostListProps) {
+    if (variant === 'home') {
+        return (
+            <div className="font-mono">
+                <ol className="space-y-6">
+                    {posts.map((post) => (
+                        <li key={post.slug} className="grid gap-1 text-base min-[640px]:grid-cols-[9rem_1fr] min-[640px]:gap-6">
+                            <time className="text-muted" suppressHydrationWarning>
+                                {formatPostDate(post.date)}
+                            </time>
+
+                            <Link
+                                href={`/blog/${post.slug}`}
+                                className="w-fit max-w-full text-subtle-text underline decoration-surface decoration-1 underline-offset-4 transition-colors hover:text-accent-teal hover:decoration-accent-teal"
+                            >
+                                {post.title}
+                            </Link>
+                        </li>
+                    ))}
+                </ol>
+
+                {posts.length === 0 && (
+                    <p className="text-muted">No posts found.</p>
+                )}
+            </div>
+        );
+    }
+
     if (variant === 'editorial') {
         return (
             <div className="font-mono">
