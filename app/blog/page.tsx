@@ -36,10 +36,10 @@ export default function BlogPage() {
 
     return (
         <BlogFilterProvider allPosts={posts}>
-            <div className="mx-auto max-w-5xl px-6 py-16 md:py-24">
-                <div className="grid grid-cols-1 gap-12 min-[700px]:grid-cols-[1fr_18rem]">
-                    <aside className="min-[700px]:order-2">
-                        <div className="space-y-12 min-[700px]:sticky min-[700px]:top-12">
+            <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+                <div className="grid grid-cols-1 gap-14 min-[820px]:grid-cols-[minmax(0,1fr)_16rem] min-[820px]:gap-16">
+                    <aside className="min-[820px]:order-2">
+                        <div className="space-y-12 min-[820px]:sticky min-[820px]:top-16">
                             <BlogSidebar hierarchy={hierarchy} allPosts={posts} />
 
                             <div>
@@ -67,7 +67,7 @@ export default function BlogPage() {
                         </div>
                     </aside>
 
-                    <section className="min-[700px]:order-1">
+                    <section className="min-[820px]:order-1 min-[820px]:pl-16">
                         <h1 className="mb-7 font-mono text-2xl font-semibold text-subtle-text">
                             Posts
                         </h1>

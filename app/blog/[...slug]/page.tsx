@@ -168,7 +168,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         }
 
         return (
-            <div className="max-w-5xl mx-auto px-6 py-16">
+            <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
                 {/* Breadcrumb Navigation */}
                 <div className="mb-6">
                     <div className="font-mono flex items-center gap-2 text-sm text-muted">

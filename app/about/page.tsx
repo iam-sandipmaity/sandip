@@ -52,7 +52,7 @@ export default function AboutPage() {
     ];
 
     return (
-        <div className="max-w-4xl mx-auto px-6 py-16">
+        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{

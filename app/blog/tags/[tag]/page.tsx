@@ -44,7 +44,7 @@ export default function TagPage({ params }: TagPageProps) {
     }
 
     return (
-        <div className="max-w-4xl mx-auto px-6 py-16">
+        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
             <div className="mb-12">
                 <h1 className="text-3xl md:text-4xl font-mono font-semibold text-subtle-text mb-4">
                     Posts tagged <span className="text-accent-teal">&quot;{tag}&quot;</span>
