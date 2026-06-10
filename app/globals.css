@@ -1,139 +1,112 @@
+@import 'katex/dist/katex.min.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* Dark mode colors (RGB format for Tailwind opacity) */
+  --color-near-black: 250 250 248;
+  --color-mid-dark: 244 244 240;
+  --color-surface: 222 222 216;
+  --color-muted: 83 91 105;
+  --color-subtle-text: 27 30 35;
+  --color-accent-teal: 224 44 72;
+  --color-accent-green: 5 128 93;
+  --color-accent-hover: 190 28 55;
+}
 
-  /* Extreme dark backgrounds - premium & high-contrast */
-  --color-near-black: 5 5 8;
-  /* Near-pure black with subtle blue tint */
-  --color-mid-dark: 12 12 18;
-  /* Very dark charcoal-blue */
-  --color-surface: 18 18 26;
-  /* Slightly elevated dark surface */
-
-  /* Crisp, professional text colors */
-  --color-muted: 148 180 210;
-  /* Soft sky blue for secondary text */
-  --color-subtle-text: 240 248 255;
-  /* Crisp white with subtle blue tint */
-
-  /* Vibrant coral & ocean accent colors */
-  --color-accent-teal: 0 210 211;
-  /* Bright cyan-teal - techy & distinctive */
-  --color-accent-green: 64 224 208;
-  /* Bright turquoise */
-  --color-accent-hover: 0 230 230;
-  /* Lighter teal on hover */
-  --color-accent-purple: 100 149 237;
-  /* Cornflower blue */
-  --color-accent-pink: 255 99 71;
-  /* Tomato red accent */
+html.dark {
+  --color-near-black: 25 27 29;
+  --color-mid-dark: 31 34 36;
+  --color-surface: 62 67 72;
+  --color-muted: 156 164 174;
+  --color-subtle-text: 232 232 228;
+  --color-accent-teal: 43 207 144;
+  --color-accent-green: 109 214 168;
+  --color-accent-hover: 102 230 178;
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
-
-/* Katex math rendering */
-@import 'katex/dist/katex.min.css';
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: rgb(var(--color-near-black));
+  min-height: 100vh;
+  margin: 0;
+  background: rgb(var(--color-near-black));
   color: rgb(var(--color-subtle-text));
-  font-family: var(--font-inter), system-ui, sans-serif;
-  line-height: 1.7;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Focus states for accessibility */
 *:focus-visible {
-  outline: 2px solid rgb(var(--color-accent-teal));
-  outline-offset: 2px;
-  border-radius: 2px;
+  outline: 2px dotted rgb(var(--color-accent-teal));
+  outline-offset: 4px;
 }
 
-/* Typography */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-jetbrains), monospace;
-  font-weight: 600;
-  line-height: 1.3;
   color: rgb(var(--color-subtle-text));
-}
-
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-}
-
-h2 {
-  font-size: 2rem;
-  margin-bottom: 1.25rem;
-}
-
-h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-p {
-  margin-bottom: 1.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 700;
+  line-height: 1.25;
 }
 
 a {
-  color: rgb(var(--color-accent-teal));
-  text-decoration: none;
-  transition: color 0.2s ease;
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
 }
 
 a:hover {
-  color: rgb(var(--color-accent-hover));
+  color: rgb(var(--color-accent-teal));
 }
 
-/* Code blocks with syntax highlighting */
+button,
+input {
+  font: inherit;
+}
+
 pre {
-  background-color: rgb(var(--color-mid-dark)) !important;
-  border: 1px solid rgb(var(--color-surface));
-  border-radius: 8px;
-  padding: 1.5rem;
-  overflow-x: auto;
   margin: 1.5rem 0;
+  overflow-x: auto;
+  border: 1px solid rgb(var(--color-surface) / 0.6);
+  border-radius: 4px;
+  background-color: rgb(var(--color-mid-dark)) !important;
+  padding: 1.25rem;
   font-size: 0.9rem;
   line-height: 1.6;
 }
 
 code {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 0.9em;
 }
 
 pre code {
   background: transparent;
   padding: 0;
-  border-radius: 0;
 }
 
 :not(pre)>code {
-  background-color: rgb(var(--color-surface));
-  padding: 0.2em 0.4em;
-  border-radius: 4px;
+  border-radius: 3px;
+  background-color: rgb(var(--color-mid-dark));
   color: rgb(var(--color-accent-teal));
+  padding: 0.15em 0.35em;
 }
 
-/* Highlight.js theme overrides for dark mode */
 .hljs {
   background: rgb(var(--color-mid-dark));
   color: rgb(var(--color-subtle-text));
@@ -162,7 +135,18 @@ pre code {
 .hljs-variable,
 .hljs-template-tag,
 .hljs-template-variable {
-  color: #93c5fd;
+  color: #5f7fb5;
+}
+
+html.dark .hljs-attribute,
+html.dark .hljs-symbol,
+html.dark .hljs-bullet,
+html.dark .hljs-built_in,
+html.dark .hljs-addition,
+html.dark .hljs-variable,
+html.dark .hljs-template-tag,
+html.dark .hljs-template-variable {
+  color: #9bb6df;
 }
 
 .hljs-comment,
@@ -172,318 +156,6 @@ pre code {
   color: rgb(var(--color-muted));
 }
 
-/* Smooth transitions */
-* {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-/* Remove transition from layout shifts */
-html,
-body {
-  transition: none;
-}
-
-/* Light mode overrides - clean & modern */
-html.light {
-  --color-near-black: 255 255 255;
-  /* Pure white background */
-  --color-mid-dark: 248 250 252;
-  /* Soft off-white */
-  --color-surface: 241 245 249;
-  /* Light gray surface */
-  --color-muted: 95 95 100;
-  /* Soft ash gray for light mode */
-  --color-subtle-text: 15 23 42;
-  /* Deep slate for main text */
-  --color-accent-teal: 0 168 150;
-  /* Teal for light mode */
-  --color-accent-green: 14 165 233;
-  /* Bright sky blue */
-  --color-accent-hover: 0 190 180;
-  /* Lighter teal on hover */
-  --color-accent-purple: 59 130 246;
-  /* Bright blue */
-  --color-accent-pink: 239 68 68;
-  /* Vibrant red accent */
-}
-
-html.light body {
-  background-color: rgb(var(--color-near-black));
-  color: rgb(var(--color-subtle-text));
-}
-
-/* Light mode code block styling with grey background */
-html.light pre {
-  background-color: #f3f4f6 !important;
-  border: 1px solid #e5e7eb;
-}
-
-html.light .hljs {
-  background: #f3f4f6;
-  color: rgb(var(--color-subtle-text));
-}
-
-/* Light mode specific improvements */
-html.light :not(pre)>code {
-  background-color: rgb(var(--color-surface));
-  color: rgb(var(--color-accent-teal));
-}
-
-/* Improve border visibility in light mode */
-html.light .border-surface {
-  border-color: rgb(229 231 235) !important;
-}
-
-html.light .border-accent-teal\/30 {
-  border-color: rgb(13 148 136 / 0.3) !important;
-}
-
-/* Light mode syntax highlighting - improved contrast */
-html.light .hljs-keyword,
-html.light .hljs-selector-tag,
-html.light .hljs-literal,
-html.light .hljs-section,
-html.light .hljs-link {
-  color: #0d7490;
-  /* Darker cyan for keywords */
-}
-
-html.light .hljs-string,
-html.light .hljs-title,
-html.light .hljs-name,
-html.light .hljs-type {
-  color: #047857;
-  /* Darker green for strings */
-}
-
-html.light .hljs-attribute,
-html.light .hljs-symbol,
-html.light .hljs-bullet,
-html.light .hljs-built_in,
-html.light .hljs-addition,
-html.light .hljs-variable,
-html.light .hljs-template-tag,
-html.light .hljs-template-variable {
-  color: #1e40af;
-  /* Darker blue for attributes */
-}
-
-html.light .hljs-comment,
-html.light .hljs-quote,
-html.light .hljs-deletion,
-html.light .hljs-meta {
-  color: #6b7280;
-  /* Medium gray for comments */
-}
-
-html.light .hljs-number {
-  color: #9333ea;
-  /* Purple for numbers */
-}
-
-h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-p {
-  margin-bottom: 1.25rem;
-}
-
-a {
-  color: rgb(var(--color-accent-teal));
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: rgb(var(--color-accent-hover));
-}
-
-/* Code blocks with syntax highlighting */
-pre {
-  background-color: rgb(var(--color-mid-dark)) !important;
-  border: 1px solid rgb(var(--color-surface));
-  border-radius: 8px;
-  padding: 1.5rem;
-  overflow-x: auto;
-  margin: 1.5rem 0;
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-code {
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 0.9em;
-}
-
-pre code {
-  background: transparent;
-  padding: 0;
-  border-radius: 0;
-}
-
-:not(pre)>code {
-  background-color: rgb(var(--color-surface));
-  padding: 0.2em 0.4em;
-  border-radius: 4px;
-  color: rgb(var(--color-accent-teal));
-}
-
-/* Highlight.js theme overrides for dark mode */
-.hljs {
-  background: rgb(var(--color-mid-dark));
-  color: rgb(var(--color-subtle-text));
-}
-
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-literal,
-.hljs-section,
-.hljs-link {
-  color: rgb(var(--color-accent-teal));
-}
-
-.hljs-string,
-.hljs-title,
-.hljs-name,
-.hljs-type {
-  color: rgb(var(--color-accent-green));
-}
-
-.hljs-attribute,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-built_in,
-.hljs-addition,
-.hljs-variable,
-.hljs-template-tag,
-.hljs-template-variable {
-  color: #93c5fd;
-}
-
-.hljs-comment,
-.hljs-quote,
-.hljs-deletion,
-.hljs-meta {
-  color: rgb(var(--color-muted));
-}
-
-/* Smooth transitions */
-* {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-/* Remove transition from layout shifts */
-html,
-body {
-  transition: none;
-}
-
-/* Light mode overrides - improved readability */
-html.light {
-  --color-near-black: 230 220 220;
-  /* Light pinkish-gray background */
-  --color-mid-dark: 240 230 230;
-  /* Slightly lighter pinkish-gray */
-  --color-surface: 220 210 210;
-  /* Darker pinkish-gray for surfaces */
-  --color-muted: 107 114 128;
-  /* Medium gray for secondary text */
-  --color-subtle-text: 17 24 39;
-  /* Almost black for main text */
-  --color-accent-teal: 13 148 136;
-  /* Darker teal for better contrast */
-  --color-accent-green: 5 150 105;
-  /* Darker green */
-  --color-accent-hover: 0 190 180;
-  /* Lighter teal on hover */
-}
-
-html.light body {
-  background-color: rgb(var(--color-near-black));
-  color: rgb(var(--color-subtle-text));
-}
-
-/* Light mode code block styling with grey background */
-html.light pre {
-  background-color: #f3f4f6 !important;
-  border: 1px solid #e5e7eb;
-}
-
-html.light .hljs {
-  background: #f3f4f6;
-  color: rgb(var(--color-subtle-text));
-}
-
-/* Light mode specific improvements */
-html.light :not(pre)>code {
-  background-color: rgb(var(--color-surface));
-  color: rgb(var(--color-accent-teal));
-}
-
-/* Improve border visibility in light mode */
-html.light .border-surface {
-  border-color: rgb(229 231 235) !important;
-}
-
-html.light .border-accent-teal\/30 {
-  border-color: rgb(13 148 136 / 0.3) !important;
-}
-
-/* Light mode syntax highlighting - improved contrast */
-html.light .hljs-keyword,
-html.light .hljs-selector-tag,
-html.light .hljs-literal,
-html.light .hljs-section,
-html.light .hljs-link {
-  color: #0d7490;
-  /* Darker cyan for keywords */
-}
-
-html.light .hljs-string,
-html.light .hljs-title,
-html.light .hljs-name,
-html.light .hljs-type {
-  color: #047857;
-  /* Darker green for strings */
-}
-
-html.light .hljs-attribute,
-html.light .hljs-symbol,
-html.light .hljs-bullet,
-html.light .hljs-built_in,
-html.light .hljs-addition,
-html.light .hljs-variable,
-html.light .hljs-template-tag,
-html.light .hljs-template-variable {
-  color: #1e40af;
-  /* Darker blue for attributes */
-}
-
-html.light .hljs-comment,
-html.light .hljs-quote,
-html.light .hljs-deletion,
-html.light .hljs-meta {
-  color: #6b7280;
-  /* Medium gray for comments */
-}
-
-html.light .hljs-number {
-  color: #9333ea;
-  /* Purple for numbers */
-}
-
-html.light .hljs-function {
-  color: #be123c;
-  /* Rose for functions */
-}
-
-/* Code block wrapper for copy button positioning */
 .code-block-wrapper {
   position: relative;
   margin: 1.5rem 0;
@@ -493,7 +165,6 @@ html.light .hljs-function {
   margin: 0;
 }
 
-/* Toast notification animation */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -510,63 +181,17 @@ html.light .hljs-function {
   animation: fade-in 0.2s ease-out;
 }
 
-/* Mobile menu slide-in animation from right */
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.animate-slideInRight {
-  animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Backdrop fade-in animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.2s ease-out;
-}
-
-/* Fix for long URLs in blog posts - prevent horizontal overflow */
 .prose {
   overflow-wrap: break-word;
-  word-wrap: break-word;
   word-break: break-word;
 }
 
 .prose a {
   overflow-wrap: break-word;
-  word-wrap: break-word;
   hyphens: auto;
 }
 
 .prose pre {
-  overflow-x: auto;
   max-width: 100%;
-}
-
-.prose code {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-}
-
-.prose p,
-.prose li {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+  overflow-x: auto;
 }

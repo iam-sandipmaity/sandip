@@ -31,7 +31,7 @@ export default function TagList({ tags, maxVisible = 6 }: TagListProps) {
 
     return (
         <div className="space-y-3">
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2.5">
                 {visibleTags.map(({ tag, count }) => (
                     <TagPill
                         key={tag}
@@ -44,9 +44,9 @@ export default function TagList({ tags, maxVisible = 6 }: TagListProps) {
             {hasMore && (
                 <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="font-mono text-sm text-accent-teal hover:text-accent-hover transition-colors font-medium"
+                    className="block w-full pt-1 text-center font-mono text-base font-medium text-subtle-text transition-colors hover:text-[#cf2644]"
                 >
-                    {isExpanded ? 'Hide tags' : `+${remainingCount} tags`}
+                    {isExpanded ? 'Show less' : 'View all ->'}
                 </button>
             )}
         </div>

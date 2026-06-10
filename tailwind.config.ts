@@ -21,8 +21,8 @@ const config: Config = {
                 'accent-hover': 'rgb(var(--color-accent-hover) / <alpha-value>)',
             },
             fontFamily: {
-                sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-                mono: ['var(--font-jetbrains)', 'Consolas', 'monospace'],
+                sans: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+                mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
             },
             typography: (theme: any) => ({
                 DEFAULT: {

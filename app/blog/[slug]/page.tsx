@@ -1,9 +1,8 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getAllPostSlugs, getPostBySlug } from '@/lib/posts';
-import { tagToSlug } from '@/lib/utils';
+import { getAllPostSlugs, getPostBySlug, getReadingTimeMinutes } from '@/lib/posts';
 import { siteConfig } from '@/lib/config';
-import TagPill from '@/components/TagPill';
+import BlogPostTags from '@/components/BlogPostTags';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
@@ -85,6 +84,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         notFound();
     }
 
+    const readingTime = getReadingTimeMinutes(post.content);
+
     // Compile MDX content with custom components and plugins
     const { content: MDXContent } = await compileMDX({
         source: post.content,
@@ -150,30 +151,24 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 }}
             />
             {/* Post Header */}
-            <header className="mb-12">
-                <time className="text-base text-muted font-mono mb-4 block" suppressHydrationWarning>
-                    {new Date(post.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                    })}
-                </time>
-
-                <h1 className="text-4xl font-mono font-bold text-subtle-text mb-6">
+            <header className="mb-16">
+                <h1 className="mb-3 font-mono text-3xl font-bold leading-tight text-subtle-text md:text-4xl">
                     {post.title}
                 </h1>
 
-                {post.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                        {post.tags.map((tag) => (
-                            <TagPill
-                                key={tag}
-                                tag={tag}
-                                href={`/blog/tags/${tagToSlug(tag)}`}
-                            />
-                        ))}
-                    </div>
-                )}
+                <div className="font-mono text-base font-semibold leading-6 text-subtle-text">
+                    <time suppressHydrationWarning>
+                        {new Date(`${post.date}T00:00:00`).toLocaleDateString('en-GB', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                        })}
+                    </time>
+                    <span aria-hidden="true"> / </span>
+                    <span>{readingTime} min read</span>
+                </div>
+
+                <BlogPostTags tags={post.tags} />
             </header>
 
             {/* MDX Content */}

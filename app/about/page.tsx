@@ -68,17 +68,14 @@ export default function AboutPage() {
                 </h2>
                 <div className="font-mono text-muted leading-relaxed space-y-4">
                     <p>
-                        I design and develop embedded systems, from circuit schematics to firmware. 
-                        My work focuses on IoT solutions, hardware-software integration, and building 
-                        reliable systems that solve real problems.
+                        I don&apos;t know what I am doing at all.
                     </p>
                     <p>
-                        I also build websites with Next.js, combining clean design with thoughtful 
-                        engineering to create fast, accessible user experiences.
+                        Most days I am just trying things, breaking things, learning a little, and
+                        pretending the confusing parts are part of the plan.
                     </p>
                     <p>
-                        Currently exploring STM32, ESP32, and PCB design while documenting my learning 
-                        through blog posts and projects.
+                        That is the whole method for now.
                     </p>
                 </div>
             </section>

@@ -18,6 +18,11 @@ export interface PostData extends PostMetadata {
     content: string;
 }
 
+export function getReadingTimeMinutes(content: string): number {
+    const words = content.trim().split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.ceil(words / 200));
+}
+
 /**
  * Recursively get all .mdx files from a directory
  */
