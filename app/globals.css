@@ -40,8 +40,9 @@ body {
   background: rgb(var(--color-near-black));
   color: rgb(var(--color-subtle-text));
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -59,7 +60,7 @@ h5,
 h6 {
   color: rgb(var(--color-subtle-text));
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-weight: 700;
+  font-weight: 650;
   line-height: 1.25;
 }
 

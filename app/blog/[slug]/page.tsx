@@ -152,11 +152,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             />
             {/* Post Header */}
             <header className="mb-16">
-                <h1 className="mb-3 font-mono text-3xl font-bold leading-tight text-subtle-text md:text-4xl">
+                <h1 className="mb-3 font-mono text-3xl font-semibold leading-tight text-subtle-text md:text-4xl">
                     {post.title}
                 </h1>
 
-                <div className="font-mono text-base font-semibold leading-6 text-subtle-text">
+                <div className="font-mono text-base font-medium leading-6 text-subtle-text">
                     <time suppressHydrationWarning>
                         {new Date(`${post.date}T00:00:00`).toLocaleDateString('en-GB', {
                             year: 'numeric',

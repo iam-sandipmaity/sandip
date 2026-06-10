@@ -42,7 +42,7 @@ export default function SiteHeader() {
                     </Link>
 
                     <div>
-                        <Link href="/" className="font-mono text-2xl font-bold tracking-normal text-subtle-text hover:text-subtle-text">
+                        <Link href="/" className="font-mono text-2xl font-semibold tracking-normal text-subtle-text hover:text-subtle-text">
                             Sandip Maity
                         </Link>
 

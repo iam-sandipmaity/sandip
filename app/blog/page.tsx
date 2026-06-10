@@ -43,7 +43,7 @@ export default function BlogPage() {
                             <BlogSidebar hierarchy={hierarchy} allPosts={posts} />
 
                             <div>
-                                <h2 className="mb-6 flex items-center gap-1.5 font-mono text-2xl font-bold leading-none text-subtle-text">
+                                <h2 className="mb-6 flex items-center gap-1.5 font-mono text-2xl font-semibold leading-none text-subtle-text">
                                     <svg
                                         aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@ export default function BlogPage() {
                     </aside>
 
                     <section className="min-[700px]:order-1">
-                        <h1 className="mb-7 font-mono text-2xl font-bold text-subtle-text">
+                        <h1 className="mb-7 font-mono text-2xl font-semibold text-subtle-text">
                             Posts
                         </h1>
 

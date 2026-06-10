@@ -62,7 +62,7 @@ export default function PostList({ posts, showTags = true, variant = 'default' }
                         </time>
 
                         <Link href={`/blog/${post.slug}`}>
-                            <h3 className="text-xl font-mono font-semibold text-subtle-text group-hover:text-accent-teal transition-colors relative inline-block after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-px after:border-b after:border-dotted after:border-accent-teal after:opacity-0 group-hover:after:opacity-100">
+                            <h3 className="text-xl font-mono font-medium text-subtle-text group-hover:text-accent-teal transition-colors relative inline-block after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-px after:border-b after:border-dotted after:border-accent-teal after:opacity-0 group-hover:after:opacity-100">
                                 {post.title}
                             </h3>
                         </Link>

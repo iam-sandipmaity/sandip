@@ -41,7 +41,7 @@ export default function TagList({ tags, maxVisible = 6 }: TagListProps) {
             {hasMore && (
                 <Link
                     href="/tags"
-                    className="block w-full pt-1 text-center font-mono text-base font-medium text-subtle-text transition-colors hover:text-[#cf2644]"
+                    className="block w-full pt-1 text-center font-mono text-base font-normal text-subtle-text transition-colors hover:text-[#cf2644]"
                 >
                     {'View all ->'}
                 </Link>

@@ -69,7 +69,7 @@ export default function AboutPage() {
 
             {/* Header */}
             <section className="mb-16">
-                <h1 className="text-4xl md:text-5xl font-mono font-bold text-subtle-text mb-4">
+                <h1 className="text-3xl md:text-4xl font-mono font-semibold text-subtle-text mb-4">
                     About Me
                 </h1>
                 <div className="h-px bg-surface w-24" />
@@ -77,7 +77,7 @@ export default function AboutPage() {
 
             {/* Introduction */}
             <section className="mb-12">
-                <p className="text-xl md:text-2xl font-mono text-subtle-text leading-relaxed">
+                <p className="text-lg md:text-xl font-mono text-subtle-text leading-relaxed">
                     Hi, I&apos;m <span className="text-accent-teal">{siteConfig.author}</span>.
                 </p>
                 <p className="font-mono text-lg text-muted leading-relaxed mt-4">
@@ -87,7 +87,7 @@ export default function AboutPage() {
 
             {/* What I do */}
             <section className="mb-12">
-                <h2 className="text-lg font-mono font-semibold text-subtle-text mb-4">
+                <h2 className="text-lg font-mono font-medium text-subtle-text mb-4">
                     What I do
                 </h2>
                 <div className="font-mono text-muted leading-relaxed space-y-4">
@@ -106,7 +106,7 @@ export default function AboutPage() {
 
             {/* Connect */}
             <section className="mb-12">
-                <h2 className="text-lg font-mono font-semibold text-subtle-text mb-4">
+                <h2 className="text-lg font-mono font-medium text-subtle-text mb-4">
                     Connect
                 </h2>
                 <div className="flex flex-wrap gap-6">

@@ -80,7 +80,7 @@ export default function ShareOptions({ title, url }: ShareOptionsProps) {
 
     return (
         <div className="mt-16 pt-8 border-t border-[#222]">
-            <h3 className="text-xl font-mono font-bold text-subtle-text mb-6">Share this post</h3>
+            <h3 className="text-xl font-mono font-semibold text-subtle-text mb-6">Share this post</h3>
             <div className="flex flex-wrap gap-4">
                 <a
                     href={shareLinks.twitter}

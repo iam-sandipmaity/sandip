@@ -68,7 +68,7 @@ export default function ProjectsPage() {
             />
 
             <section className="mb-12 font-mono">
-                <h1 className="mb-6 text-3xl font-bold leading-tight text-subtle-text md:text-4xl">
+                <h1 className="mb-6 text-3xl font-semibold leading-tight text-subtle-text md:text-4xl">
                     Projects
                 </h1>
                 <p className="max-w-2xl text-base leading-8 text-muted">

@@ -88,7 +88,7 @@ export default function Home() {
 
             <div className="mx-auto max-w-3xl px-6 py-24 md:py-28">
                 <section className="mb-20 font-mono">
-                    <h1 className="mb-8 text-3xl font-bold text-subtle-text md:text-4xl">
+                    <h1 className="mb-8 text-3xl font-semibold text-subtle-text md:text-4xl">
                         Hello World!
                     </h1>
 
@@ -114,7 +114,7 @@ export default function Home() {
 
                 <section>
                     <div className="mb-7 flex items-baseline justify-between gap-4">
-                        <h2 className="font-mono text-2xl font-bold text-subtle-text">
+                        <h2 className="font-mono text-2xl font-semibold text-subtle-text">
                             Posts
                         </h2>
                         <Link href="/blog" className="font-mono text-sm text-muted hover:text-accent-teal">

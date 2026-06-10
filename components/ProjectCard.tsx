@@ -23,7 +23,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     return (
         <article className="group py-6 font-mono">
             <div className="mb-3 flex items-start justify-between gap-4">
-                <h3 className="text-xl font-semibold leading-7 text-subtle-text transition-colors group-hover:text-accent-teal">
+                <h3 className="text-xl font-medium leading-7 text-subtle-text transition-colors group-hover:text-accent-teal">
                     {projectUrl ? (
                         <Link
                             href={projectUrl}

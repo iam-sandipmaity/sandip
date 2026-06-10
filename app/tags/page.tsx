@@ -49,7 +49,7 @@ export default function TagsPage() {
             />
 
             <section className="mb-10 font-mono">
-                <h1 className="mb-6 text-3xl font-bold leading-tight text-subtle-text md:text-4xl">
+                <h1 className="mb-6 text-3xl font-semibold leading-tight text-subtle-text md:text-4xl">
                     Tags
                 </h1>
                 <p className="text-base leading-8 text-muted">

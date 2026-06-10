@@ -63,7 +63,7 @@ export default function TagPage({ params }: TagPageProps) {
                     {'<- Tags'}
                 </Link>
 
-                <h1 className="mb-4 text-3xl font-bold leading-tight text-subtle-text md:text-4xl">
+                <h1 className="mb-4 text-3xl font-semibold leading-tight text-subtle-text md:text-4xl">
                     #{tag}
                 </h1>
                 <p className="text-base leading-8 text-muted">
