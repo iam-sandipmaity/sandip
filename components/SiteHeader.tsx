@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import SearchModal from './SearchModal';
 import ThemeToggle from './ThemeToggle';
+import FontToggle from './FontToggle';
 
 const navLinks = [
     { href: '/', label: 'Home' },
@@ -16,11 +17,11 @@ export default function SiteHeader() {
 
     return (
         <header className="pt-10 md:pt-16">
-            <div className="mx-auto flex max-w-3xl items-start justify-between gap-6 px-6">
-                <div className="flex min-w-0 items-start gap-4">
+            <div className="mx-auto flex max-w-3xl flex-wrap items-start justify-between gap-2 px-6 sm:flex-nowrap sm:gap-6">
+                <div className="flex min-w-0 items-start gap-2 sm:gap-4">
                     <Link
                         href="/"
-                        className="mt-1 h-12 w-12 shrink-0"
+                        className="mt-1 h-9 w-9 shrink-0 sm:h-12 sm:w-12"
                         aria-label="Sandip Maity home"
                     >
                         <svg
@@ -30,7 +31,7 @@ export default function SiteHeader() {
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                             aria-hidden="true"
-                            className="h-12 w-12"
+                            className="h-9 w-9 sm:h-12 sm:w-12"
                         >
                             <path
                                 d="M16 4C10.477 4 6 8.477 6 14c0 2.5 1 4.5 2.5 6 1.5 1.5 3.5 2.5 6 2.5 2.5 0 4.5-1 6-2.5S23 16.5 23 14M16 28c5.523 0 10-4.477 10-10 0-2.5-1-4.5-2.5-6-1.5-1.5-3.5-2.5-6-2.5-2.5 0-4.5 1-6 2.5S9 15.5 9 18"
@@ -41,8 +42,8 @@ export default function SiteHeader() {
                         </svg>
                     </Link>
 
-                    <div>
-                        <Link href="/" className="font-mono text-2xl font-semibold tracking-normal text-subtle-text hover:text-subtle-text">
+                    <div className="min-w-0">
+                        <Link href="/" className="block whitespace-nowrap font-mono text-lg font-semibold tracking-normal text-subtle-text hover:text-subtle-text sm:text-2xl">
                             Sandip Maity
                         </Link>
 
@@ -72,8 +73,9 @@ export default function SiteHeader() {
                     </div>
                 </div>
 
-                <div className="flex shrink-0 items-center gap-4 pt-2 text-muted">
+                <div className="flex shrink-0 items-center gap-1 pt-2 text-muted sm:gap-4">
                     <SearchModal />
+                    <FontToggle />
                     <ThemeToggle />
                 </div>
             </div>

@@ -11,7 +11,7 @@ A minimal personal site and blog built with Next.js, TypeScript, MDX, and Tailwi
 - Section browsing and filtering for nested blog folders
 - Minimal pages for About, Projects, Reads, and Contact
 - Dark/light theme with theme-aware accent colors
-- Monospace-first typography across the site
+- Departure Mono typography across the site, with a header toggle for the system monospace fallback
 - SEO metadata, Open Graph images, `llms.txt`, manifest, and structured data
 - Search modal and service-worker/cache cleanup support
 
@@ -23,6 +23,7 @@ A minimal personal site and blog built with Next.js, TypeScript, MDX, and Tailwi
 - Tailwind CSS
 - MDX
 - React Icons
+- Departure Mono
 
 ## Quick Start
 
@@ -108,6 +109,7 @@ Dates are stored as Indian-style `dd-mm-yyyy` strings. The app parses old ISO da
 - Date parsing and display helpers live in `lib/date.ts`.
 - Project data lives in `lib/projects.ts`.
 - Theme colors and typography are defined in `app/globals.css` and `tailwind.config.ts`.
+- Departure Mono is served from `public/DepartureMono-Regular.otf`; the header font toggle stores the fallback preference in `localStorage`.
 
 ## Deployment
 
@@ -121,5 +123,6 @@ npm run start
 ## Acknowledgments
 
 - Design inspiration: https://lrns.me
+- Default font: Departure Mono
 - Built with Next.js and Tailwind CSS
 - Icons from React Icons

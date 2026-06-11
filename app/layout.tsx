@@ -173,6 +173,20 @@ export default function RootLayout({
                         `,
                     }}
                 />
+                {/* Font script - must be before React code to prevent hydration flicker */}
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            (function() {
+                                try {
+                                    if (localStorage.getItem('sandip-font') === 'system') {
+                                        document.documentElement.classList.add('font-system');
+                                    }
+                                } catch (e) {}
+                            })();
+                        `,
+                    }}
+                />
                 {/* Preconnect to external domains for performance */}
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
