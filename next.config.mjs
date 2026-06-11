@@ -15,9 +15,6 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
 
-  // Performance optimizations
-  swcMinify: true,
-
   // Headers for security, CDN caching and performance
   async headers() {
     const headers = [

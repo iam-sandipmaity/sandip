@@ -16,9 +16,9 @@ import ShareOptions from '@/components/ShareOptions';
 import { formatPostDate } from '@/lib/date';
 
 interface BlogPostPageProps {
-    params: {
+    params: Promise<{
         slug: string[];
-    };
+    }>;
 }
 
 /**
@@ -53,7 +53,8 @@ export async function generateStaticParams() {
  * Generate metadata for blog post or section
  */
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-    const slugString = params.slug.join('/');
+    const { slug } = await params;
+    const slugString = slug.join('/');
 
     try {
         const post = getPostBySlug(slugString);
@@ -63,7 +64,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
         };
     } catch {
         // It's a section, not a post
-        const sectionName = params.slug[params.slug.length - 1];
+        const sectionName = slug[slug.length - 1];
         return {
             title: `${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)} Posts`,
             description: `Blog posts in the ${slugString} section.`,
@@ -75,7 +76,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
  * Blog page that handles both individual posts and section listings
  */
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-    const slugString = params.slug.join('/');
+    const { slug } = await params;
+    const slugString = slug.join('/');
 
     // Try to load as a post first
     try {

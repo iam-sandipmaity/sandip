@@ -7,9 +7,9 @@ import PostList from '@/components/PostList';
 import { siteConfig } from '@/lib/config';
 
 interface TagPageProps {
-    params: {
+    params: Promise<{
         tag: string;
-    };
+    }>;
 }
 
 export async function generateStaticParams() {
@@ -21,18 +21,19 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
-    const tag = slugToTag(params.tag);
+    const { tag: tagSlug } = await params;
+    const tag = slugToTag(tagSlug);
 
     return {
         title: `#${tag}`,
         description: `Posts tagged with ${tag}.`,
         alternates: {
-            canonical: `${siteConfig.url}/tags/${params.tag}`,
+            canonical: `${siteConfig.url}/tags/${tagSlug}`,
         },
         openGraph: {
             title: `#${tag} - Sandip Maity`,
             description: `Posts tagged with ${tag}.`,
-            url: `${siteConfig.url}/tags/${params.tag}`,
+            url: `${siteConfig.url}/tags/${tagSlug}`,
             siteName: siteConfig.name,
             images: [{ url: `/og?title=${encodeURIComponent(`#${tag}`)}`, width: 1200, height: 630, alt: `#${tag}` }],
             locale: 'en_US',
@@ -48,9 +49,10 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
     };
 }
 
-export default function TagPage({ params }: TagPageProps) {
-    const tag = slugToTag(params.tag);
-    const posts = getPostsByTag(params.tag);
+export default async function TagPage({ params }: TagPageProps) {
+    const { tag: tagSlug } = await params;
+    const tag = slugToTag(tagSlug);
+    const posts = getPostsByTag(tagSlug);
 
     if (posts.length === 0) {
         notFound();
