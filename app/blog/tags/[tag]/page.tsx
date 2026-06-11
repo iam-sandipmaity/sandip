@@ -5,9 +5,9 @@ import { tagToSlug, slugToTag } from '@/lib/utils';
 import PostList from '@/components/PostList';
 
 interface TagPageProps {
-    params: {
+    params: Promise<{
         tag: string;
-    };
+    }>;
 }
 
 /**
@@ -24,7 +24,8 @@ export async function generateStaticParams() {
  * Generate metadata for tag page
  */
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
-    const tag = slugToTag(params.tag);
+    const { tag: tagSlug } = await params;
+    const tag = slugToTag(tagSlug);
 
     return {
         title: `Posts tagged "${tag}"`,
@@ -35,9 +36,10 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
 /**
  * Tag page showing all posts with a specific tag
  */
-export default function TagPage({ params }: TagPageProps) {
-    const tag = slugToTag(params.tag);
-    const posts = getPostsByTag(params.tag);
+export default async function TagPage({ params }: TagPageProps) {
+    const { tag: tagSlug } = await params;
+    const tag = slugToTag(tagSlug);
+    const posts = getPostsByTag(tagSlug);
 
     if (posts.length === 0) {
         notFound();

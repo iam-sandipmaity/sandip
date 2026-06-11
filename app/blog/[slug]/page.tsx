@@ -14,9 +14,9 @@ import ShareOptions from '@/components/ShareOptions';
 import { formatPostDate, toIsoDateString } from '@/lib/date';
 
 interface BlogPostPageProps {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 }
 
 /**
@@ -31,10 +31,12 @@ export async function generateStaticParams() {
  * Generate metadata for blog post
  */
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+    const { slug } = await params;
+
     try {
-        const post = getPostBySlug(params.slug);
+        const post = getPostBySlug(slug);
         const ogImage = `/og?title=${encodeURIComponent(post.title)}`;
-        const url = `${siteConfig.url}/blog/${params.slug}`;
+        const url = `${siteConfig.url}/blog/${slug}`;
 
         return {
             title: post.title,
@@ -77,10 +79,11 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
  * Individual blog post page with MDX rendering
  */
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
+    const { slug } = await params;
     let post;
 
     try {
-        post = getPostBySlug(params.slug);
+        post = getPostBySlug(slug);
     } catch (error) {
         notFound();
     }
@@ -118,7 +121,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                             dateModified: toIsoDateString(post.date),
                             description: post.summary,
                             image: [`${siteConfig.url}/og?title=${encodeURIComponent(post.title)}`],
-                            url: `${siteConfig.url}/blog/${params.slug}`,
+                            url: `${siteConfig.url}/blog/${slug}`,
                             author: {
                                 '@type': 'Person',
                                 name: siteConfig.author,
@@ -144,7 +147,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                                     '@type': 'ListItem',
                                     position: 3,
                                     name: post.title,
-                                    item: `${siteConfig.url}/blog/${params.slug}`,
+                                    item: `${siteConfig.url}/blog/${slug}`,
                                 },
                             ],
                         }
@@ -174,7 +177,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
 
             {/* Share Options */}
-            <ShareOptions title={post.title} url={`/blog/${params.slug}`} />
+            <ShareOptions title={post.title} url={`/blog/${slug}`} />
         </article>
     );
 }

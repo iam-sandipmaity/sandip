@@ -4,7 +4,7 @@ A minimal personal site and blog built with Next.js, TypeScript, MDX, and Tailwi
 
 ## Features
 
-- Next.js 14 App Router with TypeScript
+- Next.js 16 App Router with React 19 and TypeScript
 - MDX blog posts with syntax highlighting, math support, RSS, and sitemap
 - Editorial blog index with date, title, and short quoted summaries
 - Tag pages at `/tags` and `/tags/[tag]`
@@ -39,9 +39,22 @@ Open `http://localhost:3000`.
 npm run dev        # Start development server
 npm run build      # Build for production
 npm run start      # Start production server
-npm run lint       # Run Next.js lint
+npm run lint       # Run ESLint
 npm run type-check # Run TypeScript type checking
 ```
+
+## Maintenance
+
+Before shipping dependency or framework changes, run:
+
+```bash
+npm audit
+npm run lint
+npm run type-check
+npm run build
+```
+
+The project uses ESLint's flat config in `eslint.config.mjs`.
 
 ## Project Structure
 
