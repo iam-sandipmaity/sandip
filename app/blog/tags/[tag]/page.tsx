@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getAllTags, getPostsByTag } from '@/lib/posts';
 import { tagToSlug, slugToTag } from '@/lib/utils';
 import PostList from '@/components/PostList';
+import PageContainer from '@/components/PageContainer';
 
 interface TagPageProps {
     params: Promise<{
@@ -10,19 +11,10 @@ interface TagPageProps {
     }>;
 }
 
-/**
- * Generate static params for all tags
- */
 export async function generateStaticParams() {
-    const tags = getAllTags();
-    return tags.map((tag) => ({
-        tag: tagToSlug(tag),
-    }));
+    return getAllTags().map((tag) => ({ tag: tagToSlug(tag) }));
 }
 
-/**
- * Generate metadata for tag page
- */
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
     const { tag: tagSlug } = await params;
     const tag = slugToTag(tagSlug);
@@ -33,9 +25,6 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
     };
 }
 
-/**
- * Tag page showing all posts with a specific tag
- */
 export default async function TagPage({ params }: TagPageProps) {
     const { tag: tagSlug } = await params;
     const tag = slugToTag(tagSlug);
@@ -46,7 +35,7 @@ export default async function TagPage({ params }: TagPageProps) {
     }
 
     return (
-        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
+        <PageContainer>
             <div className="mb-12">
                 <h1 className="text-3xl md:text-4xl font-mono font-semibold text-subtle-text mb-4">
                     Posts tagged <span className="text-accent-teal">&quot;{tag}&quot;</span>
@@ -57,6 +46,6 @@ export default async function TagPage({ params }: TagPageProps) {
             </div>
 
             <PostList posts={posts} showTags={false} />
-        </div>
+        </PageContainer>
     );
 }

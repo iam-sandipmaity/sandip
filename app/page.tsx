@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { FiGithub, FiGlobe, FiMail } from 'react-icons/fi';
-import { FaXTwitter } from 'react-icons/fa6';
 import { getRecentPosts } from '@/lib/posts';
 import { siteConfig } from '@/lib/config';
+import { getTwitterHandle, makeOgImage } from '@/lib/metadata';
+import { socialLinks } from '@/lib/social-links';
 import PostList from '@/components/PostList';
 
 export const metadata: Metadata = {
@@ -14,14 +14,7 @@ export const metadata: Metadata = {
         description: siteConfig.description,
         url: siteConfig.url,
         siteName: siteConfig.name,
-        images: [
-            {
-                url: '/og?title=Sandip Maity',
-                width: 1200,
-                height: 630,
-                alt: siteConfig.author,
-            },
-        ],
+        images: [makeOgImage('Sandip Maity', siteConfig.author)],
         locale: 'en_US',
         type: 'website',
     },
@@ -29,33 +22,10 @@ export const metadata: Metadata = {
         card: 'summary_large_image',
         title: siteConfig.title,
         description: siteConfig.description,
-        creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-        images: ['/og?title=Sandip Maity'],
+        creator: getTwitterHandle(),
+        images: [makeOgImage('Sandip Maity').url],
     },
 };
-
-const contactLinks = [
-    {
-        href: siteConfig.social.github,
-        label: 'GitHub',
-        icon: FiGithub,
-    },
-    {
-        href: `mailto:${siteConfig.email}`,
-        label: 'Email',
-        icon: FiMail,
-    },
-    {
-        href: siteConfig.social.twitter,
-        label: 'X',
-        icon: FaXTwitter,
-    },
-    {
-        href: 'https://profile.sandipmaity.me',
-        label: 'Profile',
-        icon: FiGlobe,
-    },
-];
 
 export default function Home() {
     const recentPosts = getRecentPosts(7);
@@ -97,7 +67,7 @@ export default function Home() {
                     </p>
 
                     <div className="flex items-center gap-5 text-muted">
-                        {contactLinks.map(({ href, label, icon: Icon }) => (
+                        {socialLinks.map(({ href, label, icon: Icon }) => (
                             <a
                                 key={label}
                                 href={href}

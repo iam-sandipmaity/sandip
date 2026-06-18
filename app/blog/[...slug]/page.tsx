@@ -1,19 +1,12 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getAllPostSlugs, getPostBySlug, getPostsBySection, getSubsections, getBreadcrumbs, getReadingTimeMinutes } from '@/lib/posts';
-import { siteConfig } from '@/lib/config';
-import BlogPostTags from '@/components/BlogPostTags';
-import { compileMDX } from 'next-mdx-remote/rsc';
 import PostList from '@/components/PostList';
 import Link from 'next/link';
-import CodeBlock from '@/components/CodeBlock';
-import rehypeHighlight from 'rehype-highlight';
-import remarkGfm from 'remark-gfm';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
-import MDXImage from '@/components/MDXImage';
-import ShareOptions from '@/components/ShareOptions';
-import { formatPostDate } from '@/lib/date';
+import { compileBlogMDX } from '@/lib/mdx';
+import BlogPostArticle from '@/components/BlogPostArticle';
+import BreadcrumbNav from '@/components/BreadcrumbNav';
+import PageContainer from '@/components/PageContainer';
 
 interface BlogPostPageProps {
     params: Promise<{
@@ -21,16 +14,12 @@ interface BlogPostPageProps {
     }>;
 }
 
-/**
- * Generate static params for all blog posts AND sections
- */
 export async function generateStaticParams() {
     const slugs = getAllPostSlugs();
     const allPaths = slugs.map((slug) => ({
         slug: slug.split('/')
     }));
 
-    // Also generate params for sections
     const allSectionPaths: string[] = [];
     const getAllPaths = (parentPath: string = '') => {
         const subsections = getSubsections(parentPath);
@@ -49,9 +38,6 @@ export async function generateStaticParams() {
     return [...allPaths, ...sectionParams];
 }
 
-/**
- * Generate metadata for blog post or section
- */
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
     const { slug } = await params;
     const slugString = slug.join('/');
@@ -63,7 +49,6 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
             description: post.summary,
         };
     } catch {
-        // It's a section, not a post
         const sectionName = slug[slug.length - 1];
         return {
             title: `${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)} Posts`,
@@ -72,9 +57,6 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     }
 }
 
-/**
- * Blog page that handles both individual posts and section listings
- */
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const { slug } = await params;
     const slugString = slug.join('/');
@@ -82,82 +64,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     // Try to load as a post first
     try {
         const post = getPostBySlug(slugString);
-
-        // Compile MDX content with custom components
-        const { content: MDXContent } = await compileMDX({
-            source: post.content,
-            options: {
-                parseFrontmatter: false,
-                mdxOptions: {
-                    remarkPlugins: [remarkGfm, remarkMath],
-                    rehypePlugins: [rehypeHighlight, rehypeKatex],
-                },
-            },
-            components: {
-                pre: CodeBlock,
-                img: MDXImage,
-                Image: MDXImage,
-            },
-        });
-
-        // Get breadcrumbs for the post
+        const { content: MDXContent } = await compileBlogMDX(post.content);
         const breadcrumbs = getBreadcrumbs(slugString);
         const readingTime = getReadingTimeMinutes(post.content);
 
         return (
-            <article className="max-w-3xl mx-auto px-6 py-16">
-                {/* Breadcrumb Navigation */}
-                <div className="mb-6">
-                    <div className="font-mono flex items-center gap-2 text-base text-muted">
-                        <Link
-                            href="/blog"
-                            className="hover:text-accent-teal transition-colors"
-                        >
-                            Blog
-                        </Link>
-                        {breadcrumbs.map((crumb, index) => (
-                            <div key={crumb.path} className="flex items-center gap-2">
-                                <span>/</span>
-                                {index === breadcrumbs.length - 1 ? (
-                                    <span className="text-accent-teal capitalize">{crumb.name}</span>
-                                ) : (
-                                    <Link
-                                        href={`/blog/${crumb.path}`}
-                                        className="hover:text-accent-teal transition-colors capitalize"
-                                    >
-                                        {crumb.name}
-                                    </Link>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Post Header */}
-                <header className="mb-16">
-                    <h1 className="mb-3 font-mono text-3xl font-semibold leading-tight text-subtle-text md:text-4xl">
-                        {post.title}
-                    </h1>
-
-                    <div className="font-mono text-base font-medium leading-6 text-subtle-text">
-                        <time suppressHydrationWarning>
-                            {formatPostDate(post.date, 'long')}
-                        </time>
-                        <span aria-hidden="true"> / </span>
-                        <span>{readingTime} min read</span>
-                    </div>
-
-                    <BlogPostTags tags={post.tags} />
-                </header>
-
-                {/* MDX Content */}
-                <div className="prose prose-invert font-mono max-w-none">
-                    {MDXContent}
-                </div>
-
-                {/* Share Options */}
-                <ShareOptions title={post.title} url={`/blog/${slugString}`} />
-            </article>
+            <BlogPostArticle
+                title={post.title}
+                date={post.date}
+                readingTime={readingTime}
+                tags={post.tags}
+                slug={slugString}
+                breadcrumb={<BreadcrumbNav crumbs={breadcrumbs} />}
+            >
+                {MDXContent}
+            </BlogPostArticle>
         );
     } catch {
         // It's a section, not a post - render section view
@@ -170,35 +91,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         }
 
         return (
-            <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-                {/* Breadcrumb Navigation */}
-                <div className="mb-6">
-                    <div className="font-mono flex items-center gap-2 text-sm text-muted">
-                        <Link
-                            href="/blog"
-                            className="hover:text-accent-teal transition-colors"
-                        >
-                            Blog
-                        </Link>
-                        {breadcrumbs.map((crumb, index) => (
-                            <div key={crumb.path} className="flex items-center gap-2">
-                                <span>/</span>
-                                {index === breadcrumbs.length - 1 ? (
-                                    <span className="text-accent-teal capitalize">{crumb.name}</span>
-                                ) : (
-                                    <Link
-                                        href={`/blog/${crumb.path}`}
-                                        className="hover:text-accent-teal transition-colors capitalize"
-                                    >
-                                        {crumb.name}
-                                    </Link>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
+            <PageContainer>
+                <BreadcrumbNav crumbs={breadcrumbs} textSize="sm" />
 
-                {/* Page Header */}
                 <div className="mb-12">
                     <h1 className="text-4xl font-mono font-semibold text-subtle-text mb-4 capitalize">
                         {breadcrumbs[breadcrumbs.length - 1].name}
@@ -208,7 +103,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     </p>
                 </div>
 
-                {/* Subsections Navigation (if any) */}
                 {subsections.length > 0 && (
                     <div className="mb-8">
                         <h2 className="font-mono text-sm text-muted mb-3">
@@ -228,7 +122,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     </div>
                 )}
 
-                {/* Posts List */}
                 {posts.length > 0 ? (
                     <PostList posts={posts} />
                 ) : (
@@ -238,7 +131,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         </p>
                     </div>
                 )}
-            </div>
+            </PageContainer>
         );
     }
 }

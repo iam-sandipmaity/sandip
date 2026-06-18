@@ -1,26 +1,16 @@
 import type { Metadata } from 'next';
-import { siteConfig } from '@/lib/config';
+import { makePageMetadata } from '@/lib/metadata';
+import PageContainer from '@/components/PageContainer';
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = makePageMetadata({
     title: 'Reads',
     description: 'Books, articles, and resources I\'ve found valuable for embedded systems and personal development.',
-    openGraph: {
-        title: 'Reads - Sandip Maity',
-        description: 'Books, articles, and resources I\'ve found valuable.',
-        url: `${siteConfig.url}/reads`,
-        siteName: siteConfig.name,
-        images: [{ url: '/og?title=Reads', width: 1200, height: 630, alt: 'Sandip Maity Reads' }],
-        locale: 'en_US',
-        type: 'website',
-    },
-    twitter: {
-        card: 'summary_large_image',
-        title: 'Reads - Sandip Maity',
-        description: 'Books, articles, and resources I\'ve found valuable.',
-        creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-        images: ['/og?title=Reads'],
-    },
-};
+    path: '/reads',
+    ogTitle: 'Reads - Sandip Maity',
+    ogDescription: 'Books, articles, and resources I\'ve found valuable.',
+    canonical: false,
+});
 
 interface ReadItem {
     title: string;
@@ -45,26 +35,42 @@ const reads: ReadItem[] = [
     },
 ];
 
+function ReadSection({ title, items }: { title: string; items: ReadItem[] }) {
+    if (items.length === 0) return null;
+
+    return (
+        <section className="mb-12">
+            <h2 className="text-2xl font-mono font-medium text-subtle-text mb-6">
+                {title}
+            </h2>
+            <div className="space-y-8">
+                {items.map((item) => (
+                    <article key={item.title} className="group">
+                        <h3 className="text-lg font-mono font-medium text-subtle-text mb-1 group-hover:text-accent-teal transition-colors">
+                            {item.url ? (
+                                <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent-teal">
+                                    {item.title} ↗
+                                </a>
+                            ) : item.title}
+                        </h3>
+                        {item.author && <p className="font-mono text-sm text-muted mb-2">by {item.author}</p>}
+                        <p className="font-mono text-muted leading-relaxed">{item.note}</p>
+                        <div className="mt-6 border-b border-dotted border-surface/30" />
+                    </article>
+                ))}
+            </div>
+        </section>
+    );
+}
+
 export default function ReadsPage() {
     const books = reads.filter((r) => r.type === 'book');
     const articles = reads.filter((r) => r.type === 'article');
     const resources = reads.filter((r) => r.type === 'resource');
 
     return (
-        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        '@context': 'https://schema.org',
-                        '@type': 'BreadcrumbList',
-                        itemListElement: [
-                            { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
-                            { '@type': 'ListItem', position: 2, name: 'Reads', item: `${siteConfig.url}/reads` },
-                        ],
-                    }),
-                }}
-            />
+        <PageContainer>
+            <BreadcrumbJsonLd items={[{ name: 'Reads', path: '/reads' }]} />
 
             <div className="mb-12">
                 <h1 className="text-3xl md:text-4xl font-mono font-semibold text-subtle-text mb-4">
@@ -75,78 +81,9 @@ export default function ReadsPage() {
                 </p>
             </div>
 
-            {/* Books */}
-            {books.length > 0 && (
-                <section className="mb-12">
-                    <h2 className="text-2xl font-mono font-medium text-subtle-text mb-6">
-                        Books
-                    </h2>
-                    <div className="space-y-8">
-                        {books.map((item) => (
-                            <article key={item.title} className="group">
-                                <h3 className="text-lg font-mono font-medium text-subtle-text mb-1 group-hover:text-accent-teal transition-colors">
-                                    {item.url ? (
-                                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent-teal">
-                                            {item.title} ↗
-                                        </a>
-                                    ) : item.title}
-                                </h3>
-                                {item.author && <p className="font-mono text-sm text-muted mb-2">by {item.author}</p>}
-                                <p className="font-mono text-muted leading-relaxed">{item.note}</p>
-                                <div className="mt-6 border-b border-dotted border-surface/30" />
-                            </article>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Articles */}
-            {articles.length > 0 && (
-                <section className="mb-12">
-                    <h2 className="text-2xl font-mono font-medium text-subtle-text mb-6">
-                        Articles
-                    </h2>
-                    <div className="space-y-8">
-                        {articles.map((item) => (
-                            <article key={item.title} className="group">
-                                <h3 className="text-lg font-mono font-medium text-subtle-text mb-1 group-hover:text-accent-teal transition-colors">
-                                    {item.url ? (
-                                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent-teal">
-                                            {item.title} ↗
-                                        </a>
-                                    ) : item.title}
-                                </h3>
-                                <p className="font-mono text-muted leading-relaxed">{item.note}</p>
-                                <div className="mt-6 border-b border-dotted border-surface/30" />
-                            </article>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Resources */}
-            {resources.length > 0 && (
-                <section>
-                    <h2 className="text-2xl font-mono font-medium text-subtle-text mb-6">
-                        Resources
-                    </h2>
-                    <div className="space-y-8">
-                        {resources.map((item) => (
-                            <article key={item.title} className="group">
-                                <h3 className="text-lg font-mono font-medium text-subtle-text mb-1 group-hover:text-accent-teal transition-colors">
-                                    {item.url ? (
-                                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-accent-teal">
-                                            {item.title} ↗
-                                        </a>
-                                    ) : item.title}
-                                </h3>
-                                <p className="font-mono text-muted leading-relaxed">{item.note}</p>
-                                <div className="mt-6 border-b border-dotted border-surface/30" />
-                            </article>
-                        ))}
-                    </div>
-                </section>
-            )}
-        </div>
+            <ReadSection title="Books" items={books} />
+            <ReadSection title="Articles" items={articles} />
+            <ReadSection title="Resources" items={resources} />
+        </PageContainer>
     );
 }

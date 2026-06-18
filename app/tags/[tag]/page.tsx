@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllTags, getPostsByTag } from '@/lib/posts';
 import { tagToSlug, slugToTag } from '@/lib/utils';
+import { makePageMetadata } from '@/lib/metadata';
 import PostList from '@/components/PostList';
-import { siteConfig } from '@/lib/config';
+import PageContainer from '@/components/PageContainer';
 
 interface TagPageProps {
     params: Promise<{
@@ -13,40 +14,19 @@ interface TagPageProps {
 }
 
 export async function generateStaticParams() {
-    const tags = getAllTags();
-
-    return tags.map((tag) => ({
-        tag: tagToSlug(tag),
-    }));
+    return getAllTags().map((tag) => ({ tag: tagToSlug(tag) }));
 }
 
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
     const { tag: tagSlug } = await params;
     const tag = slugToTag(tagSlug);
 
-    return {
+    return makePageMetadata({
         title: `#${tag}`,
         description: `Posts tagged with ${tag}.`,
-        alternates: {
-            canonical: `${siteConfig.url}/tags/${tagSlug}`,
-        },
-        openGraph: {
-            title: `#${tag} - Sandip Maity`,
-            description: `Posts tagged with ${tag}.`,
-            url: `${siteConfig.url}/tags/${tagSlug}`,
-            siteName: siteConfig.name,
-            images: [{ url: `/og?title=${encodeURIComponent(`#${tag}`)}`, width: 1200, height: 630, alt: `#${tag}` }],
-            locale: 'en_US',
-            type: 'website',
-        },
-        twitter: {
-            card: 'summary_large_image',
-            title: `#${tag} - Sandip Maity`,
-            description: `Posts tagged with ${tag}.`,
-            creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-            images: [`/og?title=${encodeURIComponent(`#${tag}`)}`],
-        },
-    };
+        path: `/tags/${tagSlug}`,
+        ogTitle: `#${tag} - Sandip Maity`,
+    });
 }
 
 export default async function TagPage({ params }: TagPageProps) {
@@ -59,7 +39,7 @@ export default async function TagPage({ params }: TagPageProps) {
     }
 
     return (
-        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
+        <PageContainer>
             <section className="mb-10 font-mono">
                 <Link href="/tags" className="mb-6 inline-block text-sm text-muted transition-colors hover:text-accent-teal">
                     {'<- Tags'}
@@ -74,6 +54,6 @@ export default async function TagPage({ params }: TagPageProps) {
             </section>
 
             <PostList posts={posts} showTags={false} variant="compact" />
-        </div>
+        </PageContainer>
     );
 }

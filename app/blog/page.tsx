@@ -5,29 +5,15 @@ import { BlogFilterProvider } from '@/components/BlogFilterContext';
 import BlogSidebar from '@/components/BlogSidebar';
 import BlogMainContent from '@/components/BlogMainContent';
 import TagList from '@/components/TagList';
-import { siteConfig } from '@/lib/config';
+import { makePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = makePageMetadata({
     title: 'Blog',
     description: 'Thoughts on embedded systems, electronics, circuit design, and technology.',
-    alternates: { canonical: `${siteConfig.url}/blog` },
-    openGraph: {
-        title: 'Blog - Sandip Maity',
-        description: 'Thoughts on embedded systems, electronics, and technology.',
-        url: `${siteConfig.url}/blog`,
-        siteName: siteConfig.name,
-        images: [{ url: '/og?title=Blog', width: 1200, height: 630, alt: 'Sandip Maity Blog' }],
-        locale: 'en_US',
-        type: 'website',
-    },
-    twitter: {
-        card: 'summary_large_image',
-        title: 'Blog - Sandip Maity',
-        description: 'Thoughts on embedded systems and technology.',
-        creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-        images: ['/og?title=Blog'],
-    },
-};
+    path: '/blog',
+    ogTitle: 'Blog - Sandip Maity',
+    ogDescription: 'Thoughts on embedded systems, electronics, and technology.',
+});
 
 export default function BlogPage() {
     const posts = getAllPosts();
