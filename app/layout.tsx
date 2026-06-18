@@ -101,9 +101,7 @@ export const metadata: Metadata = {
         },
     },
     verification: {
-        google: 'your-google-verification-code', // Replace with actual Google Search Console verification code
-        // yandex: 'your-yandex-verification-code',
-        // bing: 'your-bing-verification-code',
+        google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
     },
     category: 'technology',
 };
@@ -201,19 +199,22 @@ export default function RootLayout({
             </head>
             <body className="antialiased" suppressHydrationWarning>
                 {/* Google Analytics 4 - Using Next.js Script component */}
-                {/* Google tag (gtag.js) */}
-                <Script
-                    async
-                    src="https://www.googletagmanager.com/gtag/js?id=G-70GDEV7YDZ"
-                />
-                <Script id="google-analytics" strategy="afterInteractive">
-                    {`
-                        window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
-                        gtag('config', 'G-70GDEV7YDZ');
-                    `}
-                </Script>
+                {process.env.NEXT_PUBLIC_GA_ID && (
+                    <>
+                        <Script
+                            async
+                            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+                        />
+                        <Script id="google-analytics" strategy="afterInteractive">
+                            {`
+                                window.dataLayer = window.dataLayer || [];
+                                function gtag(){dataLayer.push(arguments);}
+                                gtag('js', new Date());
+                                gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+                            `}
+                        </Script>
+                    </>
+                )}
 
                 <script
                     type="application/ld+json"

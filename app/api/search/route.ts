@@ -183,15 +183,17 @@ function searchContent(query: string): SearchResult[] {
     return scoredResults;
 }
 
+const MAX_QUERY_LENGTH = 200;
+
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
-    const query = searchParams.get('q') || '';
+    const rawQuery = searchParams.get('q') || '';
+    const query = rawQuery.slice(0, MAX_QUERY_LENGTH);
 
     try {
         const results = searchContent(query);
         return NextResponse.json({ results });
-    } catch (error) {
-        console.error('Search error:', error);
+    } catch {
         return NextResponse.json({ results: [] }, { status: 500 });
     }
 }
