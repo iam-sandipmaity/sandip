@@ -1,72 +1,21 @@
 import type { Metadata } from 'next';
-import { FiGithub, FiGlobe, FiMail } from 'react-icons/fi';
-import { FaXTwitter } from 'react-icons/fa6';
-import { siteConfig } from '@/lib/config';
+import { makePageMetadata } from '@/lib/metadata';
+import { socialLinks } from '@/lib/social-links';
+import PageContainer from '@/components/PageContainer';
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = makePageMetadata({
     title: 'Contact',
     description: 'Ways to reach Sandip Maity.',
-    openGraph: {
-        title: 'Contact Sandip Maity',
-        description: 'Ways to reach Sandip Maity.',
-        url: `${siteConfig.url}/contact`,
-        siteName: siteConfig.name,
-        images: [{ url: '/og?title=Contact Me', width: 1200, height: 630, alt: 'Contact Sandip Maity' }],
-        locale: 'en_US',
-        type: 'website',
-    },
-    twitter: {
-        card: 'summary_large_image',
-        title: 'Contact Sandip Maity',
-        description: 'Ways to reach Sandip Maity.',
-        creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-        images: ['/og?title=Contact Me'],
-    },
-};
+    path: '/contact',
+    ogTitle: 'Contact Sandip Maity',
+    canonical: false,
+});
 
 export default function ContactPage() {
-    const links = [
-        {
-            href: `mailto:${siteConfig.email}`,
-            label: 'Email',
-            value: siteConfig.email,
-            icon: FiMail,
-        },
-        {
-            href: siteConfig.social.github,
-            label: 'GitHub',
-            value: '@iam-sandipmaity',
-            icon: FiGithub,
-        },
-        {
-            href: siteConfig.social.twitter,
-            label: 'X',
-            value: '@iam_sandipmaity',
-            icon: FaXTwitter,
-        },
-        {
-            href: 'https://profile.sandipmaity.me',
-            label: 'Profile',
-            value: 'profile.sandipmaity.me',
-            icon: FiGlobe,
-        },
-    ];
-
     return (
-        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        '@context': 'https://schema.org',
-                        '@type': 'BreadcrumbList',
-                        itemListElement: [
-                            { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
-                            { '@type': 'ListItem', position: 2, name: 'Contact', item: `${siteConfig.url}/contact` },
-                        ],
-                    }),
-                }}
-            />
+        <PageContainer>
+            <BreadcrumbJsonLd items={[{ name: 'Contact', path: '/contact' }]} />
 
             <section className="mb-12 font-mono">
                 <h1 className="mb-6 text-3xl font-semibold leading-tight text-subtle-text md:text-4xl">
@@ -80,7 +29,7 @@ export default function ContactPage() {
 
             <section className="font-mono">
                 <div className="divide-y divide-dotted divide-surface/70 border-y border-dotted border-surface/70">
-                    {links.map(({ href, label, value, icon: Icon }) => (
+                    {socialLinks.map(({ href, label, value, icon: Icon }) => (
                         <a
                             key={label}
                             href={href}
@@ -98,6 +47,6 @@ export default function ContactPage() {
                     ))}
                 </div>
             </section>
-        </div>
+        </PageContainer>
     );
 }

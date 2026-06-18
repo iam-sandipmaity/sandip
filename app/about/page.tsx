@@ -1,71 +1,23 @@
 import type { Metadata } from 'next';
-import { FiGithub, FiGlobe, FiMail } from 'react-icons/fi';
-import { FaXTwitter } from 'react-icons/fa6';
 import { siteConfig } from '@/lib/config';
+import { makePageMetadata } from '@/lib/metadata';
+import { socialLinks } from '@/lib/social-links';
+import PageContainer from '@/components/PageContainer';
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = makePageMetadata({
     title: 'About - Embedded Developer & Engineer',
     description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions.',
-    alternates: {
-        canonical: `${siteConfig.url}/about`,
-    },
-    openGraph: {
-        title: 'About Sandip Maity - Embedded Developer',
-        description: 'Electronics and Communication Engineering student passionate about embedded systems.',
-        url: `${siteConfig.url}/about`,
-        siteName: siteConfig.name,
-        images: [{ url: '/og?title=About Me', width: 1200, height: 630, alt: 'About Sandip Maity' }],
-        locale: 'en_US',
-        type: 'profile',
-    },
-    twitter: {
-        card: 'summary_large_image',
-        title: 'About Sandip Maity - Embedded Developer',
-        description: 'Electronics and Communication Engineering student passionate about embedded systems.',
-        creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-        images: ['/og?title=About Me'],
-    },
-};
+    path: '/about',
+    ogTitle: 'About Sandip Maity - Embedded Developer',
+    ogDescription: 'Electronics and Communication Engineering student passionate about embedded systems.',
+    ogType: 'profile',
+});
 
 export default function AboutPage() {
-    const connectLinks = [
-        {
-            href: siteConfig.social.github,
-            label: 'GitHub',
-            icon: FiGithub,
-        },
-        {
-            href: siteConfig.social.twitter,
-            label: 'X',
-            icon: FaXTwitter,
-        },
-        {
-            href: `mailto:${siteConfig.email}`,
-            label: 'Email',
-            icon: FiMail,
-        },
-        {
-            href: 'https://profile.sandipmaity.me',
-            label: 'Profile',
-            icon: FiGlobe,
-        },
-    ];
-
     return (
-        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        '@context': 'https://schema.org',
-                        '@type': 'BreadcrumbList',
-                        itemListElement: [
-                            { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
-                            { '@type': 'ListItem', position: 2, name: 'About', item: `${siteConfig.url}/about` },
-                        ],
-                    }),
-                }}
-            />
+        <PageContainer>
+            <BreadcrumbJsonLd items={[{ name: 'About', path: '/about' }]} />
 
             {/* Header */}
             <section className="mb-16">
@@ -110,7 +62,7 @@ export default function AboutPage() {
                     Connect
                 </h2>
                 <div className="flex flex-wrap gap-6">
-                    {connectLinks.map(({ href, label, icon: Icon }) => (
+                    {socialLinks.map(({ href, label, icon: Icon }) => (
                         <a
                             key={label}
                             href={href}
@@ -132,6 +84,6 @@ export default function AboutPage() {
                 </p>
                 <p className="text-accent-teal text-center mt-3 font-mono font-medium">— Elon Musk</p>
             </section>
-        </div>
+        </PageContainer>
     );
 }
