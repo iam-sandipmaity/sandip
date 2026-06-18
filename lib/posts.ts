@@ -65,9 +65,23 @@ export function getAllPostSlugs(): string[] {
  * Get post data by slug (supports nested paths like 'program/hello-world')
  */
 export function getPostBySlug(slug: string): PostData {
-    // Convert slug to file path (handle both / and \ separators)
-    const filePath = slug.replace(/\//g, path.sep);
-    const fullPath = path.join(postsDirectory, `${filePath}.mdx`);
+    // Reject path-traversal attempts before touching the filesystem
+    const normalized = slug.replace(/\\/g, '/');
+    if (
+        normalized.includes('..') ||
+        normalized.startsWith('/') ||
+        /[<>:"|?*\0]/.test(normalized)
+    ) {
+        throw new Error(`Post not found: ${slug}`);
+    }
+
+    const filePath = normalized.replace(/\//g, path.sep);
+    const fullPath = path.resolve(postsDirectory, `${filePath}.mdx`);
+
+    // Belt-and-suspenders: ensure resolved path is inside postsDirectory
+    if (!fullPath.startsWith(postsDirectory + path.sep)) {
+        throw new Error(`Post not found: ${slug}`);
+    }
 
     if (!fs.existsSync(fullPath)) {
         throw new Error(`Post not found: ${slug}`);
