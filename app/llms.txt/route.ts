@@ -7,6 +7,7 @@ import { getAllProjects } from '@/lib/projects';
  * Accessible at: https://sandipmaity.me/llms.txt
  */
 export async function GET() {
+    try {
     const baseUrl = 'https://sandipmaity.me';
     
     // Get all blog posts
@@ -68,4 +69,9 @@ export async function GET() {
             'Cache-Control': 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400',
         },
     });
+    } catch (error) {
+        console.error('[llms.txt] generation failed:', error);
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        return new Response(`llms.txt generation failed: ${message}`, { status: 500 });
+    }
 }

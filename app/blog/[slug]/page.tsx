@@ -68,7 +68,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
                 images: [ogImage],
             },
         };
-    } catch {
+    } catch (error) {
+        console.error(`[blog] metadata generation failed for slug "${slug}":`, error);
         return {
             title: 'Post Not Found',
         };

@@ -151,7 +151,9 @@ export default function RootLayout({
                                             window.location.reload();
                                         });
                                     }
-                                } catch (e) {}
+                                } catch (e) {
+                                    console.warn('[sandip] cache cleanup failed:', e);
+                                }
                             })();
                         `,
                     }}
@@ -168,7 +170,9 @@ export default function RootLayout({
                                     } else {
                                         document.documentElement.classList.remove('dark');
                                     }
-                                } catch (e) {}
+                                } catch (e) {
+                                    console.warn('[sandip] theme init failed:', e);
+                                }
                             })();
                         `,
                     }}
@@ -182,7 +186,9 @@ export default function RootLayout({
                                     if (localStorage.getItem('sandip-font') === 'system') {
                                         document.documentElement.classList.add('font-system');
                                     }
-                                } catch (e) {}
+                                } catch (e) {
+                                    console.warn('[sandip] font init failed:', e);
+                                }
                             })();
                         `,
                     }}
