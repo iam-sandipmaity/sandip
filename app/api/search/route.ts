@@ -192,6 +192,7 @@ export async function GET(request: Request) {
         return NextResponse.json({ results });
     } catch (error) {
         console.error('Search error:', error);
-        return NextResponse.json({ results: [] }, { status: 500 });
+        const message = error instanceof Error ? error.message : 'Internal search error';
+        return NextResponse.json({ results: [], error: message }, { status: 500 });
     }
 }

@@ -5,9 +5,10 @@ import { toRssDateString } from '@/lib/date';
  * Generate RSS feed for blog posts
  */
 export async function GET() {
-    const posts = getAllPosts();
-    const siteUrl = 'https://sandipmaity.me';
-    const rss = `<?xml version="1.0" encoding="UTF-8"?>
+    try {
+        const posts = getAllPosts();
+        const siteUrl = 'https://sandipmaity.me';
+        const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Sandip Maity - Blog</title>
@@ -17,8 +18,8 @@ export async function GET() {
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${siteUrl}/feed.xml" rel="self" type="application/rss+xml"/>
     ${posts
-            .map(
-                (post) => `
+                .map(
+                    (post) => `
     <item>
       <title>${escapeXml(post.title)}</title>
       <link>${siteUrl}/blog/${post.slug}</link>
@@ -27,17 +28,22 @@ export async function GET() {
       <guid>${siteUrl}/blog/${post.slug}</guid>
       ${post.tags.map((tag) => `<category>${escapeXml(tag)}</category>`).join('\n      ')}
     </item>`
-            )
-            .join('')}
+                )
+                .join('')}
   </channel>
 </rss>`;
 
-    return new Response(rss, {
-        headers: {
-            'Content-Type': 'application/xml',
-            'Cache-Control': 'public, max-age=3600, s-maxage=3600',
-        },
-    });
+        return new Response(rss, {
+            headers: {
+                'Content-Type': 'application/xml',
+                'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+            },
+        });
+    } catch (error) {
+        console.error('[feed.xml] RSS generation failed:', error);
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        return new Response(`RSS feed generation failed: ${message}`, { status: 500 });
+    }
 }
 
 /**

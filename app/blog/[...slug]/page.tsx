@@ -80,10 +80,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const slugString = slug.join('/');
 
     // Try to load as a post first
+    let post;
     try {
-        const post = getPostBySlug(slugString);
+        post = getPostBySlug(slugString);
+    } catch {
+        // Not a post — fall through to section rendering below
+    }
 
-        // Compile MDX content with custom components
+    if (post) {
+        // Compile MDX content with custom components (errors here should propagate)
         const { content: MDXContent } = await compileMDX({
             source: post.content,
             options: {
@@ -159,86 +164,86 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <ShareOptions title={post.title} url={`/blog/${slugString}`} />
             </article>
         );
-    } catch {
-        // It's a section, not a post - render section view
-        const posts = getPostsBySection(slugString);
-        const subsections = getSubsections(slugString);
-        const breadcrumbs = getBreadcrumbs(slugString);
+    }
 
-        if (posts.length === 0 && subsections.length === 0) {
-            notFound();
-        }
+    // It's a section, not a post - render section view
+    const posts = getPostsBySection(slugString);
+    const subsections = getSubsections(slugString);
+    const breadcrumbs = getBreadcrumbs(slugString);
 
-        return (
-            <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-                {/* Breadcrumb Navigation */}
-                <div className="mb-6">
-                    <div className="font-mono flex items-center gap-2 text-sm text-muted">
-                        <Link
-                            href="/blog"
-                            className="hover:text-accent-teal transition-colors"
-                        >
-                            Blog
-                        </Link>
-                        {breadcrumbs.map((crumb, index) => (
-                            <div key={crumb.path} className="flex items-center gap-2">
-                                <span>/</span>
-                                {index === breadcrumbs.length - 1 ? (
-                                    <span className="text-accent-teal capitalize">{crumb.name}</span>
-                                ) : (
-                                    <Link
-                                        href={`/blog/${crumb.path}`}
-                                        className="hover:text-accent-teal transition-colors capitalize"
-                                    >
-                                        {crumb.name}
-                                    </Link>
-                                )}
-                            </div>
+    if (posts.length === 0 && subsections.length === 0) {
+        notFound();
+    }
+
+    return (
+        <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
+            {/* Breadcrumb Navigation */}
+            <div className="mb-6">
+                <div className="font-mono flex items-center gap-2 text-sm text-muted">
+                    <Link
+                        href="/blog"
+                        className="hover:text-accent-teal transition-colors"
+                    >
+                        Blog
+                    </Link>
+                    {breadcrumbs.map((crumb, index) => (
+                        <div key={crumb.path} className="flex items-center gap-2">
+                            <span>/</span>
+                            {index === breadcrumbs.length - 1 ? (
+                                <span className="text-accent-teal capitalize">{crumb.name}</span>
+                            ) : (
+                                <Link
+                                    href={`/blog/${crumb.path}`}
+                                    className="hover:text-accent-teal transition-colors capitalize"
+                                >
+                                    {crumb.name}
+                                </Link>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Page Header */}
+            <div className="mb-12">
+                <h1 className="text-4xl font-mono font-semibold text-subtle-text mb-4 capitalize">
+                    {breadcrumbs[breadcrumbs.length - 1].name}
+                </h1>
+                <p className="font-mono text-xl text-muted leading-relaxed">
+                    Posts in the {slugString} section
+                </p>
+            </div>
+
+            {/* Subsections Navigation (if any) */}
+            {subsections.length > 0 && (
+                <div className="mb-8">
+                    <h2 className="font-mono text-sm text-muted mb-3">
+                        Subsections in {breadcrumbs[breadcrumbs.length - 1].name}
+                    </h2>
+                    <div className="flex flex-wrap gap-3">
+                        {subsections.map((subsection) => (
+                            <Link
+                                key={subsection}
+                                href={`/blog/${slugString}/${subsection}`}
+                                className="font-mono text-sm text-muted hover:text-accent-teal transition-colors capitalize"
+                            >
+                                {subsection}
+                            </Link>
                         ))}
                     </div>
                 </div>
+            )}
 
-                {/* Page Header */}
-                <div className="mb-12">
-                    <h1 className="text-4xl font-mono font-semibold text-subtle-text mb-4 capitalize">
-                        {breadcrumbs[breadcrumbs.length - 1].name}
-                    </h1>
-                    <p className="font-mono text-xl text-muted leading-relaxed">
-                        Posts in the {slugString} section
+            {/* Posts List */}
+            {posts.length > 0 ? (
+                <PostList posts={posts} />
+            ) : (
+                <div className="text-center py-16">
+                    <p className="font-mono text-muted">
+                        No posts directly in this section. Check the subsections above.
                     </p>
                 </div>
-
-                {/* Subsections Navigation (if any) */}
-                {subsections.length > 0 && (
-                    <div className="mb-8">
-                        <h2 className="font-mono text-sm text-muted mb-3">
-                            Subsections in {breadcrumbs[breadcrumbs.length - 1].name}
-                        </h2>
-                        <div className="flex flex-wrap gap-3">
-                            {subsections.map((subsection) => (
-                                <Link
-                                    key={subsection}
-                                    href={`/blog/${slugString}/${subsection}`}
-                                    className="font-mono text-sm text-muted hover:text-accent-teal transition-colors capitalize"
-                                >
-                                    {subsection}
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Posts List */}
-                {posts.length > 0 ? (
-                    <PostList posts={posts} />
-                ) : (
-                    <div className="text-center py-16">
-                        <p className="font-mono text-muted">
-                            No posts directly in this section. Check the subsections above.
-                        </p>
-                    </div>
-                )}
-            </div>
-        );
-    }
+            )}
+        </div>
+    );
 }

@@ -76,8 +76,10 @@ export async function GET(request: Request) {
                 height: 630,
             },
         );
-    } catch (e: any) {
-        return new Response(`Failed to generate the image`, {
+    } catch (e) {
+        console.error('[og] image generation failed:', e);
+        const message = e instanceof Error ? e.message : 'Unknown error';
+        return new Response(`Failed to generate the image: ${message}`, {
             status: 500,
         });
     }

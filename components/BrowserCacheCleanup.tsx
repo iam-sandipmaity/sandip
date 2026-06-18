@@ -32,7 +32,8 @@ export default function BrowserCacheCleanup() {
             }
         }
 
-        cleanup().catch(() => {
+        cleanup().catch((error) => {
+            console.warn('[sandip] browser cache cleanup failed:', error);
             sessionStorage.setItem(cleanupFlag, 'true');
         });
     }, []);
