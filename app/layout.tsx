@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import SiteHeader from '@/components/SiteHeader';
 import Footer from '@/components/Footer';
 import BrowserCacheCleanup from '@/components/BrowserCacheCleanup';
+import { siteConfig } from '@/lib/config';
 
 const inter = Inter({
     subsets: ['latin'],
@@ -101,9 +102,11 @@ export const metadata: Metadata = {
         },
     },
     verification: {
-        google: 'your-google-verification-code', // Replace with actual Google Search Console verification code
-        // yandex: 'your-yandex-verification-code',
-        // bing: 'your-bing-verification-code',
+        google: siteConfig.verification.google,
+        yandex: siteConfig.verification.yandex || undefined,
+        other: {
+            ...(siteConfig.verification.bing ? { 'msvalidate.01': siteConfig.verification.bing } : {}),
+        },
     },
     category: 'technology',
 };
@@ -222,20 +225,17 @@ export default function RootLayout({
                             {
                                 '@context': 'https://schema.org',
                                 '@type': 'Person',
-                                name: 'Sandip Maity',
-                                url: 'https://sandipmaity.me',
+                                name: siteConfig.author,
+                                url: siteConfig.url,
                                 sameAs: [
-                                    'https://github.com/iam-sandipmaity',
-                                    'https://twitter.com/iam_sandipmaity',
+                                    siteConfig.social.github,
+                                    siteConfig.social.twitter,
                                     'https://profile.sandipmaity.me',
+                                    ...(siteConfig.social.linkedin ? [siteConfig.social.linkedin] : []),
                                 ],
                                 jobTitle: 'Electronics and Communication Engineering Student',
-                                description: 'Embedded systems developer specializing in Arduino, STM32, ESP32, IoT solutions, circuit design, and PCB development.',
-                                knowsAbout: ['Embedded Systems', 'Circuit Design', 'IoT', 'Arduino', 'STM32', 'ESP32', 'PCB Design'],
-                                alumniOf: {
-                                    '@type': 'EducationalOrganization',
-                                    name: 'Electronics and Communication Engineering',
-                                },
+                                description: siteConfig.description,
+                                knowsAbout: ['Embedded Systems', 'Circuit Design', 'IoT', 'Arduino', 'STM32', 'ESP32', 'PCB Design', 'Electronics and Communication Engineering'],
                             },
                             {
                                 '@context': 'https://schema.org',

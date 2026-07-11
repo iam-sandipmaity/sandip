@@ -13,7 +13,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import MDXImage from '@/components/MDXImage';
 import ShareOptions from '@/components/ShareOptions';
-import { formatPostDate } from '@/lib/date';
+import { formatPostDate, toIsoDateString } from '@/lib/date';
 
 interface BlogPostPageProps {
     params: Promise<{
@@ -55,12 +55,43 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
     const { slug } = await params;
     const slugString = slug.join('/');
+    const url = `${siteConfig.url}/blog/${slugString}`;
 
     try {
         const post = getPostBySlug(slugString);
+        const ogImage = `/og?title=${encodeURIComponent(post.title)}`;
         return {
             title: post.title,
             description: post.summary,
+            alternates: {
+                canonical: url,
+            },
+            openGraph: {
+                title: post.title,
+                description: post.summary,
+                url: url,
+                siteName: siteConfig.name,
+                images: [
+                    {
+                        url: ogImage,
+                        width: 1200,
+                        height: 630,
+                        alt: post.title,
+                    },
+                ],
+                locale: 'en_US',
+                type: 'article',
+                publishedTime: toIsoDateString(post.date),
+                authors: [siteConfig.author],
+                tags: post.tags,
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: post.title,
+                description: post.summary,
+                creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
+                images: [ogImage],
+            },
         };
     } catch {
         // It's a section, not a post
@@ -68,6 +99,16 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
         return {
             title: `${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)} Posts`,
             description: `Blog posts in the ${slugString} section.`,
+            alternates: {
+                canonical: url,
+            },
+            openGraph: {
+                title: `${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)} Posts`,
+                description: `Blog posts in the ${slugString} section.`,
+                url: url,
+                siteName: siteConfig.name,
+                type: 'website',
+            },
         };
     }
 }
