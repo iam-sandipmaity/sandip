@@ -11,5 +11,11 @@ export const siteConfig = {
   social: {
     github: 'https://github.com/iam-sandipmaity',
     twitter: 'https://x.com/iam_sandipmaity',
+    linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL || '',
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION || 'your-google-verification-code',
+    bing: process.env.NEXT_PUBLIC_BING_VERIFICATION || '',
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || '',
   },
 } as const;
