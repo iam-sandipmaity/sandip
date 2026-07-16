@@ -14,6 +14,7 @@ import rehypeKatex from 'rehype-katex';
 import MDXImage from '@/components/MDXImage';
 import ShareOptions from '@/components/ShareOptions';
 import { formatPostDate, toIsoDateString } from '@/lib/date';
+import { getOgImageUrl } from '@/lib/utils';
 
 interface BlogPostPageProps {
     params: Promise<{
@@ -59,7 +60,15 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
     try {
         const post = getPostBySlug(slugString);
-        const ogImage = `/og?title=${encodeURIComponent(post.title)}`;
+        const readingTime = getReadingTimeMinutes(post.content);
+        const ogImage = getOgImageUrl({
+            title: post.title,
+            description: post.summary,
+            date: post.date,
+            tags: post.tags,
+            readingTime: readingTime,
+            type: 'blog',
+        });
         return {
             title: post.title,
             description: post.summary,
@@ -96,18 +105,40 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     } catch {
         // It's a section, not a post
         const sectionName = slug[slug.length - 1];
+        const sectionTitle = `${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)} Posts`;
+        const sectionDesc = `Blog posts in the ${slugString} section.`;
+        const ogImage = getOgImageUrl({
+            title: sectionTitle,
+            description: sectionDesc,
+            type: 'blog',
+        });
         return {
-            title: `${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)} Posts`,
-            description: `Blog posts in the ${slugString} section.`,
+            title: sectionTitle,
+            description: sectionDesc,
             alternates: {
                 canonical: url,
             },
             openGraph: {
-                title: `${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)} Posts`,
-                description: `Blog posts in the ${slugString} section.`,
+                title: sectionTitle,
+                description: sectionDesc,
                 url: url,
                 siteName: siteConfig.name,
                 type: 'website',
+                images: [
+                    {
+                        url: ogImage,
+                        width: 1200,
+                        height: 630,
+                        alt: sectionTitle,
+                    },
+                ],
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: sectionTitle,
+                description: sectionDesc,
+                creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
+                images: [ogImage],
             },
         };
     }

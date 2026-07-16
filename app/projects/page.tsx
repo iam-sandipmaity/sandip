@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getAllProjects } from '@/lib/projects';
 import ProjectCard from '@/components/ProjectCard';
 import { siteConfig } from '@/lib/config';
+import { getOgImageUrl } from '@/lib/utils';
 
 export const metadata: Metadata = {
     title: 'Projects - Arduino, STM32 & IoT Solutions',
@@ -16,7 +17,11 @@ export const metadata: Metadata = {
         siteName: siteConfig.name,
         images: [
             {
-                url: '/og?title=My Projects',
+                url: getOgImageUrl({
+                    title: 'Projects Archive',
+                    description: 'Explore embedded systems and hardware projects, from custom STM32/ESP32 PCBs to IoT platforms.',
+                    type: 'project',
+                }),
                 width: 1200,
                 height: 630,
                 alt: 'Sandip Maity Projects',
@@ -30,7 +35,13 @@ export const metadata: Metadata = {
         title: 'Embedded Systems Projects by Sandip Maity',
         description: 'Explore embedded systems projects featuring Arduino, STM32, ESP32, circuit design, PCB development, and IoT solutions.',
         creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-        images: ['/og?title=My Projects'],
+        images: [
+            getOgImageUrl({
+                title: 'Projects Archive',
+                description: 'Explore embedded systems and hardware projects, from custom STM32/ESP32 PCBs to IoT platforms.',
+                type: 'project',
+            }),
+        ],
     },
 };
 

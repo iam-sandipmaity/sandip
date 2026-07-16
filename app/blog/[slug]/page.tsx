@@ -12,6 +12,7 @@ import CodeBlock from '@/components/CodeBlock';
 import MDXImage from '@/components/MDXImage';
 import ShareOptions from '@/components/ShareOptions';
 import { formatPostDate, toIsoDateString } from '@/lib/date';
+import { getOgImageUrl } from '@/lib/utils';
 
 interface BlogPostPageProps {
     params: Promise<{
@@ -35,7 +36,15 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
     try {
         const post = getPostBySlug(slug);
-        const ogImage = `/og?title=${encodeURIComponent(post.title)}`;
+        const readingTime = getReadingTimeMinutes(post.content);
+        const ogImage = getOgImageUrl({
+            title: post.title,
+            description: post.summary,
+            date: post.date,
+            tags: post.tags,
+            readingTime: readingTime,
+            type: 'blog',
+        });
         const url = `${siteConfig.url}/blog/${slug}`;
 
         return {
@@ -123,7 +132,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                             datePublished: toIsoDateString(post.date),
                             dateModified: toIsoDateString(post.date),
                             description: post.summary,
-                            image: [`${siteConfig.url}/og?title=${encodeURIComponent(post.title)}`],
+                            image: [`${siteConfig.url}${getOgImageUrl({
+                                title: post.title,
+                                description: post.summary,
+                                date: post.date,
+                                tags: post.tags,
+                                readingTime: readingTime,
+                                type: 'blog',
+                            })}`],
                             url: `${siteConfig.url}/blog/${slug}`,
                             author: {
                                 '@type': 'Person',

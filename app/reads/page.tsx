@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { siteConfig } from '@/lib/config';
+import { getOgImageUrl } from '@/lib/utils';
 
 export const metadata: Metadata = {
     title: 'Reads',
@@ -9,7 +10,18 @@ export const metadata: Metadata = {
         description: 'Books, articles, and resources I\'ve found valuable.',
         url: `${siteConfig.url}/reads`,
         siteName: siteConfig.name,
-        images: [{ url: '/og?title=Reads', width: 1200, height: 630, alt: 'Sandip Maity Reads' }],
+        images: [
+            {
+                url: getOgImageUrl({
+                    title: 'Reads & Resources',
+                    description: 'A curated list of books, articles, and documentation I find valuable for firmware engineering & development.',
+                    type: 'page',
+                }),
+                width: 1200,
+                height: 630,
+                alt: 'Sandip Maity Reads',
+            },
+        ],
         locale: 'en_US',
         type: 'website',
     },
@@ -18,7 +30,13 @@ export const metadata: Metadata = {
         title: 'Reads - Sandip Maity',
         description: 'Books, articles, and resources I\'ve found valuable.',
         creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-        images: ['/og?title=Reads'],
+        images: [
+            getOgImageUrl({
+                title: 'Reads & Resources',
+                description: 'A curated list of books, articles, and documentation I find valuable for firmware engineering & development.',
+                type: 'page',
+            }),
+        ],
     },
 };
 

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { FiGithub, FiGlobe, FiMail } from 'react-icons/fi';
 import { FaXTwitter } from 'react-icons/fa6';
 import { siteConfig } from '@/lib/config';
+import { getOgImageUrl } from '@/lib/utils';
 
 export const metadata: Metadata = {
     title: 'Contact',
@@ -11,7 +12,18 @@ export const metadata: Metadata = {
         description: 'Ways to reach Sandip Maity.',
         url: `${siteConfig.url}/contact`,
         siteName: siteConfig.name,
-        images: [{ url: '/og?title=Contact Me', width: 1200, height: 630, alt: 'Contact Sandip Maity' }],
+        images: [
+            {
+                url: getOgImageUrl({
+                    title: 'Contact Me',
+                    description: 'Get in touch for embedded systems development, IoT integration, hardware consulting, or collaborations.',
+                    type: 'page',
+                }),
+                width: 1200,
+                height: 630,
+                alt: 'Contact Sandip Maity',
+            },
+        ],
         locale: 'en_US',
         type: 'website',
     },
@@ -20,7 +32,13 @@ export const metadata: Metadata = {
         title: 'Contact Sandip Maity',
         description: 'Ways to reach Sandip Maity.',
         creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-        images: ['/og?title=Contact Me'],
+        images: [
+            getOgImageUrl({
+                title: 'Contact Me',
+                description: 'Get in touch for embedded systems development, IoT integration, hardware consulting, or collaborations.',
+                type: 'page',
+            }),
+        ],
     },
 };
 
