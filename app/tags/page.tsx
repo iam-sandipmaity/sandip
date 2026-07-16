@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllPosts, getAllTagsWithCounts } from '@/lib/posts';
-import { tagToSlug } from '@/lib/utils';
+import { tagToSlug, getOgImageUrl } from '@/lib/utils';
 import { siteConfig } from '@/lib/config';
 
 export const metadata: Metadata = {
@@ -15,7 +15,18 @@ export const metadata: Metadata = {
         description: 'Browse all blog tags and post counts.',
         url: `${siteConfig.url}/tags`,
         siteName: siteConfig.name,
-        images: [{ url: '/og?title=Tags', width: 1200, height: 630, alt: 'Sandip Maity Tags' }],
+        images: [
+            {
+                url: getOgImageUrl({
+                    title: 'Tags Index',
+                    description: 'Browse all topics and tags on the technical blog, from electronics to software.',
+                    type: 'tag',
+                }),
+                width: 1200,
+                height: 630,
+                alt: 'Sandip Maity Tags',
+            },
+        ],
         locale: 'en_US',
         type: 'website',
     },
@@ -24,7 +35,13 @@ export const metadata: Metadata = {
         title: 'Tags - Sandip Maity',
         description: 'Browse all blog tags and post counts.',
         creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-        images: ['/og?title=Tags'],
+        images: [
+            getOgImageUrl({
+                title: 'Tags Index',
+                description: 'Browse all topics and tags on the technical blog, from electronics to software.',
+                type: 'tag',
+            }),
+        ],
     },
 };
 

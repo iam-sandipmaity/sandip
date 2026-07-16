@@ -7,6 +7,7 @@ import SiteHeader from '@/components/SiteHeader';
 import Footer from '@/components/Footer';
 import BrowserCacheCleanup from '@/components/BrowserCacheCleanup';
 import { siteConfig } from '@/lib/config';
+import { getOgImageUrl } from '@/lib/utils';
 
 const inter = Inter({
     subsets: ['latin'],
@@ -76,7 +77,11 @@ export const metadata: Metadata = {
         siteName: 'Sandip Maity Portfolio',
         images: [
             {
-                url: '/og?title=Sandip Maity',
+                url: getOgImageUrl({
+                    title: 'Sandip Maity',
+                    description: 'Embedded Systems Developer | IoT & Circuit Design',
+                    type: 'home',
+                }),
                 width: 1200,
                 height: 630,
                 alt: 'Sandip Maity Portfolio',
@@ -88,7 +93,13 @@ export const metadata: Metadata = {
         title: 'Sandip Maity - ECE Student & Embedded Systems Developer',
         description: 'Electronics and Communication Engineering student passionate about embedded systems, circuit design, and IoT solutions.',
         creator: '@iam_sandipmaity',
-        images: ['/og?title=Sandip Maity'],
+        images: [
+            getOgImageUrl({
+                title: 'Sandip Maity',
+                description: 'Embedded Systems Developer | IoT & Circuit Design',
+                type: 'home',
+            }),
+        ],
     },
     robots: {
         index: true,

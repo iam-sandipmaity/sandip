@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllTags, getPostsByTag } from '@/lib/posts';
-import { tagToSlug, slugToTag } from '@/lib/utils';
+import { tagToSlug, slugToTag, getOgImageUrl } from '@/lib/utils';
 import PostList from '@/components/PostList';
 import { siteConfig } from '@/lib/config';
 
@@ -23,6 +23,12 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
     const { tag: tagSlug } = await params;
     const tag = slugToTag(tagSlug);
+    const ogImage = getOgImageUrl({
+        title: `#${tag}`,
+        description: `Browse all technical blog posts tagged with #${tag}.`,
+        type: 'tag',
+        tags: [tag],
+    });
 
     return {
         title: `#${tag}`,
@@ -35,7 +41,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
             description: `Posts tagged with ${tag}.`,
             url: `${siteConfig.url}/tags/${tagSlug}`,
             siteName: siteConfig.name,
-            images: [{ url: `/og?title=${encodeURIComponent(`#${tag}`)}`, width: 1200, height: 630, alt: `#${tag}` }],
+            images: [{ url: ogImage, width: 1200, height: 630, alt: `#${tag}` }],
             locale: 'en_US',
             type: 'website',
         },
@@ -44,7 +50,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
             title: `#${tag} - Sandip Maity`,
             description: `Posts tagged with ${tag}.`,
             creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-            images: [`/og?title=${encodeURIComponent(`#${tag}`)}`],
+            images: [ogImage],
         },
     };
 }

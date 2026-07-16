@@ -5,6 +5,7 @@ import { FaXTwitter } from 'react-icons/fa6';
 import { getRecentPosts } from '@/lib/posts';
 import { siteConfig } from '@/lib/config';
 import PostList from '@/components/PostList';
+import { getOgImageUrl } from '@/lib/utils';
 
 export const metadata: Metadata = {
     title: siteConfig.title,
@@ -16,7 +17,11 @@ export const metadata: Metadata = {
         siteName: siteConfig.name,
         images: [
             {
-                url: '/og?title=Sandip Maity',
+                url: getOgImageUrl({
+                    title: 'Sandip Maity',
+                    description: 'Embedded Systems Developer | IoT & Circuit Design',
+                    type: 'home',
+                }),
                 width: 1200,
                 height: 630,
                 alt: siteConfig.author,
@@ -30,7 +35,13 @@ export const metadata: Metadata = {
         title: siteConfig.title,
         description: siteConfig.description,
         creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-        images: ['/og?title=Sandip Maity'],
+        images: [
+            getOgImageUrl({
+                title: 'Sandip Maity',
+                description: 'Embedded Systems Developer | IoT & Circuit Design',
+                type: 'home',
+            }),
+        ],
     },
 };
 
@@ -72,7 +83,11 @@ export default function Home() {
                             '@type': 'Person',
                             name: siteConfig.author,
                             url: siteConfig.url,
-                            image: `${siteConfig.url}/og?title=Sandip Maity`,
+                            image: `${siteConfig.url}${getOgImageUrl({
+                                title: 'Sandip Maity',
+                                description: 'Embedded Systems Developer | IoT & Circuit Design',
+                                type: 'home',
+                            })}`,
                             jobTitle: 'Embedded Systems Developer',
                             description: siteConfig.description,
                             knowsAbout: ['Embedded Systems', 'Circuit Design', 'IoT', 'Arduino', 'STM32', 'ESP32', 'PCB Design', 'Firmware Development'],

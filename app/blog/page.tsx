@@ -6,6 +6,7 @@ import BlogSidebar from '@/components/BlogSidebar';
 import BlogMainContent from '@/components/BlogMainContent';
 import TagList from '@/components/TagList';
 import { siteConfig } from '@/lib/config';
+import { getOgImageUrl } from '@/lib/utils';
 
 export const metadata: Metadata = {
     title: 'Blog',
@@ -16,7 +17,18 @@ export const metadata: Metadata = {
         description: 'Thoughts on embedded systems, electronics, and technology.',
         url: `${siteConfig.url}/blog`,
         siteName: siteConfig.name,
-        images: [{ url: '/og?title=Blog', width: 1200, height: 630, alt: 'Sandip Maity Blog' }],
+        images: [
+            {
+                url: getOgImageUrl({
+                    title: 'Blog',
+                    description: 'Thoughts, tutorials and writeups on embedded systems, electronics, circuit design, and programming.',
+                    type: 'blog',
+                }),
+                width: 1200,
+                height: 630,
+                alt: 'Sandip Maity Blog',
+            },
+        ],
         locale: 'en_US',
         type: 'website',
     },
@@ -25,7 +37,13 @@ export const metadata: Metadata = {
         title: 'Blog - Sandip Maity',
         description: 'Thoughts on embedded systems and technology.',
         creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-        images: ['/og?title=Blog'],
+        images: [
+            getOgImageUrl({
+                title: 'Blog',
+                description: 'Thoughts, tutorials and writeups on embedded systems, electronics, circuit design, and programming.',
+                type: 'blog',
+            }),
+        ],
     },
 };
 

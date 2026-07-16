@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { FiGithub, FiGlobe, FiMail } from 'react-icons/fi';
 import { FaXTwitter } from 'react-icons/fa6';
 import { siteConfig } from '@/lib/config';
+import { getOgImageUrl } from '@/lib/utils';
 
 export const metadata: Metadata = {
     title: 'About - Embedded Developer & Engineer',
@@ -14,7 +15,18 @@ export const metadata: Metadata = {
         description: 'Electronics and Communication Engineering student passionate about embedded systems.',
         url: `${siteConfig.url}/about`,
         siteName: siteConfig.name,
-        images: [{ url: '/og?title=About Me', width: 1200, height: 630, alt: 'About Sandip Maity' }],
+        images: [
+            {
+                url: getOgImageUrl({
+                    title: 'About Me',
+                    description: 'Electronics & Communication Engineering student passionate about embedded systems & IoT solutions.',
+                    type: 'page',
+                }),
+                width: 1200,
+                height: 630,
+                alt: 'About Sandip Maity',
+            },
+        ],
         locale: 'en_US',
         type: 'profile',
     },
@@ -23,7 +35,13 @@ export const metadata: Metadata = {
         title: 'About Sandip Maity - Embedded Developer',
         description: 'Electronics and Communication Engineering student passionate about embedded systems.',
         creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
-        images: ['/og?title=About Me'],
+        images: [
+            getOgImageUrl({
+                title: 'About Me',
+                description: 'Electronics & Communication Engineering student passionate about embedded systems & IoT solutions.',
+                type: 'page',
+            }),
+        ],
     },
 };
 
