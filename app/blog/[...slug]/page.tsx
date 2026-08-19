@@ -175,9 +175,62 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         // Get breadcrumbs for the post
         const breadcrumbs = getBreadcrumbs(slugString);
         const readingTime = getReadingTimeMinutes(post.content);
+        const postUrl = `${siteConfig.url}/blog/${slugString}`;
+        const ogImage = getOgImageUrl({
+            title: post.title,
+            description: post.summary,
+            date: post.date,
+            tags: post.tags,
+            readingTime: readingTime,
+            type: 'blog',
+        });
 
         return (
             <article className="max-w-3xl mx-auto px-6 py-16">
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify([
+                            {
+                                '@context': 'https://schema.org',
+                                '@type': 'BlogPosting',
+                                headline: post.title,
+                                description: post.summary,
+                                datePublished: toIsoDateString(post.date),
+                                author: {
+                                    '@type': 'Person',
+                                    name: siteConfig.author,
+                                    url: siteConfig.url,
+                                },
+                                publisher: {
+                                    '@type': 'Person',
+                                    name: siteConfig.author,
+                                    url: siteConfig.url,
+                                },
+                                mainEntityOfPage: {
+                                    '@type': 'WebPage',
+                                    '@id': postUrl,
+                                },
+                                image: ogImage,
+                                keywords: post.tags.join(', '),
+                            },
+                            {
+                                '@context': 'https://schema.org',
+                                '@type': 'BreadcrumbList',
+                                itemListElement: [
+                                    { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+                                    { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteConfig.url}/blog` },
+                                    ...breadcrumbs.map((crumb, idx) => ({
+                                        '@type': 'ListItem',
+                                        position: idx + 3,
+                                        name: crumb.name,
+                                        item: `${siteConfig.url}/blog/${crumb.path}`,
+                                    })),
+                                ],
+                            },
+                        ]),
+                    }}
+                />
                 {/* Breadcrumb Navigation */}
                 <div className="mb-6">
                     <div className="font-mono flex items-center gap-2 text-base text-muted">

@@ -66,6 +66,21 @@ export default async function TagPage({ params }: TagPageProps) {
 
     return (
         <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'BreadcrumbList',
+                        itemListElement: [
+                            { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+                            { '@type': 'ListItem', position: 2, name: 'Tags', item: `${siteConfig.url}/tags` },
+                            { '@type': 'ListItem', position: 3, name: tag, item: `${siteConfig.url}/tags/${tagSlug}` },
+                        ],
+                    }),
+                }}
+            />
+
             <section className="mb-10 font-mono">
                 <Link href="/tags" className="mb-6 inline-block text-sm text-muted transition-colors hover:text-accent-teal">
                     {'<- Tags'}
