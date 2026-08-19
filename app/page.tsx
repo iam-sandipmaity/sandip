@@ -82,6 +82,7 @@ export default function Home() {
                         mainEntity: {
                             '@type': 'Person',
                             name: siteConfig.author,
+                            alternateName: ['Sandip', 'Maity Sandip', 'Maity', 'iam_sandipmaity', 'iam-sandipmaity', 'sandipmaity'],
                             url: siteConfig.url,
                             image: `${siteConfig.url}${getOgImageUrl({
                                 title: 'Sandip Maity',
@@ -90,7 +91,7 @@ export default function Home() {
                             })}`,
                             jobTitle: 'Electronics and Communication Engineer',
                             description: siteConfig.description,
-                            knowsAbout: ['Electronics and Communication Engineering', 'Fiber Optics', 'Utility Engineering', 'IoT', 'Circuit Design', 'Web Tools'],
+                            knowsAbout: ['Electronics and Communication Engineering', 'Fiber Optics', 'Utility Engineering', 'IoT', 'STM32', 'ESP32', 'Arduino', 'Circuit Design', 'Web Tools'],
                             sameAs: [
                                 siteConfig.social.github,
                                 siteConfig.social.twitter,
