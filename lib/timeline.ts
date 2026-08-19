@@ -14,7 +14,7 @@ export const timelineItems: TimelineItem[] = [
     {
         id: 'career-start',
         year: '2026',
-        date: '2026',
+        date: 'Aug 2026',
         title: 'Started Career as Fiber Optics & Utility Engineer',
         roleOrContext: 'Career',
         category: 'career',
@@ -23,7 +23,7 @@ export const timelineItems: TimelineItem[] = [
     {
         id: 'btech-end',
         year: '2026',
-        date: '2026',
+        date: 'Jul 2026',
         title: 'Completed B.Tech in ECE',
         roleOrContext: 'Education',
         category: 'education',
@@ -32,7 +32,7 @@ export const timelineItems: TimelineItem[] = [
     {
         id: 'btech-start',
         year: '2022',
-        date: '2022',
+        date: 'Sep 2022',
         title: 'Started B.Tech in ECE',
         roleOrContext: 'Education',
         category: 'education',
