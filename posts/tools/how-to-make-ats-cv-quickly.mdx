@@ -1,0 +1,76 @@
+---
+title: "How to Build a Tailored, ATS-Optimized CV Quickly for Every Job Application"
+date: "19-08-2026"
+summary: "Stop spending hours manually updating your resume. Learn how to use AI and LaTeX (Jake's Resume style) to generate a 1-page, ATS-optimized CV tailored to any company in seconds."
+tags: ["resume", "ats", "career", "ai", "latex", "tools", "job-hunting"]
+---
+
+Applying to dozens of jobs with a single generic resume is one of the quickest ways to end up in the ATS (Applicant Tracking System) rejection pile. Recruiters and automated screeners scan for specific keywords, technical skills, and quantified achievements aligned directly with their Job Description (JD).
+
+However, manually rewriting your CV for every single role takes hours you simply don't have.
+
+Here is a simple, highly effective system using AI and standard **LaTeX (Jake's Resume style)** to generate a 1-page, high-impact, ATS-optimized resume tailored to any company in less than 30 seconds.
+
+---
+
+## Why LaTeX & Jake’s Resume Template?
+
+1. **100% ATS-Friendly**: Standard LaTeX templates produce clean, parseable PDF text structure without invisible tables, columns, or header/footer traps that break ATS parsers.
+2. **Pixel-Perfect Layout**: Never battle Word margins, broken bullet alignment, or unexpected page overflows again.
+3. **Instant Overleaf Compilation**: Compiles cleanly with zero installation using standard `pdflatex` on [Overleaf](https://www.overleaf.com/).
+
+---
+
+## The Master AI Prompt
+
+Copy the prompt block below and paste it into ChatGPT, Claude, or Gemini alongside your current resume details and the target Job Description.
+
+```markdown
+Role:
+Act as a recruiter from the hiring company and a senior ATS parser simultaneously. Optimize the resume to rank in the top 5% of applicants while remaining 100% truthful.
+
+Inputs Provided:
+1. Candidate Details / Existing Resume: [PASTE RESUME TEXT HERE or ATTACH CV PDF/DOCX/IMAGE]
+2. Target Job Description (JD): [PASTE JOB DESCRIPTION TEXT HERE or ATTACH JD FILE/IMAGE]
+
+Output Requirements:
+1. ATS Match Analysis (Before vs. After Optimization Score)
+2. Missing Keywords Strategy Table (Keyword, Category, How Integrated)
+3. Complete, Error-Free LaTeX Code using Jake's Resume style with thin \titlerule section dividers.
+
+Formatting Constraints:
+- Compile-ready LaTeX (no custom packages that fail on standard Overleaf/pdflatex engines).
+- Standard clean headings: Professional Summary, Experience / Practicum, Education, Skills & Certifications.
+- No artificial keyword stuffing or fake company references inside body text.
+- 1-page strict length.
+```
+
+---
+
+## Step-by-Step Execution Guide
+
+### Step 1: Run the Prompt
+1. Open your AI assistant of choice (ChatGPT, Gemini, or Claude).
+2. Copy the prompt block above into the chat.
+3. **For Candidate Details**: Paste your raw resume text/career achievements **OR** upload/attach your existing CV as a PDF, Word doc, or screenshot image.
+4. **For Job Description**: Paste the target job description text **OR** upload/attach a screenshot/PDF of the job posting.
+5. Send the prompt.
+
+### Step 2: Review the ATS Analysis & Keyword Strategy Table
+The AI will provide:
+- **Before vs. After Match Score**: A clear comparison of your initial alignment versus the optimized version (e.g., 55% to 92%).
+- **Keyword Strategy Table**: Detailed breakdown showing missing terms from the JD and how they were authentically woven into your actual experience.
+
+### Step 3: Compile in Overleaf
+1. Go to [Overleaf](https://www.overleaf.com/) (Free account).
+2. Click **New Project** -> **Blank Project**.
+3. Replace all the default template code with the generated LaTeX code output.
+4. Click **Recompile** and download your clean, 1-page PDF.
+
+---
+
+## Pro-Tips for Maximum Impact
+
+* **Maintain 100% Truthfulness**: The prompt strictly instructs the AI not to invent companies, roles, or skills. It optimizes your authentic experience using the company's precise terminology.
+* **Add Metrics**: If your raw experience lacks numbers, provide basic metrics (e.g., *"reduced load times by 25%"* or *"handled 50+ customer tickets daily"*). This allows the AI to craft impactful XYZ-format bullet points (`Accomplished X, measured by Y, by doing Z`).
+* **Enforce Page Limits**: While a 1-page resume is recommended for most mid-level roles, if you have extensive experience (5+ years) and want a 2-page CV, simply change the constraint in the prompt from `- 1-page strict length.` to `- 2-page strict length.` or tell the AI `"Expand this into a detailed 2-page resume layout."`
