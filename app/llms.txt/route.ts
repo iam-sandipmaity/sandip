@@ -19,6 +19,7 @@ export async function GET() {
     const navLinks = [
         { href: '/', label: 'Home', description: 'Homepage and introduction to Sandip Maity' },
         { href: '/about', label: 'About', description: 'About me, my skills, and background in ECE, Fiber Optics, Utility Engineering, and IoT' },
+        { href: '/timeline', label: 'Timeline', description: 'Life journey, career milestones, education, and achievements' },
         { href: '/projects', label: 'Projects', description: 'Portfolio of Fiber Optics, IoT, circuit design, utility engineering, and web projects' },
         { href: '/blog', label: 'Blog', description: 'Technical articles and tutorials on ECE, Fiber Optics, IoT, circuits, and web tools' },
         { href: '/reads', label: 'Reads', description: 'Curated reading list and resources' },

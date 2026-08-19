@@ -6,6 +6,7 @@ const footerLinks = [
     { href: '/reads', label: 'Reads' },
     { href: '/projects', label: 'Projects' },
     { href: '/about', label: 'About' },
+    { href: '/timeline', label: 'Timeline' },
     { href: '/contact', label: 'Contact' },
 ];
 
@@ -13,22 +14,25 @@ export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="mt-24 border-t border-dotted border-surface/50 py-8" suppressHydrationWarning>
-            <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-6 text-center font-mono text-sm text-muted sm:flex-row sm:justify-between sm:text-left">
-                <p className="leading-6">Copyright © {currentYear} Sandip Maity</p>
+        <footer className="mt-24 border-t border-dotted border-surface/50 py-10" suppressHydrationWarning>
+            <div className="mx-auto max-w-3xl px-6 font-mono text-sm text-muted">
+                <div className="flex flex-col items-center justify-between gap-6 sm:flex-row sm:items-center">
+                    <p className="text-center sm:text-left text-muted">
+                        © {currentYear} Sandip Maity
+                    </p>
 
-                <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 leading-6 sm:justify-end sm:gap-x-0">
-                    {footerLinks.map((link, index) => (
-                        <span key={link.href} className="flex items-center">
-                            {index > 0 && (
-                                <span className="mx-3 hidden h-4 border-l border-dotted border-surface sm:block" aria-hidden="true" />
-                            )}
-                            <Link href={link.href} className="transition-colors hover:text-accent-teal">
+                    <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:justify-end">
+                        {footerLinks.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className="transition-colors hover:text-accent-teal whitespace-nowrap"
+                            >
                                 {link.label}
                             </Link>
-                        </span>
-                    ))}
-                </nav>
+                        ))}
+                    </nav>
+                </div>
             </div>
         </footer>
     );
