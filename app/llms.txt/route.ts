@@ -18,9 +18,9 @@ export async function GET() {
     // Navigation links (from Header component)
     const navLinks = [
         { href: '/', label: 'Home', description: 'Homepage and introduction to Sandip Maity' },
-        { href: '/about', label: 'About', description: 'About me, my skills, and background in embedded systems' },
-        { href: '/projects', label: 'Projects', description: 'Portfolio of embedded systems, IoT, and web development projects' },
-        { href: '/blog', label: 'Blog', description: 'Technical articles and tutorials on embedded systems, web development, and more' },
+        { href: '/about', label: 'About', description: 'About me, my skills, and background in ECE, Fiber Optics, Utility Engineering, and IoT' },
+        { href: '/projects', label: 'Projects', description: 'Portfolio of Fiber Optics, IoT, circuit design, utility engineering, and web projects' },
+        { href: '/blog', label: 'Blog', description: 'Technical articles and tutorials on ECE, Fiber Optics, IoT, circuits, and web tools' },
         { href: '/reads', label: 'Reads', description: 'Curated reading list and resources' },
         { href: '/contact', label: 'Contact', description: 'Get in touch with me' },
     ];
@@ -28,7 +28,7 @@ export async function GET() {
     // Build the llms.txt content
     let content = `# sandipmaity.me
 
-> Electronics and Communication Engineering student passionate about embedded systems, circuit design, IoT solutions, and web development. This portfolio showcases my projects, technical blog posts, and professional journey.
+> Electronics & Communication Engineer specializing in Fiber Optics, Utility Engineering, IoT solutions, Circuit Design, and interactive web tools. This portfolio showcases my projects, technical blog posts, and engineering work.
 
 ## Navigation
 

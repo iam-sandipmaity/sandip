@@ -16,7 +16,7 @@ export const metadata: Metadata = {
             {
                 url: getOgImageUrl({
                     title: 'Contact Me',
-                    description: 'Get in touch for embedded systems development, IoT integration, hardware consulting, or collaborations.',
+                    description: 'Get in touch for Fiber Optics, Utility Engineering, IoT projects, or technical collaborations.',
                     type: 'page',
                 }),
                 width: 1200,
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
         images: [
             getOgImageUrl({
                 title: 'Contact Me',
-                description: 'Get in touch for embedded systems development, IoT integration, hardware consulting, or collaborations.',
+                description: 'Get in touch for Fiber Optics, Utility Engineering, IoT projects, or technical collaborations.',
                 type: 'page',
             }),
         ],

@@ -4,7 +4,7 @@ import { getOgImageUrl } from '@/lib/utils';
 
 export const metadata: Metadata = {
     title: 'Reads',
-    description: 'Books, articles, and resources I\'ve found valuable for embedded systems and personal development.',
+    description: 'Books, articles, and resources I\'ve found valuable.',
     openGraph: {
         title: 'Reads - Sandip Maity',
         description: 'Books, articles, and resources I\'ve found valuable.',
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
             {
                 url: getOgImageUrl({
                     title: 'Reads & Resources',
-                    description: 'A curated list of books, articles, and documentation I find valuable for firmware engineering & development.',
+                    description: 'A curated list of books, articles, and documentation I find valuable.',
                     type: 'page',
                 }),
                 width: 1200,
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
         images: [
             getOgImageUrl({
                 title: 'Reads & Resources',
-                description: 'A curated list of books, articles, and documentation I find valuable for firmware engineering & development.',
+                description: 'A curated list of books, articles, and documentation I find valuable.',
                 type: 'page',
             }),
         ],

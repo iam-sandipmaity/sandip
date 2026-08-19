@@ -19,7 +19,7 @@ export const metadata: Metadata = {
             {
                 url: getOgImageUrl({
                     title: 'Sandip Maity',
-                    description: 'Embedded Systems Developer | IoT & Circuit Design',
+                    description: 'ECE & Fiber Optics Engineer | IoT & Circuit Design',
                     type: 'home',
                 }),
                 width: 1200,
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
         images: [
             getOgImageUrl({
                 title: 'Sandip Maity',
-                description: 'Embedded Systems Developer | IoT & Circuit Design',
+                description: 'ECE & Fiber Optics Engineer | IoT & Circuit Design',
                 type: 'home',
             }),
         ],
@@ -85,12 +85,12 @@ export default function Home() {
                             url: siteConfig.url,
                             image: `${siteConfig.url}${getOgImageUrl({
                                 title: 'Sandip Maity',
-                                description: 'Embedded Systems Developer | IoT & Circuit Design',
+                                description: 'ECE & Fiber Optics Engineer | IoT & Circuit Design',
                                 type: 'home',
                             })}`,
-                            jobTitle: 'Embedded Systems Developer',
+                            jobTitle: 'Electronics and Communication Engineer',
                             description: siteConfig.description,
-                            knowsAbout: ['Embedded Systems', 'Circuit Design', 'IoT', 'Arduino', 'STM32', 'ESP32', 'PCB Design', 'Firmware Development'],
+                            knowsAbout: ['Electronics and Communication Engineering', 'Fiber Optics', 'Utility Engineering', 'IoT', 'Circuit Design', 'Web Tools'],
                             sameAs: [
                                 siteConfig.social.github,
                                 siteConfig.social.twitter,

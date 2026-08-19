@@ -5,21 +5,21 @@ import { siteConfig } from '@/lib/config';
 import { getOgImageUrl } from '@/lib/utils';
 
 export const metadata: Metadata = {
-    title: 'About - Embedded Developer & Engineer',
-    description: 'Electronics and Communication Engineering student passionate about embedded systems, Arduino, STM32, circuit design, PCB development, and IoT solutions.',
+    title: 'About - ECE & Fiber Optics Engineer',
+    description: 'Electronics & Communication Engineer specializing in Fiber Optics, Utility Engineering, IoT solutions, Circuit Design, and interactive web tools.',
     alternates: {
         canonical: `${siteConfig.url}/about`,
     },
     openGraph: {
-        title: 'About Sandip Maity - Embedded Developer',
-        description: 'Electronics and Communication Engineering student passionate about embedded systems.',
+        title: 'About Sandip Maity - ECE & Fiber Optics Engineer',
+        description: 'Electronics & Communication Engineer specializing in Fiber Optics, Utility Engineering, IoT solutions, and Circuit Design.',
         url: `${siteConfig.url}/about`,
         siteName: siteConfig.name,
         images: [
             {
                 url: getOgImageUrl({
                     title: 'About Me',
-                    description: 'Electronics & Communication Engineering student passionate about embedded systems & IoT solutions.',
+                    description: 'ECE & Fiber Optics Engineer specializing in IoT solutions & Circuit Design.',
                     type: 'page',
                 }),
                 width: 1200,
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'About Sandip Maity - Embedded Developer',
-        description: 'Electronics and Communication Engineering student passionate about embedded systems.',
+        title: 'About Sandip Maity - ECE & Fiber Optics Engineer',
+        description: 'Electronics & Communication Engineer specializing in Fiber Optics, Utility Engineering, IoT solutions, and Circuit Design.',
         creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
         images: [
             getOgImageUrl({
                 title: 'About Me',
-                description: 'Electronics & Communication Engineering student passionate about embedded systems & IoT solutions.',
+                description: 'ECE & Fiber Optics Engineer specializing in IoT solutions & Circuit Design.',
                 type: 'page',
             }),
         ],
@@ -99,7 +99,7 @@ export default function AboutPage() {
                     Hi, I&apos;m <span className="text-accent-teal">{siteConfig.author}</span>.
                 </p>
                 <p className="font-mono text-lg text-muted leading-relaxed mt-4">
-                    An Electronics and Communication Engineering student building the future with code and circuits.
+                    Electronics & Communication Engineer specializing in Fiber Optics, Utility Engineering, IoT, and Circuit Design.
                 </p>
             </section>
 

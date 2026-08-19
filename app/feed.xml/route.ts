@@ -12,7 +12,7 @@ export async function GET() {
   <channel>
     <title>Sandip Maity - Blog</title>
     <link>${siteUrl}/blog</link>
-    <description>Electronics and Communication Engineering student passionate about embedded systems, circuit design, and IoT solutions.</description>
+    <description>Electronics &amp; Communication Engineer specializing in Fiber Optics, Utility Engineering, IoT solutions, and Circuit Design.</description>
     <language>en</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${siteUrl}/feed.xml" rel="self" type="application/rss+xml"/>

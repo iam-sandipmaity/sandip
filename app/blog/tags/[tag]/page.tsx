@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
 
     return {
         title: `Posts tagged "${tag}"`,
-        description: `Explore all blog posts and articles tagged with ${tag}. Find tutorials, guides, and insights about ${tag} from embedded systems development to technical writing.`,
+        description: `Explore all blog posts and articles tagged with ${tag}. Find tutorials, guides, and insights about ${tag}.`,
     };
 }
 

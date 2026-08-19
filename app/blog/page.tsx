@@ -10,18 +10,18 @@ import { getOgImageUrl } from '@/lib/utils';
 
 export const metadata: Metadata = {
     title: 'Blog',
-    description: 'Thoughts on embedded systems, electronics, circuit design, and technology.',
+    description: 'Articles, guides, and writeups on ECE, fiber optics, IoT, circuits, tech tools, and programming.',
     alternates: { canonical: `${siteConfig.url}/blog` },
     openGraph: {
         title: 'Blog - Sandip Maity',
-        description: 'Thoughts on embedded systems, electronics, and technology.',
+        description: 'Articles and writeups on ECE, fiber optics, IoT, circuit design, and technology tools.',
         url: `${siteConfig.url}/blog`,
         siteName: siteConfig.name,
         images: [
             {
                 url: getOgImageUrl({
                     title: 'Blog',
-                    description: 'Thoughts, tutorials and writeups on embedded systems, electronics, circuit design, and programming.',
+                    description: 'Thoughts, tutorials, and writeups on ECE, fiber optics, IoT, circuits, and technology.',
                     type: 'blog',
                 }),
                 width: 1200,
@@ -35,12 +35,12 @@ export const metadata: Metadata = {
     twitter: {
         card: 'summary_large_image',
         title: 'Blog - Sandip Maity',
-        description: 'Thoughts on embedded systems and technology.',
+        description: 'Articles and writeups on ECE, fiber optics, IoT, circuit design, and technology.',
         creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
         images: [
             getOgImageUrl({
                 title: 'Blog',
-                description: 'Thoughts, tutorials and writeups on embedded systems, electronics, circuit design, and programming.',
+                description: 'Thoughts, tutorials, and writeups on ECE, fiber optics, IoT, circuits, and technology.',
                 type: 'blog',
             }),
         ],

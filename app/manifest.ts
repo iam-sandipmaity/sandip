@@ -2,9 +2,9 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
     return {
-        name: 'Sandip Maity - Embedded Systems Developer',
+        name: 'Sandip Maity - ECE & Fiber Optics Engineer',
         short_name: 'Sandip Maity',
-        description: 'Electronics and Communication Engineering student passionate about embedded systems, circuit design, and IoT solutions.',
+        description: 'Electronics & Communication Engineer specializing in Fiber Optics, Utility Engineering, IoT solutions, Circuit Design, and web tools.',
         start_url: '/',
         display: 'standalone',
         background_color: '#0a0a0f',
@@ -59,7 +59,7 @@ export default function manifest(): MetadataRoute.Manifest {
             {
                 name: 'Projects',
                 short_name: 'Projects',
-                description: 'View embedded systems projects',
+                description: 'View portfolio projects',
                 url: '/projects',
                 icons: [{ src: '/icon.svg', sizes: 'any' }],
             },

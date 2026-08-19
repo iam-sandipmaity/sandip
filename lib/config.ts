@@ -4,8 +4,8 @@
 export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://sandipmaity.me',
   name: 'Sandip Maity Portfolio',
-  title: 'Sandip Maity - Embedded System IOT Circuit design and Vibe coder',
-  description: 'Embedded systems developer specializing in Arduino, STM32, ESP32, IoT solutions, circuit design, and PCB development. Explore projects and technical blog posts.',
+  title: 'Sandip Maity - ECE & Fiber Optics Engineer | IoT, Circuits & Web Tools',
+  description: 'Portfolio and blog of Sandip Maity. Electronics & Communication Engineer specializing in Fiber Optics, Utility Engineering, IoT solutions, Circuit Design, and web tools.',
   author: 'Sandip Maity',
   email: 'maitysandip@proton.me',
   social: {

@@ -5,21 +5,21 @@ import { siteConfig } from '@/lib/config';
 import { getOgImageUrl } from '@/lib/utils';
 
 export const metadata: Metadata = {
-    title: 'Projects - Arduino, STM32 & IoT Solutions',
-    description: 'Explore embedded systems projects featuring Arduino, STM32, ESP32, circuit design, PCB development, and IoT solutions. Practical implementations and technical documentation.',
+    title: 'Projects - Fiber Optics, IoT, Circuits & Web Tools',
+    description: 'Explore projects by Sandip Maity featuring ECE hardware, Fiber Optics, IoT solutions, circuit design, utility tools, and full-stack web applications.',
     alternates: {
         canonical: `${siteConfig.url}/projects`,
     },
     openGraph: {
-        title: 'Embedded Systems Projects by Sandip Maity',
-        description: 'Explore embedded systems projects featuring Arduino, STM32, ESP32, circuit design, PCB development, and IoT solutions.',
+        title: 'Projects by Sandip Maity',
+        description: 'Explore ECE, Fiber Optics, IoT, circuit design, utility tools, and web applications developed by Sandip Maity.',
         url: `${siteConfig.url}/projects`,
         siteName: siteConfig.name,
         images: [
             {
                 url: getOgImageUrl({
                     title: 'Projects Archive',
-                    description: 'Explore embedded systems and hardware projects, from custom STM32/ESP32 PCBs to IoT platforms.',
+                    description: 'Explore ECE, Fiber Optics, IoT, circuit design, utility tools, and web projects.',
                     type: 'project',
                 }),
                 width: 1200,
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Embedded Systems Projects by Sandip Maity',
-        description: 'Explore embedded systems projects featuring Arduino, STM32, ESP32, circuit design, PCB development, and IoT solutions.',
+        title: 'Projects by Sandip Maity',
+        description: 'Explore ECE, Fiber Optics, IoT, circuit design, utility tools, and web applications developed by Sandip Maity.',
         creator: siteConfig.social.twitter.replace('https://x.com/', '@'),
         images: [
             getOgImageUrl({
                 title: 'Projects Archive',
-                description: 'Explore embedded systems and hardware projects, from custom STM32/ESP32 PCBs to IoT platforms.',
+                description: 'Explore ECE, Fiber Optics, IoT, circuit design, utility tools, and web projects.',
                 type: 'project',
             }),
         ],
