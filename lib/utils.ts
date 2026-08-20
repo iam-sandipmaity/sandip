@@ -6,9 +6,14 @@ export function tagToSlug(tag: string): string {
 }
 
 /**
- * Convert URL slug back to tag (replaces hyphens with spaces)
+ * Convert URL slug back to display tag name
  */
-export function slugToTag(slug: string): string {
+export function slugToTag(slug: string, existingTags: string[] = []): string {
+    const normalized = slug.toLowerCase();
+    const exactMatch = existingTags.find((t) => tagToSlug(t) === normalized);
+    if (exactMatch) {
+        return exactMatch;
+    }
     return slug.replace(/-/g, ' ');
 }
 

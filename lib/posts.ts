@@ -151,12 +151,11 @@ export function getAllTagsWithCounts(): Array<{ tag: string; count: number }> {
 /**
  * Get posts by tag
  */
-export function getPostsByTag(tag: string): Post[] {
+export function getPostsByTag(tagOrSlug: string): Post[] {
     const allPosts = getAllPosts();
-    // Convert slug back to tag for comparison
-    const searchTag = slugToTag(tag);
+    const targetSlug = tagToSlug(tagOrSlug);
     return allPosts.filter((post) =>
-        post.tags.some((t) => t.toLowerCase() === searchTag.toLowerCase())
+        post.tags.some((t) => tagToSlug(t) === targetSlug)
     );
 }
 

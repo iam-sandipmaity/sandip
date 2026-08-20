@@ -27,7 +27,8 @@ export async function generateStaticParams() {
  */
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
     const { tag: tagSlug } = await params;
-    const tag = slugToTag(tagSlug);
+    const allTags = getAllTags();
+    const tag = slugToTag(tagSlug, allTags);
     const url = `${siteConfig.url}/blog/tags/${tagSlug}`;
     const description = `Explore all blog posts and articles tagged with ${tag}. Find tutorials, guides, and insights about ${tag}.`;
 
@@ -58,7 +59,8 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
  */
 export default async function TagPage({ params }: TagPageProps) {
     const { tag: tagSlug } = await params;
-    const tag = slugToTag(tagSlug);
+    const allTags = getAllTags();
+    const tag = slugToTag(tagSlug, allTags);
     const posts = getPostsByTag(tagSlug);
 
     if (posts.length === 0) {
