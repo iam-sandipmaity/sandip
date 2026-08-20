@@ -238,3 +238,41 @@ export function getBreadcrumbs(sectionPath: string): Array<{ name: string; path:
 
     return breadcrumbs;
 }
+
+/**
+ * Get related posts for a given post based on matching tags and section
+ */
+export function getRelatedPosts(currentSlug: string, count: number = 3): Post[] {
+    const allPosts = getAllPosts();
+    const currentPost = allPosts.find((p) => p.slug === currentSlug);
+
+    if (!currentPost) {
+        return allPosts.filter((p) => p.slug !== currentSlug).slice(0, count);
+    }
+
+    const currentTags = new Set(currentPost.tags.map((t) => t.toLowerCase()));
+    const currentSection = currentSlug.split('/')[0];
+
+    const scoredPosts = allPosts
+        .filter((p) => p.slug !== currentSlug)
+        .map((p) => {
+            let score = 0;
+
+            // Score matching tags
+            p.tags.forEach((tag) => {
+                if (currentTags.has(tag.toLowerCase())) {
+                    score += 2;
+                }
+            });
+
+            // Score matching section
+            if (p.slug.startsWith(currentSection + '/')) {
+                score += 1;
+            }
+
+            return { post: p, score };
+        })
+        .sort((a, b) => b.score - a.score);
+
+    return scoredPosts.map((item) => item.post).slice(0, count);
+}

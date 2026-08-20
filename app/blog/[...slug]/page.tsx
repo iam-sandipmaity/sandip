@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { getAllPostSlugs, getPostBySlug, getPostsBySection, getSubsections, getBreadcrumbs, getReadingTimeMinutes } from '@/lib/posts';
+import { getAllPostSlugs, getPostBySlug, getPostsBySection, getSubsections, getBreadcrumbs, getReadingTimeMinutes, getRelatedPosts } from '@/lib/posts';
 import { siteConfig } from '@/lib/config';
 import BlogPostTags from '@/components/BlogPostTags';
 import { compileMDX } from 'next-mdx-remote/rsc';
@@ -282,6 +282,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
                 {/* Share Options */}
                 <ShareOptions title={post.title} url={`/blog/${slugString}`} />
+
+                {/* Related Articles */}
+                {(() => {
+                    const relatedPosts = getRelatedPosts(slugString, 3);
+                    if (relatedPosts.length === 0) return null;
+
+                    return (
+                        <section className="mt-16 border-t border-dotted border-surface/70 pt-10 font-mono">
+                            <h2 className="mb-6 text-xl font-semibold text-subtle-text">
+                                Related Articles
+                            </h2>
+                            <PostList posts={relatedPosts} variant="compact" />
+                        </section>
+                    );
+                })()}
             </article>
         );
     } catch {

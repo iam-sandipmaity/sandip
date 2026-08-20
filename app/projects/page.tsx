@@ -53,28 +53,42 @@ export default function ProjectsPage() {
 
     return (
         <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-            {/* Breadcrumb Structured Data */}
+            {/* Structured Data */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        '@context': 'https://schema.org',
-                        '@type': 'BreadcrumbList',
-                        itemListElement: [
-                            {
+                    __html: JSON.stringify([
+                        {
+                            '@context': 'https://schema.org',
+                            '@type': 'BreadcrumbList',
+                            itemListElement: [
+                                {
+                                    '@type': 'ListItem',
+                                    position: 1,
+                                    name: 'Home',
+                                    item: siteConfig.url,
+                                },
+                                {
+                                    '@type': 'ListItem',
+                                    position: 2,
+                                    name: 'Projects',
+                                    item: `${siteConfig.url}/projects`,
+                                },
+                            ],
+                        },
+                        {
+                            '@context': 'https://schema.org',
+                            '@type': 'ItemList',
+                            name: 'Sandip Maity Projects',
+                            itemListElement: projects.map((project, index) => ({
                                 '@type': 'ListItem',
-                                position: 1,
-                                name: 'Home',
-                                item: siteConfig.url,
-                            },
-                            {
-                                '@type': 'ListItem',
-                                position: 2,
-                                name: 'Projects',
-                                item: `${siteConfig.url}/projects`,
-                            },
-                        ],
-                    }),
+                                position: index + 1,
+                                name: project.title,
+                                description: project.description,
+                                url: project.link || `${siteConfig.url}/projects`,
+                            })),
+                        },
+                    ]),
                 }}
             />
 
