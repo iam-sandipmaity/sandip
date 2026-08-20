@@ -13,6 +13,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import MDXImage from '@/components/MDXImage';
 import ShareOptions from '@/components/ShareOptions';
+import ReadingProgressBar from '@/components/ReadingProgressBar';
 import { formatPostDate, toIsoDateString } from '@/lib/date';
 import { getOgImageUrl } from '@/lib/utils';
 
@@ -187,6 +188,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         return (
             <article className="max-w-3xl mx-auto px-6 py-16">
+                <ReadingProgressBar />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
