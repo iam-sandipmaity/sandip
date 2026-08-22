@@ -1,0 +1,1033 @@
+---
+title: "How to Install Arch Linux Manually - The Complete A-to-Z Guide (UEFI)"
+date: "22-08-2026"
+summary: "The only Arch Linux manual installation guide you'll ever need. From flashing the USB to logging into your fresh system - every command explained, every keypress covered, including full cfdisk and fdisk partitioning walkthroughs. Because real ones say 'I use Arch btw'."
+tags: ["linux", "arch", "arch linux", "tutorial", "guide", "open-source", "tools", "grub", "partitioning"]
+---
+
+There are two kinds of people in this world: those who click "Next" through an installer, and those who build their operating system brick by brick with their own hands. Arch Linux is for the second kind.
+
+Installing Arch manually isn't just about getting an OS running - it's about understanding **every single piece** that makes your system boot. By the end of this guide you'll know what an EFI partition does, why fstab exists, and where your bootloader lives. And yes, you'll also earn eternal bragging rights: **"I use Arch btw."**
+
+This guide is written to be **the only resource you need** - based on the official [ArchWiki](https://wiki.archlinux.org/title/Installation_guide) (updated July 2026), assuming a standard **UEFI laptop**, covering everything from downloading the ISO to your first successful login.
+
+> ⚠️ **Before we start**: This process will **erase the target disk completely**. Back up anything important first. Read each step fully before running any command. Your data cannot be recovered once formatted.
+
+---
+
+## 📋 Table of Contents
+
+1. [What You'll Need](#1-what-youll-need)
+2. [Download and Verify the ISO](#2-download-and-verify-the-iso)
+3. [Create the Bootable USB](#3-create-the-bootable-usb)
+4. [Boot From the USB](#4-boot-from-the-usb)
+5. [Pre-Installation Setup](#5-pre-installation-setup)
+6. [Understand the Partition Plan](#6-understand-the-partition-plan)
+7. [Partitioning - Full Walkthroughs](#7-partitioning---full-walkthroughs-cfdisk--fdisk)
+8. [Format the Partitions](#8-format-the-partitions)
+9. [Mount Everything](#9-mount-everything)
+10. [Install the Base System](#10-install-the-base-system-pacstrap)
+11. [Generate fstab](#11-generate-fstab)
+12. [Configure Inside Chroot](#12-configure-inside-chroot)
+13. [Install the GRUB Bootloader](#13-install-the-grub-bootloader)
+14. [Final Steps and Reboot](#14-final-steps-and-reboot)
+15. [First Login Checklist](#15-first-login-checklist)
+16. [Troubleshooting](#16-troubleshooting)
+17. [Complete Command Cheat Sheet](#17-complete-command-cheat-sheet)
+
+---
+
+## 1. What You'll Need
+
+| Requirement | Details |
+|-------------|---------|
+| 💻 Laptop/Desktop | Any x86_64 machine with **UEFI** firmware (anything from ~2014 onwards) |
+| 🔌 Power | Laptop plugged into AC power - do NOT attempt this on battery alone |
+| 🌐 Internet | Wi-Fi or Ethernet (needed during installation) |
+| 💾 USB drive | Minimum **2 GB**, everything on it will be erased |
+| ⏱️ Time | 45-90 minutes for your first attempt |
+| 🧠 Patience | Reading skills > copy-paste skills |
+
+---
+
+## 2. Download and Verify the ISO
+
+### Download
+
+Get the latest ISO from the official download page: [archlinux.org/download](https://archlinux.org/download/)
+
+Pick a mirror close to your location for faster speeds. For example, if you're in India:
+
+```bash
+wget https://mirrors.nxtgen.com/archlinux/iso/latest/archlinux-x86_64.iso
+```
+
+### Verify the Checksum (Recommended)
+
+Corrupted downloads cause mysterious failures hours later. Verify first:
+
+```bash
+sha256sum archlinux-x86_64.iso
+```
+
+Compare the output hash against the value listed on the download page (`archlinux-x86_64.iso.sig` / checksums file). They must match **exactly**.
+
+---
+
+## 3. Create the Bootable USB
+
+### On Linux - using dd
+
+First identify your USB drive (**very carefully**):
+
+```bash
+lsblk
+```
+
+You'll see something like:
+
+```text
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+sda           8:0    1  14.9G  0 disk             <-- your USB drive
+└─sda1        8:1    1  14.9G  0 part
+nvme0n1     259:0    0 476.9G  0 disk             <-- your internal SSD (DO NOT TOUCH)
+├─nvme0n1p1 259:1    0   512M  0 part /boot/efi
+└─nvme0n1p2 259:2    0 476.4G  0 part /
+```
+
+Look at the **SIZE** column and the `RM` column (`RM 1` means *Removable Media* - usually the USB). Now flash it:
+
+```bash
+dd bs=4M if=archlinux-x86_64.iso of=/dev/sdX status=progress oflag=sync
+```
+
+Replace `/dev/sdX` with your actual USB device (e.g., `/dev/sdb`). **Not** `sdX1` - the whole device, not a partition. This takes 2-5 minutes. When it finishes, sync and eject:
+
+```bash
+sync
+```
+
+### On Windows - using Rufus
+
+1. Download [Rufus](https://rufus.ie/)
+2. Device → your USB drive
+3. Boot selection → SELECT → pick the Arch ISO
+4. Partition scheme → **GPT**, Target system → **UEFI (non CSM)**
+5. Click START → when asked, choose **Write in DD Image mode** (recommended over ISO mode)
+
+### Alternative - Ventoy (works everywhere)
+
+Install [Ventoy](https://www.ventoy.net/) on your USB once, then simply drag-and-drop ISO files onto it. At boot, Ventoy gives you a menu to pick any ISO on the stick. Great if you keep multiple distros around.
+
+---
+
+## 4. Boot From the USB
+
+1. Shut down the laptop completely (disable Fast Startup on Windows first if dual-booting).
+2. Plug in the USB drive.
+3. Power on and hammer the **boot menu key** for your brand:
+
+| Brand | Boot Menu Key | BIOS/UEFI Setup Key |
+|-------|---------------|---------------------|
+| Dell | F12 | F2 |
+| HP | Esc or F9 | Esc or F10 |
+| Lenovo | F12 (some: Fn+F12) | F1 or F2 |
+| ASUS | Esc | F2 or Del |
+| Acer | F12 | F2 |
+| MSI | F11 | Del |
+| Toshiba | F12 | F2 |
+| Samsung | Esc or F10 | F2 |
+| Xiaomi/Mi | F12 | F2 |
+
+4. In the boot menu, look for two entries for your USB - pick the one containing **"UEFI"**:
+
+```text
+UEFI: SanDisk Cruzer Blade 1.26    <-- ✅ choose this one
+SanDisk Cruzer Blade 1.26          <-- ❌ legacy/CSM entry, skip it
+```
+
+5. When the Arch menu appears, select **"Arch Linux install medium (x86_64, UEFI)"** and press Enter.
+
+### Disable Secure Boot (if the USB won't boot)
+
+If your machine refuses to boot the USB, Secure Boot may be blocking it. Reboot into BIOS/UEFI Setup (key from table above), find **Security** or **Boot** tab → set **Secure Boot → Disabled** → save (F10) and retry.
+
+---
+
+## 5. Pre-Installation Setup
+
+After loading, you're dropped into a Zsh shell running as root, with internet tools ready. Work through these checks in order.
+
+### 5.1 Verify You Are in UEFI Mode
+
+This is mandatory - the entire guide assumes UEFI:
+
+```bash
+ls /sys/firmware/efi/efivars
+```
+
+- ✅ **Files/directories listed** → you're in UEFI mode. Continue.
+- ❌ **"No such file or directory"** → you booted in Legacy/CSM mode. Reboot, go into UEFI setup, disable CSM/Legacy Boot, and re-enter the installer via the UEFI USB entry.
+
+### 5.2 Connect to the Internet
+
+#### Wi-Fi - full iwctl walkthrough
+
+`iwctl` is the interactive client for `iwd`. Run it:
+
+```bash
+iwctl
+```
+
+Your prompt changes to `[iwd]#`. Now, step by step:
+
+```text
+[iwd]# device list
+```
+
+Confirms your wireless adapter exists (usually `wlan0`) and shows whether it's powered on. If it shows "off":
+
+```text
+[iwd]# device wlan0 set-property Powered on
+```
+
+Scan for networks:
+
+```text
+[iwd]# station wlan0 scan
+[iwd]# station wlan0 get-networks
+```
+
+You'll see a list of SSIDs with signal strength. Connect to yours:
+
+```text
+[iwd]# station wlan0 connect "YourWiFiName"
+```
+
+Type the passphrase when prompted (it's also invisible). Then leave:
+
+```text
+[iwd]# exit
+```
+
+If the adapter seems blocked entirely, unblock it from the normal shell:
+
+```bash
+rfkill unblock all
+```
+
+#### Ethernet
+
+Just plug the cable in. That's it - DHCP handles the rest.
+
+#### Verify the Connection (do not skip)
+
+```bash
+ping -c 3 archlinux.org
+```
+
+If you get replies, continue. If not, fix connectivity now - nothing later works without internet.
+
+### 5.3 Update the System Clock
+
+Live environments often boot with the wrong time, and a wrong clock breaks HTTPS downloads:
+
+```bash
+timedatectl set-ntp true
+timedatectl
+```
+
+Check the output says `System clock synchronized: yes`.
+
+### 5.4 (Optional) Comfort Tweaks
+
+Bigger console font for high-resolution screens:
+
+```bash
+setfont ter-132b
+```
+
+Non-US keyboard layout:
+
+```bash
+loadkeys de      # German example; see `localectl list-keymaps`
+```
+
+---
+
+## 6. Understand the Partition Plan
+
+Before touching any disk, understand **what** we're creating and **why**. We're making a clean GPT layout with three partitions:
+
+| # | Partition | Example Device | Size | Filesystem | Purpose |
+|---|-----------|----------------|------|------------|---------|
+| 1 | EFI System Partition (ESP) | `/dev/nvme0n1p1` | 512 MB (up to 1 GB) | FAT32 | Holds the bootloader (GRUB) and boot files. UEFI firmware reads this to start your OS |
+| 2 | Swap | `/dev/nvme0n1p2` | See below | Linux swap | Overflow RAM + enables hibernation |
+| 3 | Root | `/dev/nvme0n1p3` | Rest of disk | ext4 | Your entire OS - kernel, apps, home folder |
+
+### Swap Size Cheat Sheet
+
+| Installed RAM | Swap (no hibernation) | Swap (with hibernation) |
+|---------------|----------------------|------------------------|
+| ≤ 4 GB | 2× RAM | 3× RAM |
+| 8 GB | 4 GB | 8 GB (equal to RAM) |
+| 16 GB+ | 4-8 GB is plenty | Equal to RAM |
+
+Hibernation writes RAM contents to swap, so swap must be at least as large as RAM if you want it.
+
+### Know Your Device Names
+
+Device names differ by bus type - know which one is yours before continuing:
+
+| Disk Type | Device Name | Partitions Look Like |
+|-----------|-------------|---------------------|
+| NVMe SSD (M.2) | `/dev/nvme0n1` | `/dev/nvme0n1p1`, `/dev/nvme0n1p2`... |
+| SATA SSD/HDD | `/dev/sda` | `/dev/sda1`, `/dev/sda2`... |
+
+> ⚠️ **Triple-check the disk name.** Formatting the wrong device destroys that drive's data instantly. There is no undo.
+
+---
+
+## 7. Partitioning - Full Walkthroughs (cfdisk & fdisk)
+
+Both tools do the same job. Pick **one**:
+
+- **cfdisk** → menu-driven, arrow keys, harder to mess up. Recommended for first-timers.
+- **fdisk** → pure keyboard commands, faster, feels like a proper hacker. Same result.
+
+Identify your target disk one final time:
+
+```bash
+lsblk
+```
+
+In the examples below I'll use `/dev/nvme0n1` (NVMe). If yours is SATA, substitute `/dev/sda` and remember partitions become `sda1`, `sda2`, `sda3`.
+
+---
+
+### 7a. Method 1: cfdisk (Beginner-Friendly)
+
+Launch it:
+
+```bash
+cfdisk /dev/nvme0n1
+```
+
+Now follow along exactly:
+
+**Step 1 - Select label type.** If asked to "Select label type", choose **gpt** and press Enter. (If it opens straight into a visual view of existing partitions, that's fine too.)
+
+**Step 2 - Create the EFI partition.**
+
+1. Arrow down to **Free space**.
+2. Arrow right to **New** → press Enter.
+3. Partition size: type `512M` → Enter.
+4. The new partition is highlighted. Arrow right to **Type** → Enter.
+5. Select **EFI System** → Enter.
+
+**Step 3 - Create the swap partition.**
+
+1. Arrow down to **Free space** again.
+2. **New** → size: type `4G` → Enter.
+3. Arrow right to **Type** → Enter.
+4. Select **Linux swap** → Enter.
+
+**Step 4 - Create the root partition.**
+
+1. Arrow down to the last **Free space**.
+2. **New** → size: accept the default (it already shows the remaining space) → Enter.
+3. Leave its type as the default **Linux filesystem** (newer versions may call it **Linux x86-64 root (/)** - either works).
+
+**Step 5 - Write changes.**
+
+1. Arrow right to **Write** → Enter.
+2. It asks for confirmation: type `yes` → Enter. Nothing touches the disk until this moment.
+3. Arrow right to **Quit** → Enter.
+
+**Step 6 - Verify:**
+
+```bash
+lsblk
+```
+
+You should see three partitions under your disk with sizes 512M, 4G, and the rest. If something looks wrong, just run `cfdisk` again and delete/recreate partitions - nothing was formatted yet, so this is still safe.
+
+---
+
+### 7b. Method 2: fdisk (Keyboard Warrior)
+
+Launch it:
+
+```bash
+fdisk /dev/nvme0n1
+```
+
+You're greeted by `Command (m for help):`. Type each letter shown below and press Enter after each. Prompts are shown in italics-style comments.
+
+**Step 1 - Create a fresh GPT partition table:**
+
+```text
+Command (m for help): g
+Created a new GPT disklabel (GUID: ...).
+```
+
+This wipes the old partition table structure (data still untouched until write).
+
+**Step 2 - Create partition 1 (EFI):**
+
+```text
+Command (m for help): n
+Partition number (1-128, default 1): 1
+First sector (2048-..., default 2048): ⏎        ← just press Enter
+Last sector, ±sectors ...: +512M                 ← type +512M then Enter
+
+Created a new partition 1 of type 'Linux filesystem' and of size 512 MiB.
+```
+
+**Step 3 - Set partition 1 type to EFI System:**
+
+```text
+Command (m for help): t
+Selected partition 1 (default)
+Partition type or alias (type L to list all): 1
+Changed type of partition 'Linux filesystem' to 'EFI System'.
+```
+
+*(If `1` isn't accepted, type `L` to list all type codes and use the number shown next to "EFI System".)*
+
+**Step 4 - Create partition 2 (swap):**
+
+```text
+Command (m for help): n
+Partition number (... default 2): 2
+First sector: ⏎                                  ← press Enter
+Last sector, ...: +4G                            ← type +4G then Enter
+```
+
+**Step 5 - Set partition 2 type to Linux swap:**
+
+```text
+Command (m for help): t
+Partition number (1-3, default 3): 2
+Partition type or alias (type L to list all): 19
+Changed type of partition 'Linux filesystem' to 'Linux swap'.
+```
+
+*(Again, if `19` doesn't map to "Linux swap" on your version, check the list with `L`.)*
+
+**Step 6 - Create partition 3 (root, rest of disk):**
+
+```text
+Command (m for help): n
+Partition number (... default 3): 3
+First sector: ⏎                                  ← press Enter
+Last sector, ...: ⏎                              ← press Enter, accepts ALL remaining space
+```
+
+Leave partition 3's type as the default `Linux filesystem`.
+
+**Step 7 - Review everything before writing:**
+
+```text
+Command (m for help): p
+```
+
+Carefully read the printout. You want:
+
+```text
+Device         Start       End   Sectors   Size Type
+/dev/nvme0n1p1  2048   1050623   1048576   512M EFI System
+/dev/nvme0n1p2      ...                    4G  Linux swap
+/dev/nvme0n1p3      ...                  rest Linux filesystem
+```
+
+**Step 8 - Write and exit:**
+
+```text
+Command (m for help): w
+The partition table has been altered.
+Syncing disks.
+```
+
+Like cfdisk, nothing is committed until `w`. Made a mistake earlier? Press `q` instead to quit discarding all changes, and start over.
+
+**Verify:**
+
+```bash
+lsblk
+```
+
+Three partitions present? Perfect. Either way you got here - proceed.
+
+---
+
+## 8. Format the Partitions
+
+Partitions exist but have no filesystem yet. Format each with its correct type:
+
+```bash
+mkfs.fat -F32 /dev/nvme0n1p1       # EFI partition → FAT32
+mkswap /dev/nvme0n1p2              # Swap partition → swap signature
+mkfs.ext4 /dev/nvme0n1p3           # Root partition → ext4 journaling FS
+```
+
+Notes:
+
+- `-F32` forces FAT32 even on larger ESPs - UEFI requires FAT.
+- `mkfs.ext4` prints a filesystem UUID at the end. Noted? Doesn't matter - we use UUIDs automatically later anyway.
+- **These commands erase data permanently.** Double-check the device numbers match your layout from `lsblk`.
+
+Why these choices?
+
+| Filesystem | Used For | Why |
+|------------|----------|-----|
+| FAT32 | EFI partition | The only filesystem UEFI firmware is guaranteed to read |
+| swap | Swap partition | Kernel swaps memory pages to/from it directly |
+| ext4 | Root | Battle-tested, fast, journaling, zero-surprises default |
+
+---
+
+## 9. Mount Everything
+
+Now assemble the future filesystem tree under `/mnt`. **Order matters: parent first, children after.**
+
+```bash
+swapon /dev/nvme0n1p2              # activate swap
+mount /dev/nvme0n1p3 /mnt          # mount root FIRST
+mkdir -p /mnt/boot                 # create the boot directory inside root
+mount /dev/nvme0n1p1 /mnt/boot     # mount EFI partition INTO /mnt/boot
+```
+
+What just happened conceptually: inside the installed system, `/boot` will *be* that FAT32 partition. GRUB gets installed there, and UEFI finds it there.
+
+Verify the whole stack:
+
+```bash
+lsblk
+```
+
+Expected:
+
+```text
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+nvme0n1     259:0    0 476.9G  0 disk
+├─nvme0n1p1 259:1    0   512M  0 part /mnt/boot     ✅
+├─nvme0n1p2 259:2    0     4G  0 part [SWAP]        ✅
+└─nvme0n1p3 259:3    0 472.4G  0 part /mnt          ✅
+```
+
+All three mounted correctly? Beautiful.
+
+---
+
+## 10. Install the Base System (pacstrap)
+
+### (Optional but Smart) Set Up Your Mirror List First
+
+Downloads pull from mirrors **in the order they appear** in `/etc/pacman.d/mirrorlist`. A server on another continent means slow, laggy downloads for every package you install today - so spend two minutes fixing this.
+
+#### Option A - Generate Your Own Country-Specific List (Recommended)
+
+This is better any day: country-local mirrors give you the lowest latency, and you hand-pick exactly which servers you trust instead of letting a script gamble on whatever pinged fastest.
+
+1. Open [**archlinux.org/mirrorlist**](https://archlinux.org/mirrorlist/) in a browser.
+2. Select **your country**, optionally tick *IPv4* / *IPv6* / *HTTPS only*, then submit the form.
+3. Copy the generated output.
+4. On the live ISO, open the mirror file:
+
+   ```bash
+   nano /etc/pacman.d/mirrorlist
+   ```
+
+5. Delete the existing contents and paste your generated list.
+6. **Uncomment the servers** - the generator outputs every line commented out. Remove the `##` prefix so each entry becomes active:
+
+   ```text
+   ## Server = https://mirrors.nxtgen.com/archlinux/extra/os/x86_64    ❌ inactive
+   Server = https://mirrors.nxtgen.com/archlinux/extra/os/x86_64       ✅ pacman will use this
+   ```
+
+   Uncomment at least your first 2-3 preferred servers (having spares costs nothing).
+7. Save (`Ctrl+S`) and exit (`Ctrl+X`). Done - pacman now downloads from your country's mirrors first.
+
+#### Option B - Automatic Speed Sort with reflector
+
+Can't be bothered? One command sorts all mirrors worldwide by measured speed:
+
+```bash
+reflector --latest 20 --sort rate --save /etc/pacman.d/mirrorlist
+```
+
+`reflector` ships pre-installed on the live ISO. It works well, but it ranks purely by ping - an unreliable mirror that responds quickly can end up at the top. That's why Option A is the safer bet.
+
+### The Main Event
+
+```bash
+pacstrap -K /mnt base linux linux-firmware vim nano networkmanager intel-ucode amd-ucode
+```
+
+This downloads and installs packages directly into `/mnt`. What each package is for:
+
+| Package | Why It's Here |
+|---------|---------------|
+| `base` | Minimal toolset: bash, pacman, coreutils, systemd |
+| `linux` | The kernel itself - the heart of the OS |
+| `linux-firmware` | Firmware blobs for Wi-Fi, GPUs, Bluetooth, etc. Without it, hardware stays dead |
+| `vim` / `nano` | Text editors for config files (keep both, or trim to your favorite) |
+| `networkmanager` | Manages Wi-Fi/Ethernet - powers `nmcli`, `nmtui`, and desktop applets later |
+| `intel-ucode` | CPU bugfix microcode for **Intel** CPUs |
+| `amd-ucode` | CPU microcode for **AMD** CPUs |
+
+Installing both ucode packages is harmless - only the matching one gets used at boot. (Alternatively drop them here and install the right one in chroot later - GRUB picks up whichever exists.)
+
+The `-K` flag initializes pacman's keyring freshly inside the target - prevents signature errors.
+
+Grab a coffee ☕ - this step downloads several hundred MB.
+
+---
+
+## 11. Generate fstab
+
+`fstab` is the file that tells Linux which partitions to mount at boot. Generate it from the current mounts:
+
+```bash
+genfstab -U /mnt >> /mnt/etc/fstab
+```
+
+- `-U` → use UUIDs instead of device names (names can change between boots; UUIDs never do).
+- `>>` → append into the new system's fstab.
+
+### VERIFY IT (the step everyone skips, then regrets)
+
+```bash
+cat /mnt/etc/fstab
+```
+
+You must see **three** active lines (UUIDs will differ):
+
+```text
+UUID=xxxx-xxxx  /boot      vfat    rw,...  0 2
+UUID=xxxxxxxxx  none       swap    defaults  0 0
+UUID=xxxxxxxxx  /          ext4    rw,relatime  0 1
+```
+
+One line per partition: ESP → `/boot`, swap, root → `/`. Missing one? Something wasn't mounted during genfstab - go back to Step 9, remount properly, and regenerate (empty the file first with `> /mnt/etc/fstab` then rerun genfstab).
+
+---
+
+## 12. Configure Inside Chroot
+
+Chroot = change root. Your shell now operates **inside** the installed system instead of the live environment:
+
+```bash
+arch-chroot /mnt
+```
+
+Notice your prompt changes. From here until Step 14, every command affects the new install.
+
+### 12.1 Time Zone
+
+Find your zone:
+
+```bash
+ls /usr/share/zoneinfo/
+ls /usr/share/zoneinfo/Asia/
+```
+
+Link it and sync the hardware clock:
+
+```bash
+ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+hwclock --systohc
+```
+
+(Examples: `Asia/Kolkata`, `Europe/London`, `America/New_York`, `Australia/Sydney` - whatever matches you.)
+
+### 12.2 Locale (System Language)
+
+Edit the locales file:
+
+```bash
+nano /etc/locale.gen
+```
+
+Scroll and **uncomment** (remove the leading `#`) your locale, e.g.:
+
+```text
+en_US.UTF-8 UTF-8
+```
+
+Save (`Ctrl+S`) and exit (`Ctrl+X`). Generate it:
+
+```bash
+locale-gen
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+```
+
+### 12.3 Console Font & Keymap (Optional)
+
+If you changed the keyboard layout in the live env (Step 5.4), make it permanent:
+
+```bash
+echo "KEYMAP=us" > /etc/vconsole.conf      # your layout
+echo "FONT=ter-132b" >> /etc/vconsole.conf # optional big font
+```
+
+### 12.4 Hostname
+
+Your computer's network name. Rules: lowercase letters, digits, hyphens only; no spaces; max 63 chars:
+
+```bash
+echo "myarchlaptop" > /etc/hostname
+```
+
+Map it in hosts:
+
+```bash
+nano /etc/hosts
+```
+
+Make it contain exactly:
+
+```text
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   myarchlaptop.localdomain myarchlaptop
+```
+
+Line-by-line: IPv4 loopback, IPv6 loopback, then your machine's own name resolution (replace `myarchlaptop` with your hostname from above, in both places).
+
+### 12.5 Initramfs (Just Verify)
+
+`pacstrap` already generated the initramfs (the mini-system that loads real drivers at boot). Confirm it exists:
+
+```bash
+ls /boot/
+```
+
+You should see `initramfs-linux.img` and `vmlinuz-linux` among the files.
+
+### 12.6 Set Root Password
+
+```bash
+passwd
+```
+
+Type the password twice. **Nothing appears while typing - no dots, no asterisks. That's normal.** This is the emergency/admin account.
+
+### 12.7 Create Your Daily User
+
+Never browse as root. Create a real user:
+
+```bash
+useradd -m -G wheel -s /bin/bash yourusername
+passwd yourusername
+```
+
+Flag decoder:
+
+| Flag | Meaning |
+|------|---------|
+| `-m` | Create a home directory (`/home/yourusername`) |
+| `-G wheel` | Add to the `wheel` group - the traditional "can use sudo" group |
+| `-s /bin/bash` | Set Bash as login shell |
+
+### 12.8 Enable Sudo for the Wheel Group
+
+Install sudo and edit its policy file **safely**:
+
+```bash
+pacman -S sudo
+EDITOR=nano visudo
+```
+
+Why `visudo` and not editing directly? It validates syntax before saving - a typo in sudoers could lock every admin account out of the machine forever.
+
+Inside the editor, find this line:
+
+```text
+#%wheel ALL=(ALL:ALL) ALL
+```
+
+Delete the `#` (and the single space after it) so it reads exactly:
+
+```text
+%wheel ALL=(ALL:ALL) ALL
+```
+
+Meaning: members of group `wheel` may run any command as anyone. Save and exit. Quick test later after reboot: `sudo whoami` should answer `root`.
+
+---
+
+## 13. Install the GRUB Bootloader
+
+Without a bootloader, the machine boots to nothing. GRUB bridges UEFI → kernel.
+
+```bash
+pacman -S grub efibootmgr
+```
+
+- `grub` → the bootloader itself
+- `efibootmgr` → manages UEFI boot entries (lets grub-install register itself in firmware)
+
+Install GRUB to the ESP:
+
+```bash
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+```
+
+Flag meanings:
+
+| Flag | Meaning |
+|------|---------|
+| `--target=x86_64-efi` | Build/install for UEFI (not legacy BIOS) |
+| `--efi-directory=/boot` | Where the ESP is mounted (we mounted it at `/boot` in Step 9) |
+| `--bootloader-id=GRUB` | Name shown in your firmware's boot menu |
+
+Success looks like: `Installing for x86_64-efi platform. Installation finished. No error reported.`
+
+Generate the actual configuration:
+
+```bash
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+Watch the output - healthy signs include:
+
+```text
+Found linux image: /boot/vmlinuz-linux
+Found initrd image: /boot/intel-ucode.img /boot/initramfs-linux.img
+```
+
+(or `amd-ucode.img` on AMD). If a microcode image is mentioned, Step 10 did its job - your CPU microcode will load automatically at every boot.
+
+### Dual-Booting Windows/Linux Alongside? 
+
+Install the detector and let GRUB list other OSes:
+
+```bash
+pacman -S os-prober
+nano /etc/default/grub        # add/uncomment: GRUB_DISABLE_OS_PROBER=false
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+---
+
+## 14. Final Steps and Reboot
+
+Enable networking so Wi-Fi works after reboot:
+
+```bash
+systemctl enable NetworkManager
+```
+
+(Case matters: `NetworkManager`, capital N and M. A lowercase typo silently creates a broken unit name.)
+
+Then perform the launch sequence:
+
+```bash
+exit                # leave chroot back to live environment
+umount -R /mnt      # unmount everything recursively
+reboot              # 🚀
+```
+
+Pull the USB out as soon as the screen goes dark (or when prompted), so it doesn't boot back into the installer.
+
+---
+
+## 15. First Login Checklist
+
+The machine reboots → GRUB menu flashes by → a text login prompt greets you:
+
+```text
+myarchlaptop login: _
+```
+
+Log in with **your username** (not root). Then run through:
+
+**1. Test sudo:**
+
+```bash
+sudo whoami
+```
+
+Should print `root`.
+
+**2. Connect to Wi-Fi** (NetworkManager replaces iwctl now):
+
+```bash
+nmcli device wifi list
+nmcli device wifi connect "YourWiFiName" password "yourpassword"
+```
+
+Ethernet users: already connected, skip ahead.
+
+**3. Update the system** (first thing, always):
+
+```bash
+sudo pacman -Syu
+```
+
+**4. Verify microcode loaded:**
+
+```bash
+dmesg | grep microcode
+```
+
+Congratulations. You built a working Linux system with your own hands. 🏆
+
+### Where To Next?
+
+Your system is barebones-on-purpose. Common next moves:
+
+| Want | Install |
+|------|---------|
+| Full desktop, works out of the box | `sudo pacman -S gnome gdm` → `sudo systemctl enable gdm` |
+| Slick modern tiling Wayland compositor | `sudo pacman -S hyprland kitty waybar` |
+| Lightweight classic tiling | `sudo pacman -S i3-wm i3status dmenu xorg-server` |
+| AUR helper (yay) for community packages | build `yay` from AUR, then `yay -S anything` |
+
+---
+
+## 16. Troubleshooting
+
+Every failure below has been hit by thousands of Arch users. Find yours:
+
+<details>
+<summary><b>❓ "No such file or directory" for /sys/firmware/efi/efivars</b></summary>
+
+You booted in Legacy/CSM mode, not UEFI. Reboot → firmware settings → disable CSM/Legacy Boot → boot the USB through its **UEFI:** entry (Step 4).
+</details>
+
+<details>
+<summary><b>❓ iwctl says "No such device" / no wlan0</b></summary>
+
+Radio may be soft-blocked: `rfkill unblock all`, then re-run `iwctl`. Still nothing? Some laptops have a physical airplane-mode switch/Fn-key - flip it. Worst case your Wi-Fi card needs firmware that `linux-firmware` provides - it's included in the live ISO, so if it still fails, use a phone's USB tethering or Ethernet to finish installing, then troubleshoot after.
+</details>
+
+<details>
+<summary><b>❓ ping archlinux.org fails but iwctl said connected</b></summary>
+
+Run `ip link` - is the interface UP? Try `dhcpcd` manually if needed. DNS issue test: `ping -c 3 1.1.1.1`. IP works but domain doesn't → DNS problem; simplest fix: reconnect the station in iwctl.
+</details>
+
+<details>
+<summary><b>❓ Formatted the WRONG disk/partition</b></summary>
+
+Stop immediately. Data may still be recoverable with tools like `testdisk`/`photorec` **as long as you don't write anything else to that disk**. This is why we triple-checked names in Step 7.
+</details>
+
+<details>
+<summary><b>❓ pacman signature/keyring errors during pacstrap</b></summary>
+
+Usually a stale clock. `timedatectl set-ntp true`, wait for sync, retry. Persistent cases: `pacman-key --init && pacman-key --populate archlinux` in the live env, then rerun pacstrap with `-K`.
+</details>
+
+<details>
+<summary><b>❓ Machine reboots to black screen / GRUB rescue prompt</b></summary>
+
+Bootloader misconfigured. Boot the live USB again, remount, and chroot back:
+
+```bash
+mount /dev/nvme0n1p3 /mnt
+mount /dev/nvme0n1p1 /mnt/boot
+swapon /dev/nvme0n1p2
+arch-chroot /mnt
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+exit
+umount -R /mnt
+reboot
+```
+
+This chroot-back pattern fixes ANY mistake made in Steps 12-13. Bookmark it.
+</details>
+
+<details>
+<summary><b>❓ Boots but drops to emergency shell mentioning fstab</b></summary>
+
+Typo in `/etc/fstab`. In the emergency shell: `mount -o remount,rw /`, open `/etc/fstab`, fix the bad UUID/path, reboot.
+</details>
+
+<details>
+<summary><b>❓ Forgot to enable NetworkManager / set something in chroot</b></summary>
+
+Same recovery pattern as above: live USB → mount → `arch-chroot /mnt` → do the missed step (`systemctl enable NetworkManager`, `passwd`, whatever) → exit → reboot.
+</details>
+
+<details>
+<summary><b>❓ Wi-Fi worked in installer, dead after first boot</b></summary>
+
+NetworkManager wasn't enabled. Chroot back (pattern above) and run `systemctl enable NetworkManager`.
+</details>
+
+---
+
+## 17. Complete Command Cheat Sheet
+
+The entire install, compressed. For when you've done it before and just want the run-through:
+
+```bash
+# ─── Live environment ────────────────────────────────
+ls /sys/firmware/efi/efivars        # verify UEFI
+iwctl                               # Wi-Fi: station wlan0 connect "SSID"
+ping -c 3 archlinux.org             # verify internet
+timedatectl set-ntp true            # fix clock
+lsblk                               # identify disk (nvme0n1 or sda!)
+
+# ─── Partition (choose ONE method) ───────────────────
+cfdisk /dev/nvme0n1                 # GUI-ish: 512M EFI / 4G swap / rest root
+fdisk /dev/nvme0n1                  # CLI: g,n,+512M,t,1 | n,+4G,t,19 | n,⏎,⏎ | w
+
+# ─── Format & mount ──────────────────────────────────
+mkfs.fat -F32 /dev/nvme0n1p1
+mkswap /dev/nvme0n1p2
+mkfs.ext4 /dev/nvme0n1p3
+swapon /dev/nvme0n1p2
+mount /dev/nvme0n1p3 /mnt
+mkdir -p /mnt/boot
+mount /dev/nvme0n1p1 /mnt/boot
+
+# ─── Install base ────────────────────────────────────
+nano /etc/pacman.d/mirrorlist      # paste list from archlinux.org/mirrorlist & uncomment servers
+reflector --latest 20 --sort rate --save /etc/pacman.d/mirrorlist   # or: auto-sort instead
+pacstrap -K /mnt base linux linux-firmware vim nano networkmanager intel-ucode amd-ucode
+genfstab -U /mnt >> /mnt/etc/fstab
+cat /mnt/etc/fstab                  # VERIFY 3 entries!
+
+# ─── Configure (inside arch-chroot /mnt) ─────────────
+arch-chroot /mnt
+ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+hwclock --systohc
+nano /etc/locale.gen                # uncomment en_US.UTF-8 UTF-8
+locale-gen
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+echo "myarchlaptop" > /etc/hostname
+nano /etc/hosts                     # localhost lines + hostname line
+passwd                              # root password
+useradd -m -G wheel -s /bin/bash yourusername
+passwd yourusername
+pacman -S sudo
+EDITOR=nano visudo                  # uncomment %wheel ALL=(ALL:ALL) ALL
+pacman -S grub efibootmgr
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+systemctl enable NetworkManager
+
+# ─── Launch ──────────────────────────────────────────
+exit
+umount -R /mnt
+reboot
+```
+
+---
+
+## Conclusion
+
+You didn't run an installer - you **built** a system. Every partition, every mount point, every boot entry: placed by you, understood by you. When something breaks six months from now, you won't panic - you'll chroot in and fix it, because you've seen every layer of this machine.
+
+From here, install a window manager, rice your terminal, and join the ranks of people whose answer to "what OS do you run?" ends conversations:
+
+> **"I use Arch btw."**
+
+*Sources & further reading: the official [ArchWiki Installation Guide](https://wiki.archlinux.org/title/Installation_guide), [GRUB page](https://wiki.archlinux.org/title/GRUB), and [General Recommendations](https://wiki.archlinux.org/title/General_recommendations) - the best documentation in all of Linux.*
