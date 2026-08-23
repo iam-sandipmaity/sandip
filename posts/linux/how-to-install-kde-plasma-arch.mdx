@@ -1,0 +1,226 @@
+---
+title: "How to Install KDE Plasma on a Minimal Arch Linux (After the Manual Install)"
+date: "23-08-2026"
+summary: "You followed the minimal Arch install guide and booted into a bare TTY. Now add a desktop: install KDE Plasma + KDE apps, pick a display manager (SDDM by default, or something lighter), and learn how to run multiple desktop environments with a single alias."
+tags: ["linux", "arch", "arch linux", "kde", "plasma", "tutorial", "guide", "desktop environment", "sddm", "wayland"]
+---
+
+A black terminal blinking at you is a beautiful thing - it means you did the hard part. If you just finished the [minimal Arch install guide](/blog/linux/how-to-install-arch-linux-manually), you have a working system, a user with sudo, a bootloader, and networking. What you *don't* have is anything to look at.
+
+This guide takes that minimal install and turns it into a proper KDE Plasma desktop - and, just as importantly, shows you how to log into it automatically, how to skip a display manager entirely, and how to juggle Plasma alongside GNOME or Hyprland later if you catch DE-hopping fever.
+
+> ⚠️ **Prerequisites**: You can boot into your minimal Arch as your **normal user** (not root), `sudo` works, and `systemctl status NetworkManager` is active. If any of that is false, go finish the [install guide](/blog/linux/how-to-install-arch-linux-manually) first.
+
+---
+
+## 📋 What You'll End Up With
+
+| Goal | Result |
+|------|--------|
+| A desktop environment | KDE Plasma 6 (Wayland by default) |
+| A set of apps | Dolphin, Konsole, Kate, Discover, and the rest of KDE's suite |
+| Booting into Plasma | Either via SDDM (recommended) or a one-word alias (no DM) |
+| Multiple DEs | Plasma + GNOME + Hyprland, pickable at login - or launchable via alias |
+
+---
+
+## Step 0: Update and Lay the Groundwork
+
+First, make sure the system is current:
+
+```bash
+sudo pacman -Syu
+```
+
+The minimal install deliberately skipped three things Plasma needs to actually feel like a desktop. Install them now:
+
+```bash
+# 1. Graphics - without this, Plasma won't even start on most machines
+sudo pacman -S mesa                       # Intel / AMD integrated graphics
+# sudo pacman -S nvidia                    # NVIDIA (or nvidia-open for newer GPUs)
+
+# 2. Audio - KDE routes sound through PipeWire
+sudo pacman -S pipewire pipewire-pulse pipewire-alsa wireplumber
+
+# 3. Fonts - skip these and every UI looks like a ransom note
+sudo pacman -S ttf-dejavu ttf-liberation noto-fonts
+```
+
+> 💡 **Graphics note**: NVIDIA users on Wayland should also read the ArchWiki [NVIDIA](https://wiki.archlinux.org/title/NVIDIA) page - you'll likely want `nvidia-drm.modeset=1` in your kernel parameters and the `nvidia` driver, not `nouveau`.
+
+---
+
+## Step 1: Install KDE Plasma + KDE Applications
+
+The big one:
+
+```bash
+sudo pacman -S plasma kde-applications
+```
+
+What these pull in:
+
+| Package | What you get |
+|---------|--------------|
+| `plasma` | The desktop shell, window manager (KWin), system settings, panel, and core apps like Dolphin & Konsole |
+| `kde-applications` | The full KDE suite - Kate, Gwenview, Okular, Krita, a dozen games, and more |
+
+The `kde-applications` group is *huge* (hundreds of packages). If you'd rather keep it lean, swap it for the meta packages that match what you want:
+
+```bash
+sudo pacman -S plasma kde-utilities-meta kde-system-meta kde-graphics-meta
+```
+
+Or go truly minimal with just the `plasma` group and add apps à la carte later. Either way, `plasma` alone is enough to get a working desktop.
+
+---
+
+## Step 2: Pick a Display Manager (or Don't)
+
+A **display manager (DM)** is the graphical login screen. It starts your DE for you on boot. Three good options:
+
+### Option A - SDDM (recommended, the KDE default)
+
+SDDM is built by the KDE team and is the smoothest path:
+
+```bash
+sudo pacman -S sddm
+sudo systemctl enable sddm
+```
+
+That's it. On next boot you'll get a graphical login screen with a session menu (top-left or bottom) where you choose **Plasma (Wayland)**. Logging in drops you straight onto the desktop.
+
+### Option B - Lighter display managers
+
+| DM | When to use it |
+|----|----------------|
+| **LightDM** | You want something tiny and DE-agnostic: `sudo pacman -S lightdm lightdm-gtk-greeter` then `sudo systemctl enable lightdm` |
+| **GDM** | You're also installing GNOME and want its polished greeter: `sudo pacman -S gdm` then `sudo systemctl enable gdm` |
+
+> ⚠️ **Enable exactly one DM.** `systemctl enable sddm` (and `gdm`, and `lightdm`) all fight over the same display - enabling two at once means one wins unpredictably. Pick one and stick with it.
+
+### Option C - No display manager at all
+
+Prefer to stay minimal? Skip the DM entirely. After booting, you log into a TTY and launch Plasma yourself (Step 4 covers the alias that makes this a one-word affair). This is the lightest setup and gives you full control.
+
+---
+
+## Step 3: Reboot Into Plasma
+
+If you went with SDDM (Option A):
+
+```bash
+reboot
+```
+
+SDDM appears, you pick **Plasma (Wayland)**, enter your password, and - welcome to KDE. 🎉
+
+If you chose **no DM** (Option C), reboot too, then log in at the TTY and proceed to Step 4.
+
+---
+
+## Step 4: The No-DM Shortcut - Launch Plasma With an Alias
+
+Without a display manager, you start Plasma from a TTY. The command is:
+
+```bash
+dbus-run-session startplasma-wayland
+```
+
+`dbus-run-session` spins up a private D-Bus session bus (Plasma needs it for notifications, settings, and inter-app communication); `startplasma-wayland` launches the Wayland session. Typing that every time is tedious, so make an alias.
+
+Add this to the bottom of your shell's config file:
+
+```bash
+# For Bash users:
+nano ~/.bashrc
+
+# For Zsh users:
+nano ~/.zshrc
+```
+
+Then paste:
+
+```bash
+# Launch desktop environments directly from a TTY (no display manager needed)
+alias plasma='dbus-run-session startplasma-wayland'
+```
+
+Reload the shell, and from now on a single word starts your desktop:
+
+```bash
+source ~/.bashrc     # or: source ~/.zshrc
+plasma               # fires up KDE Plasma on Wayland
+```
+
+> 💡 **X11 instead of Wayland?** Use `alias plasma='dbus-run-session startplasma-x11'` - some older GPUs or apps still prefer X11. Plasma 6 defaults to Wayland and it's the better choice for most modern hardware.
+
+---
+
+## Step 5: Running Multiple Desktop Environments
+
+Caught the DE-hopping bug? You don't need to reinstall - just install more environments and choose at login (with a DM) or via alias (without one).
+
+Install a couple more:
+
+```bash
+sudo pacman -S gnome                # GNOME desktop
+sudo pacman -S hyprland kitty waybar  # Hyprland + a terminal + a status bar
+```
+
+**With a display manager:** the login screen's session menu now lists Plasma, GNOME, and Hyprland. Pick whichever you want that day - no config required.
+
+**Without a display manager:** expand your aliases so each DE is one word:
+
+```bash
+# ~/.bashrc or ~/.zshrc
+alias plasma='dbus-run-session startplasma-wayland'
+alias gnome='dbus-run-session gnome-session'
+alias hypr='dbus-run-session Hyprland'
+```
+
+Log into a TTY and type `plasma`, `gnome`, or `hypr` to jump straight into that environment. Each gets its own fresh D-Bus session, so they don't interfere with each other.
+
+> 💡 **Hyprland needs more than just the package.** Wayland compositors expect a terminal, a bar, a launcher, and a wallpaper tool. The `kitty waybar` above are a starting point - see the [Hyprland wiki](https://wiki.hyprland.org/) for the full setup. This guide only covers *launching* it.
+
+---
+
+## 🔧 Troubleshooting
+
+<details>
+<summary><b>❓ SDDM shows a black screen / never appears</b></summary>
+
+Usually a graphics-driver issue. Drop to a TTY (`Ctrl+Alt+F3`), log in, and confirm mesa/nvidia is installed (Step 0). For NVIDIA, ensure the `nvidia` driver is present and `nvidia-drm.modeset=1` is set. You can also try the X11 session from the SDDM menu (gear icon).
+</details>
+
+<details>
+<summary><b>❓ Plasma starts but there's no sound</b></summary>
+
+You skipped the PipeWire step. Run `sudo pacman -S pipewire pipewire-pulse pipewire-alsa wireplumber`, then log out/in (or reboot). Check **System Settings → Audio** shows your device.
+</details>
+
+<details>
+<summary><b>❓ Fonts look broken / boxes everywhere</b></summary>
+
+Install the base fonts: `sudo pacman -S ttf-dejavu ttf-liberation noto-fonts`, then log out/in.
+</details>
+
+<details>
+<summary><b>❓ "command not found: startplasma-wayland"</b></summary>
+
+Plasma isn't installed (or the package name changed). Verify with `pacman -Qs plasma`. If empty, re-run `sudo pacman -S plasma`.
+</details>
+
+<details>
+<summary><b>❓ Booted to a TTY and typed `plasma` but nothing happened</b></summary>
+
+Make sure you sourced the config (`source ~/.bashrc`) in the shell you're using, and that you're not root - run it as your normal user. `dbus-run-session` must wrap the command, which the alias does for you.
+</details>
+
+---
+
+## Conclusion
+
+You took a bare TTY and built a full KDE Plasma desktop on top of the minimal Arch you installed by hand. That's the whole point of the manual route: you understand every layer, so when something breaks - a black screen, no audio, a missing font - you know exactly where to look and how to fix it.
+
+From here, rice your panel, pick a wallpaper, and remember: whether you boot through SDDM or fire up `plasma` from a TTY, the machine is yours, understood completely, and **"I use Arch btw."** has never been more earned.
