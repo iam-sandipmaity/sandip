@@ -208,3 +208,7 @@ html.dark .hljs-template-variable {
   max-width: 100%;
   overflow-x: auto;
 }
+
+.prose :target {
+  scroll-margin-top: 1.5rem;
+}

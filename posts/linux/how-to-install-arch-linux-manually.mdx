@@ -9,7 +9,16 @@ There are two kinds of people in this world: those who click "Next" through an i
 
 Installing Arch manually isn't just about getting an OS running - it's about understanding **every single piece** that makes your system boot. By the end of this guide you'll know what an EFI partition does, why fstab exists, and where your bootloader lives. And yes, you'll also earn eternal bragging rights: **"I use Arch btw."**
 
-This guide is written to be **the only resource you need** - based on the official [ArchWiki](https://wiki.archlinux.org/title/Installation_guide) (updated July 2026), assuming a standard **UEFI laptop**, covering everything from downloading the ISO to your first successful login.
+This guide is written to be **the only resource you need** - based on the official [ArchWiki](https://wiki.archlinux.org/title/Installation_guide) (as of July 2026), assuming a standard **UEFI laptop**, covering everything from downloading the ISO to your first successful login.
+
+> 💡 **Honest disclosure**: The same ISO ships an official guided installer, `archinstall`, that handles partitioning, bootloader, and desktop setup interactively if you want a working system *fast*. This guide is for people who want to understand every step - which is exactly why manual installation is worth doing at least once.
+
+<details>
+<summary><b>⚡ Already done this before? Skip to the fast path</b></summary>
+
+Jump straight to the [Complete Command Cheat Sheet](#17-complete-command-cheat-sheet). Every detailed section below exists for first-timers - each command is explained once, then used without ceremony.
+
+</details>
 
 > ⚠️ **Before we start**: This process will **erase the target disk completely**. Back up anything important first. Read each step fully before running any command. Your data cannot be recovered once formatted.
 
@@ -62,7 +71,9 @@ Pick a mirror close to your location for faster speeds. For example, if you're i
 wget https://mirrors.nxtgen.com/archlinux/iso/latest/archlinux-x86_64.iso
 ```
 
-### Verify the Checksum (Recommended)
+*(Mirror URLs rotate over time - if that link 404s, grab a fresh one from the [download page](https://archlinux.org/download/). The `latest` path always points at the newest release.)*
+
+### Verify the Download (Recommended)
 
 Corrupted downloads cause mysterious failures hours later. Verify first:
 
@@ -70,7 +81,15 @@ Corrupted downloads cause mysterious failures hours later. Verify first:
 sha256sum archlinux-x86_64.iso
 ```
 
-Compare the output hash against the value listed on the download page (`archlinux-x86_64.iso.sig` / checksums file). They must match **exactly**.
+Compare the output hash against the SHA256 value on the download page (the `sha256sums.txt` file). They must match **exactly**.
+
+For stronger guarantees, verify the PGP signature instead - the `.sig` file is a **cryptographic signature**, not a checksum file (you don't compare hashes against it):
+
+```bash
+pacman-key -v archlinux-x86_64.iso.sig
+```
+
+A checksum proves the download isn't corrupted; a valid signature proves it genuinely came from Arch. The ArchWiki recommends the signature route when you can use it.
 
 ---
 
@@ -102,6 +121,8 @@ dd bs=4M if=archlinux-x86_64.iso of=/dev/sdX status=progress oflag=sync
 ```
 
 Replace `/dev/sdX` with your actual USB device (e.g., `/dev/sdb`). **Not** `sdX1` - the whole device, not a partition. This takes 2-5 minutes. When it finishes, sync and eject:
+
+> ⚠️ **Common mistake:** Picked `sdX1` (a partition) instead of `sdX` (the whole drive)? You'd write the ISO onto a partition and the USB wouldn't boot - or worse, onto the wrong disk and wipe your data. If you ever do target the wrong device, stop immediately; see [Troubleshooting](#16-troubleshooting) - data may still be recoverable if you write nothing else.
 
 ```bash
 sync
@@ -257,13 +278,28 @@ loadkeys de      # German example; see `localectl list-keymaps`
 
 ## 6. Understand the Partition Plan
 
-Before touching any disk, understand **what** we're creating and **why**. We're making a clean GPT layout with three partitions:
+Before touching any disk, understand **what** we're creating and **why**. We're making a clean GPT layout with three core partitions - plus one **optional** fourth if you want your personal files on their own slice of disk:
 
 | # | Partition | Example Device | Size | Filesystem | Purpose |
 |---|-----------|----------------|------|------------|---------|
 | 1 | EFI System Partition (ESP) | `/dev/nvme0n1p1` | 512 MB (up to 1 GB) | FAT32 | Holds the bootloader (GRUB) and boot files. UEFI firmware reads this to start your OS |
 | 2 | Swap | `/dev/nvme0n1p2` | See below | Linux swap | Overflow RAM + enables hibernation |
-| 3 | Root | `/dev/nvme0n1p3` | Rest of disk | ext4 | Your entire OS - kernel, apps, home folder |
+| 3 | Root | `/dev/nvme0n1p3` | 60 GB (see below) | ext4 | Your entire OS - kernel, apps, system files |
+| 4 | Home *(optional)* | `/dev/nvme0n1p4` | Rest of disk | ext4 | Your personal files - `/home/you` lives here |
+
+### One More Choice: Separate `/home`? (Optional - or skip it)
+
+You can **fully skip** a separate `/home` partition and let everything - system and your files - live together on the single root partition. That's simpler and perfectly fine for most people. Or you can **split** one off. Here's the honest trade-off so you can decide:
+
+| | 🟢 Single root partition (skip `/home`) | 🟡 Separate `/home` partition (create one) |
+|---|---|---|
+| **Pros** | Simplest setup; no guessing sizes; every byte available to both OS and files | Your files survive a reinstall/format of root; you can hop distros without losing data; root stays small & predictable; easier to back up or snapshot independently |
+| **Cons** | If you reinstall, your personal files go with the root format; one big filesystem means one big failure domain | You must pick a size split up front; if `/home` is too small your files overflow while root still has free space (and vice-versa) - repartitioning later is annoying |
+| **Best for** | First-timers, small disks, "set and forget" installs | People who reinstall often, dual/triple-boot, or want clean separation of system vs data |
+
+**The split we'll use if you choose to create one:** give root a comfortable **60 GB** (`/dev/nvme0n1p3`), then let `/home` (`/dev/nvme0n1p4`) take **everything else**. 60 GB is plenty for the OS plus a desktop environment and a healthy app library; your music, photos, games, and downloads then breathe in the spacious `/home` partition. If you'd rather skip it, just leave root as the "rest of disk" partition exactly as the base walkthrough below does, and ignore every `/home` note.
+
+> 💡 **Can't decide?** Skip it. You can always move `/home` to a new partition later once you've seen how much space your files actually eat - but doing it during install is by far the least painful moment.
 
 ### Swap Size Cheat Sheet
 
@@ -273,7 +309,13 @@ Before touching any disk, understand **what** we're creating and **why**. We're 
 | 8 GB | 4 GB | 8 GB (equal to RAM) |
 | 16 GB+ | 4-8 GB is plenty | Equal to RAM |
 
-Hibernation writes RAM contents to swap, so swap must be at least as large as RAM if you want it.
+The "with hibernation" column is deliberately conservative. The kernel **compresses** the hibernation image (by default targeting roughly 2/5 of your RAM), so swap somewhat smaller than RAM often still hibernates fine - equal-to-RAM is simply the safe target that never fails.
+
+> 💡 **Modern alternative**: Many setups now skip disk swap entirely and use **zram** - a compressed swap device living in RAM. It's faster, saves disk space, and shines on machines with 16 GB+ RAM. This guide uses a real partition because it's simpler and enables hibernation on laptops. See the [ArchWiki zram page](https://wiki.archlinux.org/title/Zram) if you're curious.
+
+### Want Hibernation Later? Read This Now
+
+Creating swap does **not** enable hibernation by itself - it only provides the storage the sleep image is written to. The good news: sizing swap now puts you 90% of the way there. The remaining step (telling the kernel where to resume from) is covered in Step 13, and needs nothing more than one kernel parameter. Details live in the ArchWiki [Power management](https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate) page.
 
 ### Know Your Device Names
 
@@ -294,6 +336,25 @@ Both tools do the same job. Pick **one**:
 
 - **cfdisk** → menu-driven, arrow keys, harder to mess up. Recommended for first-timers.
 - **fdisk** → pure keyboard commands, faster, feels like a proper hacker. Same result.
+
+Quick chooser before diving in:
+
+```text
+Partitioning tool?
+├─ First time / want arrows & menus → cfdisk (Method 1)
+└─ Comfortable with raw CLI         → fdisk   (Method 2)
+
+Swap size?
+├─ No hibernation planned → 4 GB is plenty
+└─ Want hibernation       → match your RAM (table above)
+
+Separate /home partition?
+├─ Skip it (everything on root)      → root = rest of disk, ignore /home steps
+└─ Create one (files survive reinstall) → root = 60 GB, /home = rest (steps below)
+
+ESP mount point?
+└─ This guide mounts it at /boot - simplest setup with GRUB
+```
 
 Identify your target disk one final time:
 
@@ -335,8 +396,14 @@ Now follow along exactly:
 **Step 4 - Create the root partition.**
 
 1. Arrow down to the last **Free space**.
-2. **New** → size: accept the default (it already shows the remaining space) → Enter.
+2. **New** → size: accept the default (it already shows the remaining space) → Enter. (If you're making a separate `/home` partition, type `60G` here instead so there's free space left for it.)
 3. Leave its type as the default **Linux filesystem** (newer versions may call it **Linux x86-64 root (/)** - either works).
+
+**Step 4b - (Optional) Create the `/home` partition.** *Skip this entirely if you decided to keep everything on the single root partition.*
+
+1. Arrow down to the **Free space** that remains.
+2. **New** → size: accept the default (remaining space) → Enter.
+3. Leave its type as the default **Linux filesystem**.
 
 **Step 5 - Write changes.**
 
@@ -350,7 +417,7 @@ Now follow along exactly:
 lsblk
 ```
 
-You should see three partitions under your disk with sizes 512M, 4G, and the rest. If something looks wrong, just run `cfdisk` again and delete/recreate partitions - nothing was formatted yet, so this is still safe.
+You should see three partitions under your disk (512M, 4G, rest) - or **four** if you made `/home`. If something looks wrong, just run `cfdisk` again and delete/recreate partitions - nothing was formatted yet, so this is still safe.
 
 ---
 
@@ -415,7 +482,7 @@ Changed type of partition 'Linux filesystem' to 'Linux swap'.
 
 *(Again, if `19` doesn't map to "Linux swap" on your version, check the list with `L`.)*
 
-**Step 6 - Create partition 3 (root, rest of disk):**
+**Step 6 - Create partition 3 (root):**
 
 ```text
 Command (m for help): n
@@ -424,7 +491,20 @@ First sector: ⏎                                  ← press Enter
 Last sector, ...: ⏎                              ← press Enter, accepts ALL remaining space
 ```
 
+*(If you're creating a separate `/home` partition, type `+60G` here instead so free space remains for it.)*
+
 Leave partition 3's type as the default `Linux filesystem`.
+
+**Step 6b - (Optional) Create partition 4 (`/home`).** *Skip this if you decided to keep everything on the single root partition.*
+
+```text
+Command (m for help): n
+Partition number (... default 4): 4
+First sector: ⏎                                  ← press Enter
+Last sector, ...: ⏎                              ← press Enter, accepts ALL remaining space
+```
+
+Leave partition 4's type as the default `Linux filesystem` - no `t` needed.
 
 **Step 7 - Review everything before writing:**
 
@@ -438,7 +518,8 @@ Carefully read the printout. You want:
 Device         Start       End   Sectors   Size Type
 /dev/nvme0n1p1  2048   1050623   1048576   512M EFI System
 /dev/nvme0n1p2      ...                    4G  Linux swap
-/dev/nvme0n1p3      ...                  rest Linux filesystem
+/dev/nvme0n1p3      ...                   60G  Linux filesystem   (or "rest" if you skipped /home)
+/dev/nvme0n1p4      ...                  rest Linux filesystem   (only if you made /home)
 ```
 
 **Step 8 - Write and exit:**
@@ -457,7 +538,7 @@ Like cfdisk, nothing is committed until `w`. Made a mistake earlier? Press `q` i
 lsblk
 ```
 
-Three partitions present? Perfect. Either way you got here - proceed.
+Three partitions present (or four with `/home`)? Perfect. Either way you got here - proceed.
 
 ---
 
@@ -469,6 +550,7 @@ Partitions exist but have no filesystem yet. Format each with its correct type:
 mkfs.fat -F32 /dev/nvme0n1p1       # EFI partition → FAT32
 mkswap /dev/nvme0n1p2              # Swap partition → swap signature
 mkfs.ext4 /dev/nvme0n1p3           # Root partition → ext4 journaling FS
+mkfs.ext4 /dev/nvme0n1p4           # Home partition → ext4 (ONLY if you created one)
 ```
 
 Notes:
@@ -496,7 +578,11 @@ swapon /dev/nvme0n1p2              # activate swap
 mount /dev/nvme0n1p3 /mnt          # mount root FIRST
 mkdir -p /mnt/boot                 # create the boot directory inside root
 mount /dev/nvme0n1p1 /mnt/boot     # mount EFI partition INTO /mnt/boot
+mkdir -p /mnt/home                 # create the home directory inside root
+mount /dev/nvme0n1p4 /mnt/home     # mount Home partition (ONLY if you created one)
 ```
+
+> ⚠️ **Order matters** - the `/home` mount (last line) must happen **before** Step 11's `genfstab` runs, otherwise it won't appear in fstab and your files would land on the root partition instead. If you skipped `/home`, just omit those last two lines.
 
 What just happened conceptually: inside the installed system, `/boot` will *be* that FAT32 partition. GRUB gets installed there, and UEFI finds it there.
 
@@ -513,10 +599,11 @@ NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
 nvme0n1     259:0    0 476.9G  0 disk
 ├─nvme0n1p1 259:1    0   512M  0 part /mnt/boot     ✅
 ├─nvme0n1p2 259:2    0     4G  0 part [SWAP]        ✅
-└─nvme0n1p3 259:3    0 472.4G  0 part /mnt          ✅
+├─nvme0n1p3 259:3    0    60G  0 part /mnt          ✅
+└─nvme0n1p4 259:4    0 412.4G  0 part /mnt/home     ✅   (only if you made /home)
 ```
 
-All three mounted correctly? Beautiful.
+All mounted correctly - including `p4 → /mnt/home` if you made one? Beautiful.
 
 ---
 
@@ -560,10 +647,12 @@ reflector --latest 20 --sort rate --save /etc/pacman.d/mirrorlist
 
 `reflector` ships pre-installed on the live ISO. It works well, but it ranks purely by ping - an unreliable mirror that responds quickly can end up at the top. That's why Option A is the safer bet.
 
+> ⚠️ **Two caveats on reflector**: recent ISOs no longer auto-run `reflector.service` at boot (rating every mirror took too long), so your mirrorlist stays default unless you run it yourself. The project has also been through unmaintained spells upstream, with its future on the ISO under discussion. Option A isn't just safer - it's future-proof.
+
 ### The Main Event
 
 ```bash
-pacstrap -K /mnt base linux linux-firmware vim nano networkmanager intel-ucode amd-ucode
+pacstrap -K /mnt base linux linux-firmware vim nano networkmanager intel-ucode amd-ucode base-devel man-db man-pages texinfo
 ```
 
 This downloads and installs packages directly into `/mnt`. What each package is for:
@@ -577,8 +666,12 @@ This downloads and installs packages directly into `/mnt`. What each package is 
 | `networkmanager` | Manages Wi-Fi/Ethernet - powers `nmcli`, `nmtui`, and desktop applets later |
 | `intel-ucode` | CPU bugfix microcode for **Intel** CPUs |
 | `amd-ucode` | CPU microcode for **AMD** CPUs |
+| `base-devel` | Compiler toolchain, `make`, `sudo` and friends. Not needed to boot - but required later for building AUR helpers like `yay` |
+| `man-db` / `man-pages` / `texinfo` | Manual pages. Without these, `man pacman` finds nothing (`base` doesn't include them) |
 
-Installing both ucode packages is harmless - only the matching one gets used at boot. (Alternatively drop them here and install the right one in chroot later - GRUB picks up whichever exists.)
+Installing both ucode packages is harmless - only the matching one gets used at boot.
+
+> 📦 **Firmware note**: `linux-firmware` is a meta-package pulling in the common set of firmware sub-packages (Intel/Realtek/Atheros Wi-Fi, AMD/NVIDIA GPU blobs...). Some hardware wants extras: `sof-firmware` for the audio DSP on many newer Intel laptops, for example. If something's dead after first boot, check the ArchWiki [Linux firmware](https://wiki.archlinux.org/title/Linux_firmware) page for your hardware.
 
 The `-K` flag initializes pacman's keyring freshly inside the target - prevents signature errors.
 
@@ -603,15 +696,16 @@ genfstab -U /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
 ```
 
-You must see **three** active lines (UUIDs will differ):
+You must see **three** active lines (**four** if you made a `/home` partition) (UUIDs will differ):
 
 ```text
 UUID=xxxx-xxxx  /boot      vfat    rw,...  0 2
 UUID=xxxxxxxxx  none       swap    defaults  0 0
 UUID=xxxxxxxxx  /          ext4    rw,relatime  0 1
+UUID=xxxxxxxxx  /home      ext4    rw,relatime  0 2   # ONLY if you made a /home partition
 ```
 
-One line per partition: ESP → `/boot`, swap, root → `/`. Missing one? Something wasn't mounted during genfstab - go back to Step 9, remount properly, and regenerate (empty the file first with `> /mnt/etc/fstab` then rerun genfstab).
+One line per partition: ESP → `/boot`, swap, root → `/`, and `/home` if you created it. Missing one? Something wasn't mounted during genfstab - go back to Step 9, remount properly, and regenerate (empty the file first with `> /mnt/etc/fstab` then rerun genfstab). If a bad line later drops you to an emergency shell, see [Troubleshooting](#16-troubleshooting).
 
 ---
 
@@ -623,7 +717,7 @@ Chroot = change root. Your shell now operates **inside** the installed system in
 arch-chroot /mnt
 ```
 
-Notice your prompt changes. From here until Step 14, every command affects the new install.
+Notice your prompt changes - if it still says `root@archiso`, you're **not** inside; run the command again and check `/mnt` is mounted (Step 9). From here until Step 14, every command affects the new install.
 
 ### 12.1 Time Zone
 
@@ -695,7 +789,7 @@ Make it contain exactly:
 127.0.1.1   myarchlaptop.localdomain myarchlaptop
 ```
 
-Line-by-line: IPv4 loopback, IPv6 loopback, then your machine's own name resolution (replace `myarchlaptop` with your hostname from above, in both places).
+Line-by-line: IPv4 loopback, IPv6 loopback, then your machine's own name resolution (replace `myarchlaptop` with your hostname from above, in both places). The `127.0.1.1` line is technically optional - it's a Debian convention that helps machines without a permanent IP resolve their own hostname - but it's harmless and saves head-scratching later. Keep it.
 
 ### 12.5 Initramfs (Just Verify)
 
@@ -706,6 +800,16 @@ ls /boot/
 ```
 
 You should see `initramfs-linux.img` and `vmlinuz-linux` among the files.
+
+Worth understanding while you're here - the recipe that builds that image lives in the `HOOKS` array of `/etc/mkinitcpio.conf`, and the defaults changed with **mkinitcpio v40** (late 2025). Fresh installs now use **systemd-based hooks** instead of the old busybox ones:
+
+| Hook | What it does for you |
+|------|----------------------|
+| `systemd` | Replaces busybox `udev` inside the initramfs. Actively developed - and what lets UEFI systems auto-detect the hibernate-resume partition |
+| `microcode` | Packs your CPU's microcode updates **inside** `initramfs-linux.img` itself - no separate boot entry needed anymore |
+| `kms` | Loads GPU drivers early, so your console gets native resolution during boot instead of flickering to it halfway |
+
+Two visible side effects on new installs: you'll find **no** separate `intel-ucode.img`/`amd-ucode.img` in `/boot` (it's bundled now), and **no** fallback image (`mkinitcpio` stopped generating those by default). If you ever add Btrfs or LUKS encryption later, this config file is where extra hooks go - today, leave it alone.
 
 ### 12.6 Set Root Password
 
@@ -732,12 +836,13 @@ Flag decoder:
 | `-G wheel` | Add to the `wheel` group - the traditional "can use sudo" group |
 | `-s /bin/bash` | Set Bash as login shell |
 
+Because `/mnt/home` was mounted (Step 9) before this chroot, that `-m` home directory is created **directly on your `/home` partition** - no extra steps needed. Skip `/home` and it simply lands on root instead.
+
 ### 12.8 Enable Sudo for the Wheel Group
 
-Install sudo and edit its policy file **safely**:
+Install sudo's policy editor - `sudo` itself already came with `base-devel` in Step 10:
 
 ```bash
-pacman -S sudo
 EDITOR=nano visudo
 ```
 
@@ -761,7 +866,9 @@ Meaning: members of group `wheel` may run any command as anyone. Save and exit. 
 
 ## 13. Install the GRUB Bootloader
 
-Without a bootloader, the machine boots to nothing. GRUB bridges UEFI → kernel.
+Without a bootloader, the machine boots to nothing. GRUB bridges UEFI → kernel, handles dual-booting, and is the most flexible choice - which is why this guide uses it.
+
+> 💡 **GRUB isn't the only option.** For a UEFI-only single-OS machine, `systemd-boot` is a lighter, simpler bootloader with fewer moving parts - and it's what the ArchWiki tends to prefer for UEFI setups. This guide sticks with GRUB for its flexibility, but if you want the minimal route, see the ArchWiki [systemd-boot](https://wiki.archlinux.org/title/Systemd-boot) page.
 
 ```bash
 pacman -S grub efibootmgr
@@ -786,6 +893,25 @@ Flag meanings:
 
 Success looks like: `Installing for x86_64-efi platform. Installation finished. No error reported.`
 
+### Optional: Wire Up Hibernation (do this *before* generating config)
+
+If you sized swap for hibernation back in Step 6, this is the moment to finish the job - one kernel parameter tells the kernel which partition to resume from:
+
+```bash
+blkid /dev/nvme0n1p2        # copy the UUID=... value of your SWAP partition
+nano /etc/default/grub
+```
+
+Find the line starting with `GRUB_CMDLINE_LINUX_DEFAULT` and add the parameter inside the quotes:
+
+```text
+GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 resume=UUID=xxxx-xxxx-xxxx-xxxx"
+```
+
+Save and exit. The `grub-mkconfig` in the next step picks it up automatically. (Modern installs get partial help for free - the systemd-based initramfs from Step 12.5 can detect the resume partition via an EFI variable - but an explicit `resume=` is the dependable belt-and-braces method.)
+
+Skip this if you don't plan to hibernate.
+
 Generate the actual configuration:
 
 ```bash
@@ -796,10 +922,12 @@ Watch the output - healthy signs include:
 
 ```text
 Found linux image: /boot/vmlinuz-linux
-Found initrd image: /boot/intel-ucode.img /boot/initramfs-linux.img
+Found initrd image: /boot/initramfs-linux.img
 ```
 
-(or `amd-ucode.img` on AMD). If a microcode image is mentioned, Step 10 did its job - your CPU microcode will load automatically at every boot.
+What about microcode? Depends on your mkinitcpio version. Newer installs bundle it **inside** `initramfs-linux.img` (the `microcode` hook from Step 12.5), so no separate image is mentioned - that's normal and correct. Older-style setups show a line like `Found initrd image: /boot/intel-ucode.img /boot/initramfs-linux.img` instead. Either way, your CPU microcode loads at every boot.
+
+> 🔗 If the machine later boots to a black screen or a `grub rescue>` prompt instead of a menu - jump straight to [Troubleshooting → GRUB rescue](#16-troubleshooting) below. The chroot-back pattern there fixes bootloader mistakes without reinstalling.
 
 ### Dual-Booting Windows/Linux Alongside? 
 
@@ -878,14 +1006,40 @@ Congratulations. You built a working Linux system with your own hands. 🏆
 
 ### Where To Next?
 
-Your system is barebones-on-purpose. Common next moves:
+Your system is barebones-on-purpose. Here's the standard post-install tour, roughly in the order most people do it:
+
+| Goal | Do This |
+|------|---------|
+| Fallback kernel (survive a bad update) | `sudo pacman -S linux-lts` then `sudo grub-mkconfig -o /boot/grub/grub.cfg` - GRUB will offer it at boot |
+| SSD health | `sudo systemctl enable fstrim.timer` (weekly TRIM for your ext4 root) |
+| AUR helper (`yay`/`paru`) | `base-devel` is already installed - clone from AUR and `makepkg -si`, then `yay -S anything` |
+| GPU acceleration / gaming prep | `mesa` + `vulkan-*` drivers (AMD/Intel), or `nvidia` (proprietary). Steam/Wine also need `[multilib]` uncommented in `/etc/pacman.conf` |
+| Audio | `sudo pacman -S pipewire pipewire-pulse pipewire-alsa wireplumber` - the modern audio stack, no config needed |
+| Fonts that don't look broken | `sudo pacman -S ttf-dejavu ttf-liberation noto-fonts` |
+| A firewall (none exists by default) | `sudo pacman -S ufw` → `sudo ufw default deny && sudo ufw enable` |
+| Standard home folders | `sudo pacman -S xdg-user-dirs` → run `xdg-user-dirs-update` |
+
+Then pick your desktop from the classics below:
 
 | Want | Install |
 |------|---------|
 | Full desktop, works out of the box | `sudo pacman -S gnome gdm` → `sudo systemctl enable gdm` |
 | Slick modern tiling Wayland compositor | `sudo pacman -S hyprland kitty waybar` |
 | Lightweight classic tiling | `sudo pacman -S i3-wm i3status dmenu xorg-server` |
-| AUR helper (yay) for community packages | build `yay` from AUR, then `yay -S anything` |
+
+Two bigger forks in the road this guide didn't cover, so you know they exist:
+
+- **Snapshots & rollback**: on a rolling distro, being able to undo a bad update is gold. That's the killer feature of **Btrfs** with `snapper` or `timeshift` - worth considering for your *next* install.
+- **Full-disk encryption (LUKS)**: if you want your data encrypted at rest (laptop users, take note), partitioning and boot setup differ substantially. Follow the ArchWiki [dm-crypt guide](https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system) from the start.
+
+### Surviving a Rolling Release
+
+The #1 mistake new Arch users make: install once, ignore updates for months, then run one massive upgrade that breaks everything. Avoid the pain:
+
+- **Update weekly at minimum** - small diffs are easy to debug.
+- **Never partial-upgrade.** `pacman -Sy <package>` installs against stale metadata and corrupts your system. Always `pacman -Syu`.
+- **Check [archlinux.org/news](https://archlinux.org/news) before updating.** Manual-intervention notices appear there first.
+- Broke something anyway? The fix is almost always already documented in that news feed, the ArchWiki, or the forums. With `linux-lts` installed you have a known-good kernel to boot into while you work it out.
 
 ---
 
@@ -932,6 +1086,7 @@ Bootloader misconfigured. Boot the live USB again, remount, and chroot back:
 mount /dev/nvme0n1p3 /mnt
 mount /dev/nvme0n1p1 /mnt/boot
 swapon /dev/nvme0n1p2
+mount /dev/nvme0n1p4 /mnt/home   # only if you created a /home partition
 arch-chroot /mnt
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -976,24 +1131,28 @@ timedatectl set-ntp true            # fix clock
 lsblk                               # identify disk (nvme0n1 or sda!)
 
 # ─── Partition (choose ONE method) ───────────────────
-cfdisk /dev/nvme0n1                 # GUI-ish: 512M EFI / 4G swap / rest root
-fdisk /dev/nvme0n1                  # CLI: g,n,+512M,t,1 | n,+4G,t,19 | n,⏎,⏎ | w
+cfdisk /dev/nvme0n1                 # GUI-ish: 512M EFI / 4G swap / 60G root / rest /home
+fdisk /dev/nvme0n1                  # CLI: g,n,+512M,t,1 | n,+4G,t,19 | n,+60G | n,⏎,⏎ | w
+# (skip the /home partition? let root = rest of disk: fdisk ... | n,⏎,⏎ | w)
 
 # ─── Format & mount ──────────────────────────────────
 mkfs.fat -F32 /dev/nvme0n1p1
 mkswap /dev/nvme0n1p2
 mkfs.ext4 /dev/nvme0n1p3
+mkfs.ext4 /dev/nvme0n1p4            # ONLY if you created a /home partition
 swapon /dev/nvme0n1p2
 mount /dev/nvme0n1p3 /mnt
 mkdir -p /mnt/boot
 mount /dev/nvme0n1p1 /mnt/boot
+mkdir -p /mnt/home
+mount /dev/nvme0n1p4 /mnt/home     # ONLY if you created a /home partition
 
 # ─── Install base ────────────────────────────────────
 nano /etc/pacman.d/mirrorlist      # paste list from archlinux.org/mirrorlist & uncomment servers
 reflector --latest 20 --sort rate --save /etc/pacman.d/mirrorlist   # or: auto-sort instead
-pacstrap -K /mnt base linux linux-firmware vim nano networkmanager intel-ucode amd-ucode
+pacstrap -K /mnt base linux linux-firmware vim nano networkmanager intel-ucode amd-ucode base-devel man-db man-pages texinfo
 genfstab -U /mnt >> /mnt/etc/fstab
-cat /mnt/etc/fstab                  # VERIFY 3 entries!
+cat /mnt/etc/fstab                  # VERIFY 3 entries (4 if you made /home)!
 
 # ─── Configure (inside arch-chroot /mnt) ─────────────
 arch-chroot /mnt
@@ -1007,10 +1166,10 @@ nano /etc/hosts                     # localhost lines + hostname line
 passwd                              # root password
 useradd -m -G wheel -s /bin/bash yourusername
 passwd yourusername
-pacman -S sudo
 EDITOR=nano visudo                  # uncomment %wheel ALL=(ALL:ALL) ALL
 pacman -S grub efibootmgr
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+blkid /dev/nvme0n1p2                # hibernation only: put resume=UUID=<swap> in /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 systemctl enable NetworkManager
 
@@ -1024,7 +1183,9 @@ reboot
 
 ## Conclusion
 
-You didn't run an installer - you **built** a system. Every partition, every mount point, every boot entry: placed by you, understood by you. When something breaks six months from now, you won't panic - you'll chroot in and fix it, because you've seen every layer of this machine.
+Take a second to appreciate what you just configured **by hand**: a GPT partition table, a UEFI System Partition, swap, an ext4 root filesystem, fstab, locale, timezone, hostname, a user with sudo, a bootloader, and a network manager. Most distributions hide all of that behind a "Next" button - you built every layer yourself.
+
+That's why you won't panic when something breaks six months from now. You'll chroot in and fix it, because there's no layer of this machine you haven't seen.
 
 From here, install a window manager, rice your terminal, and join the ranks of people whose answer to "what OS do you run?" ends conversations:
 

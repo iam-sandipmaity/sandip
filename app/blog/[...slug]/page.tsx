@@ -11,6 +11,7 @@ import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import rehypeSlug from 'rehype-slug';
 import MDXImage from '@/components/MDXImage';
 import ShareOptions from '@/components/ShareOptions';
 import ReadingProgressBar from '@/components/ReadingProgressBar';
@@ -163,7 +164,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 parseFrontmatter: false,
                 mdxOptions: {
                     remarkPlugins: [remarkGfm, remarkMath],
-                    rehypePlugins: [rehypeHighlight, rehypeKatex],
+                    rehypePlugins: [rehypeSlug, rehypeHighlight, rehypeKatex],
                 },
             },
             components: {
@@ -187,8 +188,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         });
 
         return (
-            <article className="max-w-3xl mx-auto px-6 py-16">
-                <ReadingProgressBar />
+            <>
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
@@ -233,6 +233,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         ]),
                     }}
                 />
+                <article className="max-w-3xl mx-auto px-6 py-16">
+                <ReadingProgressBar />
                 {/* Breadcrumb Navigation */}
                 <div className="mb-6">
                     <div className="font-mono flex items-center gap-2 text-base text-muted">
@@ -299,7 +301,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         </section>
                     );
                 })()}
-            </article>
+                </article>
+            </>
         );
     } catch {
         // It's a section, not a post - render section view

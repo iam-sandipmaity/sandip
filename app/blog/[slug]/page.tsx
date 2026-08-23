@@ -8,6 +8,7 @@ import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import rehypeSlug from 'rehype-slug';
 import CodeBlock from '@/components/CodeBlock';
 import MDXImage from '@/components/MDXImage';
 import ShareOptions from '@/components/ShareOptions';
@@ -109,7 +110,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             parseFrontmatter: false, // We already parsed it
             mdxOptions: {
                 remarkPlugins: [remarkGfm, remarkMath],
-                rehypePlugins: [rehypeHighlight, rehypeKatex],
+                rehypePlugins: [rehypeSlug, rehypeHighlight, rehypeKatex],
             },
         },
         components: {
@@ -119,11 +120,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         },
     });
 
-    return (
-        <article className="max-w-3xl mx-auto px-6 py-16">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
+        return (
+            <>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
                     __html: JSON.stringify([
                         {
                             '@context': 'https://schema.org',
@@ -172,7 +173,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         }
                     ]),
                 }}
-            />
+                />
+                <article className="max-w-3xl mx-auto px-6 py-16">
             {/* Post Header */}
             <header className="mb-16">
                 <h1 className="mb-3 font-mono text-3xl font-semibold leading-tight text-subtle-text md:text-4xl">
@@ -197,6 +199,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
             {/* Share Options */}
             <ShareOptions title={post.title} url={`/blog/${slug}`} />
-        </article>
+            </article>
+            </>
     );
 }
