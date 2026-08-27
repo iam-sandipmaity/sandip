@@ -109,7 +109,7 @@ export default function Home() {
                     </h1>
 
                     <p className="mb-7 max-w-2xl text-base leading-8 text-subtle-text">
-                        I build tiny systems from code and circuits.
+                        I build things with code and circuits, and write about them here.
                     </p>
 
                     <div className="flex items-center gap-5 text-muted">

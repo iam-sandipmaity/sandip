@@ -38,6 +38,33 @@ export const timelineItems: TimelineItem[] = [
         category: 'education',
         description: 'Began undergraduate studies in Electronics & Communication Engineering.',
     },
+    {
+        id: 'higher-secondary',
+        year: '2022',
+        date: '2022',
+        title: 'Passed Higher Secondary',
+        roleOrContext: 'Education',
+        category: 'education',
+        description: 'Completed higher secondary school education.',
+    },
+    {
+        id: 'secondary',
+        year: '2020',
+        date: '2020',
+        title: 'Passed Secondary School',
+        roleOrContext: 'Education',
+        category: 'education',
+        description: 'Completed secondary school education.',
+    },
+    {
+        id: 'born',
+        year: '2004',
+        date: '19 Jan 2004',
+        title: 'Born',
+        roleOrContext: 'Milestone',
+        category: 'milestone',
+        description: 'Began my journey on January 19, 2004.',
+    },
 ];
 
 export function getAllTimelineItems(): TimelineItem[] {

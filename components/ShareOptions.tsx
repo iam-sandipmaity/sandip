@@ -79,14 +79,14 @@ export default function ShareOptions({ title, url }: ShareOptionsProps) {
     };
 
     return (
-        <div className="mt-16 pt-8 border-t border-[#222]">
+        <div className="mt-16 pt-8 border-t border-dotted border-surface">
             <h3 className="text-xl font-mono font-semibold text-subtle-text mb-6">Share this post</h3>
             <div className="flex flex-wrap gap-4">
                 <a
                     href={shareLinks.twitter}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 text-[#e7e9ea] hover:bg-[#1DA1F2]/10 rounded-md transition-colors font-mono text-sm border border-[#333] hover:border-[#1DA1F2]/50"
+                    className="flex items-center gap-2 px-4 py-2 text-subtle-text dark:text-[#e7e9ea] hover:bg-black/5 dark:hover:bg-[#1DA1F2]/10 rounded-md transition-colors font-mono text-sm border border-surface dark:border-[#333] hover:border-subtle-text/50 dark:hover:border-[#1DA1F2]/50"
                     aria-label="Share on X (Twitter)"
                 >
                     <FaXTwitter size={16} />
@@ -97,7 +97,7 @@ export default function ShareOptions({ title, url }: ShareOptionsProps) {
                     href={shareLinks.whatsapp}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 text-[#25D366] hover:bg-[#25D366]/10 rounded-md transition-colors font-mono text-sm border border-[#333] hover:border-[#25D366]/50"
+                    className="flex items-center gap-2 px-4 py-2 text-[#25D366] hover:bg-[#25D366]/10 rounded-md transition-colors font-mono text-sm border border-surface dark:border-[#333] hover:border-[#25D366]/50"
                     aria-label="Share on WhatsApp"
                 >
                     <FaWhatsapp size={16} />
@@ -108,7 +108,7 @@ export default function ShareOptions({ title, url }: ShareOptionsProps) {
                     href={shareLinks.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 text-[#0A66C2] hover:bg-[#0A66C2]/10 rounded-md transition-colors font-mono text-sm border border-[#333] hover:border-[#0A66C2]/50"
+                    className="flex items-center gap-2 px-4 py-2 text-[#0A66C2] hover:bg-[#0A66C2]/10 rounded-md transition-colors font-mono text-sm border border-surface dark:border-[#333] hover:border-[#0A66C2]/50"
                     aria-label="Share on LinkedIn"
                 >
                     <FaLinkedinIn size={16} />
@@ -117,7 +117,7 @@ export default function ShareOptions({ title, url }: ShareOptionsProps) {
 
                 <button
                     onClick={handleCopyLink}
-                    className="flex items-center gap-2 px-4 py-2 text-muted hover:text-subtle-text hover:bg-white/5 rounded-md transition-colors font-mono text-sm border border-[#333] hover:border-[#666]"
+                    className="flex items-center gap-2 px-4 py-2 text-muted hover:text-subtle-text hover:bg-black/5 dark:hover:bg-white/5 rounded-md transition-colors font-mono text-sm border border-surface dark:border-[#333] hover:border-[#666]"
                     aria-label="Copy Link"
                 >
                     <FaLink size={16} />
@@ -127,7 +127,7 @@ export default function ShareOptions({ title, url }: ShareOptionsProps) {
                 {canNativeShare && (
                     <button
                         onClick={handleNativeShare}
-                        className="flex items-center gap-2 px-4 py-2 text-muted hover:text-subtle-text hover:bg-white/5 rounded-md transition-colors font-mono text-sm border border-[#333] hover:border-[#666]"
+                        className="flex items-center gap-2 px-4 py-2 text-muted hover:text-subtle-text hover:bg-black/5 dark:hover:bg-white/5 rounded-md transition-colors font-mono text-sm border border-surface dark:border-[#333] hover:border-[#666]"
                         aria-label="Share via device"
                     >
                         <FaShareNodes size={16} />

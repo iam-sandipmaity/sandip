@@ -101,7 +101,7 @@ export default function ProjectsPage() {
                 </p>
             </section>
 
-            <section className="divide-y divide-dotted divide-surface/70 border-y border-dotted border-surface/70">
+            <section className="space-y-6">
                 {projects.map((project) => (
                     <ProjectCard key={project.title} project={project} />
                 ))}

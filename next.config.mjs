@@ -8,6 +8,9 @@ const noStoreHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  allowedDevOrigins: process.env.ALLOWED_DEV_ORIGINS
+    ? process.env.ALLOWED_DEV_ORIGINS.split(',').map(o => o.trim())
+    : [],
 
   // Image optimization
   images: {

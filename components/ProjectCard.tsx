@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { FiGithub, FiExternalLink } from 'react-icons/fi';
 
 export interface Project {
     title: string;
@@ -14,22 +13,21 @@ interface ProjectCardProps {
 }
 
 /**
- * Project card - minimal, borderless design with subtle hover
- * No boxes, just clean typography
+ * Project card - minimal, beautifully aligned two-row list layout
  */
 export default function ProjectCard({ project }: ProjectCardProps) {
-    const projectUrl = project.link || project.github;
+    const mainUrl = project.link || project.github;
 
     return (
-        <article className="group py-6 font-mono">
-            <div className="mb-3 flex items-start justify-between gap-4">
-                <h3 className="text-xl font-medium leading-7 text-subtle-text transition-colors group-hover:text-accent-teal">
-                    {projectUrl ? (
+        <article className="py-3 font-mono group">
+            <div className="flex items-baseline justify-between gap-4">
+                <h3 className="text-base font-semibold text-subtle-text transition-colors group-hover:text-accent-teal">
+                    {mainUrl ? (
                         <Link
-                            href={projectUrl}
+                            href={mainUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="underline decoration-surface decoration-1 underline-offset-4 transition-colors hover:decoration-accent-teal"
+                            className="underline decoration-surface/50 decoration-1 underline-offset-4 transition-colors hover:decoration-accent-teal"
                         >
                             {project.title}
                         </Link>
@@ -38,44 +36,33 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                     )}
                 </h3>
 
-                <div className="flex shrink-0 items-center gap-3 pt-1 text-muted">
-                    {project.github && (
-                        <Link
-                            href={project.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="transition-colors hover:text-accent-teal"
-                            aria-label="GitHub"
-                        >
-                            <FiGithub className="h-4 w-4" />
-                        </Link>
-                    )}
+                <div className="flex items-center gap-3 text-xs text-muted shrink-0">
                     {project.link && (
                         <Link
                             href={project.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="transition-colors hover:text-accent-teal"
-                            aria-label="Visit"
+                            className="underline decoration-surface/60 hover:text-accent-teal hover:decoration-accent-teal transition-colors"
                         >
-                            <FiExternalLink className="h-4 w-4" />
+                            live
+                        </Link>
+                    )}
+                    {project.github && (
+                        <Link
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline decoration-surface/60 hover:text-accent-teal hover:decoration-accent-teal transition-colors"
+                        >
+                            source
                         </Link>
                     )}
                 </div>
             </div>
 
-            <p className="mb-4 text-base leading-8 text-muted">
+            <p className="mt-1 text-sm leading-relaxed text-muted line-clamp-1">
                 {project.description}
             </p>
-
-            <div className="flex flex-wrap gap-x-2 gap-y-1 text-sm leading-6 text-muted">
-                {project.tags.map((tag, index) => (
-                    <span key={tag}>
-                        #{tag}
-                        {index < project.tags.length - 1 ? ',' : ''}
-                    </span>
-                ))}
-            </div>
         </article>
     );
 }
