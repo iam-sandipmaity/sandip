@@ -23,6 +23,11 @@ export default function BlogSidebar({ hierarchy, allPosts }: BlogSidebarProps) {
         }
     }, [resetTrigger]);
 
+    useEffect(() => {
+        // Mobile: collapsed by default; desktop: open by default
+        setIsExpanded(window.matchMedia('(min-width: 700px)').matches);
+    }, []);
+
     const handleSectionSelect = (path: string) => {
         setSelectedSection(path);
         if (path === '') {
@@ -38,12 +43,12 @@ export default function BlogSidebar({ hierarchy, allPosts }: BlogSidebarProps) {
     return (
         <div>
             <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-mono font-semibold text-subtle-text">
+                <h2 className="text-lg font-mono font-semibold text-subtle-text">
                     Browse
                 </h2>
                 <button
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="flex p-2 rounded transition-colors hover:bg-surface min-[700px]:hidden"
+                    className="flex p-2 rounded transition-colors hover:bg-surface"
                     aria-label={isExpanded ? 'Collapse' : 'Expand'}
                 >
                     {isExpanded ? (
@@ -69,7 +74,7 @@ export default function BlogSidebar({ hierarchy, allPosts }: BlogSidebarProps) {
             </button>
 
             {/* Section tree */}
-            <div className={`min-[700px]:block ${isExpanded ? 'block' : 'hidden'}`}>
+            <div className={isExpanded ? 'block' : 'hidden'}>
                 <BrowseSection
                     hierarchy={hierarchy}
                     selectedSection={selectedSection}

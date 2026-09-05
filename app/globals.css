@@ -185,8 +185,37 @@ html.dark .hljs-template-variable {
 }
 
 .prose {
+  --tw-prose-body: rgb(var(--color-subtle-text));
+  --tw-prose-headings: rgb(var(--color-subtle-text));
+  --tw-prose-lead: rgb(var(--color-subtle-text));
+  --tw-prose-links: rgb(var(--color-subtle-text));
+  --tw-prose-bold: rgb(var(--color-subtle-text));
+  --tw-prose-counters: rgb(var(--color-muted));
+  --tw-prose-bullets: rgb(var(--color-muted));
+  --tw-prose-hr: rgb(var(--color-surface));
+  --tw-prose-quotes: rgb(var(--color-muted));
+  --tw-prose-quote-borders: rgb(var(--color-surface));
+  --tw-prose-captions: rgb(var(--color-muted));
+  --tw-prose-kbd: rgb(var(--color-subtle-text));
+  --tw-prose-kbd-shadows: var(--color-muted);
+  --tw-prose-code: rgb(var(--color-accent-teal));
+  --tw-prose-pre-code: rgb(var(--color-subtle-text));
+  --tw-prose-pre-bg: rgb(var(--color-mid-dark));
+  --tw-prose-th-borders: rgb(var(--color-surface));
+  --tw-prose-td-borders: rgb(var(--color-surface));
   overflow-wrap: break-word;
   word-break: break-word;
+}
+
+.prose :where(h2, h3, h4, h5, h6) {
+  position: relative;
+}
+
+.prose :where(h2, h3, h4, h5, h6)::before {
+  content: "#";
+  position: absolute;
+  left: -1rem;
+  color: rgb(var(--color-accent-teal));
 }
 
 .prose a {

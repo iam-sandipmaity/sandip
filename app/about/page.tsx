@@ -99,7 +99,7 @@ export default function AboutPage() {
                     Hi, I&apos;m <span className="text-accent-teal">{siteConfig.author}</span>.
                 </p>
                 <p className="font-mono text-lg text-muted leading-relaxed mt-4">
-                    Electronics & Communication Engineer specializing in Fiber Optics, Utility Engineering, IoT, STM32, ESP32, Arduino, and Circuit Design.
+                    Electronics &amp; Communication Engineer.
                 </p>
             </section>
 

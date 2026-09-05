@@ -56,7 +56,7 @@ const nextConfig = {
               `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''} https://www.googletagmanager.com https://static.cloudflareinsights.com https://app.posthog.com`,
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com data:",
-              "img-src 'self' data: blob:",
+              "img-src 'self' data: blob: https://images.unsplash.com",
               "connect-src 'self' https://www.googletagmanager.com https://region1.google-analytics.com https://static.cloudflareinsights.com https://app.posthog.com",
               "frame-ancestors 'none'",
               "base-uri 'self'",

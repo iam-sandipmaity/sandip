@@ -5,6 +5,8 @@ import { getAllProjects } from '@/lib/projects';
 const MAX_QUERY_LENGTH = 100;
 const MAX_COMPARISON_LENGTH = 64;
 
+const VALID_TYPES = new Set(['post', 'project', 'page']);
+
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_MAX = 30;
 const ipBuckets = new Map<string, { count: number; resetAt: number }>();
@@ -200,13 +202,17 @@ function getAllSearchableContent(): SearchResult[] {
 /**
  * Search through all content with fuzzy matching
  */
-function searchContent(query: string): SearchResult[] {
+function searchContent(query: string, types?: Set<string>): SearchResult[] {
     if (!query.trim()) {
         return [];
     }
 
     const queryWords = tokenize(query);
-    const allContent = getAllSearchableContent();
+    let allContent = getAllSearchableContent();
+
+    if (types) {
+        allContent = allContent.filter((item) => types.has(item.type));
+    }
 
     // Calculate scores for all items
     const scoredResults = allContent
@@ -234,8 +240,18 @@ export async function GET(request: Request) {
     const rawQuery = searchParams.get('q') || '';
     const query = rawQuery.slice(0, MAX_QUERY_LENGTH);
 
+    const rawTypes = searchParams.get('types');
+    const types = rawTypes
+        ? new Set(
+            rawTypes
+                .split(',')
+                .map((t) => t.trim().toLowerCase())
+                .filter((t) => VALID_TYPES.has(t))
+        )
+        : undefined;
+
     try {
-        const results = searchContent(query);
+        const results = searchContent(query, types);
         return NextResponse.json({ results });
     } catch (error) {
         console.error('Search error:', error);

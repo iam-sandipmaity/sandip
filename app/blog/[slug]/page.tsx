@@ -12,6 +12,8 @@ import rehypeSlug from 'rehype-slug';
 import CodeBlock from '@/components/CodeBlock';
 import MDXImage from '@/components/MDXImage';
 import ShareOptions from '@/components/ShareOptions';
+import TableOfContents from '@/components/TableOfContents';
+import { getPostHeadings } from '@/lib/headings';
 import { formatPostDate, toIsoDateString } from '@/lib/date';
 import { getOgImageUrl } from '@/lib/utils';
 
@@ -174,10 +176,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     ]),
                 }}
                 />
-                <article className="max-w-3xl mx-auto px-6 py-16">
+                <div className="mx-auto max-w-3xl gap-x-10 py-16 lg:flex lg:items-start">
+                <article className="min-w-0 px-6 lg:flex-1">
             {/* Post Header */}
             <header className="mb-16">
-                <h1 className="mb-3 font-mono text-3xl font-semibold leading-tight text-subtle-text md:text-4xl">
+                <h1 className="mb-3 font-mono text-2xl font-semibold leading-8 text-subtle-text">
                     {post.title}
                 </h1>
 
@@ -193,13 +196,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </header>
 
             {/* MDX Content */}
-            <div className="prose prose-invert font-mono max-w-none">
+            <div className="prose prose-sm font-mono max-w-none">
                 {MDXContent}
             </div>
 
             {/* Share Options */}
             <ShareOptions title={post.title} url={`/blog/${slug}`} />
             </article>
+                <TableOfContents headings={getPostHeadings(post.content)} />
+            </div>
             </>
     );
 }

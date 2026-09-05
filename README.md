@@ -9,11 +9,13 @@ A minimal personal site and blog built with Next.js, TypeScript, MDX, and Tailwi
 - Editorial blog index with date, title, and short quoted summaries
 - Tag pages at `/tags` and `/tags/[tag]`
 - Section browsing and filtering for nested blog folders
+- Table of contents sidebar on blog posts (sticky, like lrns.me)
+- Search with multi-select type filters (posts, projects, pages)
 - Minimal pages for About, Projects, Reads, and Contact
 - Dark/light theme with theme-aware accent colors
-- Departure Mono typography across the site, with a header toggle for the system monospace fallback
+- System monospace typography matching the lrns.me design
 - SEO metadata, Open Graph images, `llms.txt`, manifest, and structured data
-- Search modal and service-worker/cache cleanup support
+- Security headers (HSTS, X-Frame-Options, CSP) and service-worker/cache cleanup support
 
 ## Stack
 
@@ -23,7 +25,7 @@ A minimal personal site and blog built with Next.js, TypeScript, MDX, and Tailwi
 - Tailwind CSS
 - MDX
 - React Icons
-- Departure Mono
+- next-themes
 
 ## Quick Start
 
@@ -106,10 +108,10 @@ Dates are stored as Indian-style `dd-mm-yyyy` strings. The app parses old ISO da
 
 - Site metadata and social/profile links live in `lib/config.ts`.
 - Blog parsing and sorting live in `lib/posts.ts`.
+- Blog post table-of-contents headings are extracted in `lib/headings.ts` using the same `github-slugger` slugs as `rehype-slug`.
 - Date parsing and display helpers live in `lib/date.ts`.
 - Project data lives in `lib/projects.ts`.
-- Theme colors and typography are defined in `app/globals.css` and `tailwind.config.ts`.
-- Departure Mono is served from `public/DepartureMono-Regular.otf`; the header font toggle stores the fallback preference in `localStorage`.
+- Theme colors and typography are defined in `app/globals.css` and `tailwind.config.ts`; the site uses a system monospace stack (`--font-site`).
 
 ## Deployment
 

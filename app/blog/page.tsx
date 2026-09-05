@@ -54,14 +54,12 @@ export default function BlogPage() {
 
     return (
         <BlogFilterProvider allPosts={posts}>
-            <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
-                <div className="grid grid-cols-1 gap-14 min-[820px]:grid-cols-[minmax(0,1fr)_16rem] min-[820px]:gap-16">
-                    <aside className="min-[820px]:order-2">
-                        <div className="space-y-12 min-[820px]:sticky min-[820px]:top-16">
-                            <BlogSidebar hierarchy={hierarchy} allPosts={posts} />
+            <div className="mx-auto max-w-3xl px-6 py-16 md:py-24 lg:flex lg:items-start lg:gap-10">
+                    <aside className="space-y-12 lg:order-2 lg:-me-32 lg:sticky lg:top-16 lg:w-64 lg:shrink-0">
+                        <BlogSidebar hierarchy={hierarchy} allPosts={posts} />
 
                             <div>
-                                <h2 className="mb-6 flex items-center gap-1.5 font-mono text-2xl font-semibold leading-none text-subtle-text">
+                                <h2 className="mb-4 flex items-center gap-1.5 font-mono text-lg font-semibold leading-none text-subtle-text">
                                     <svg
                                         aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -82,17 +80,15 @@ export default function BlogPage() {
                                 </h2>
                                 <TagList tags={tagsWithCounts} maxVisible={6} />
                             </div>
-                        </div>
                     </aside>
 
-                    <section className="min-[820px]:order-1 min-[820px]:pl-16">
+                    <section className="min-w-0 lg:order-1 lg:flex-1">
                         <h1 className="mb-7 font-mono text-2xl font-semibold text-subtle-text">
                             Posts
                         </h1>
 
                         <BlogMainContent allPosts={posts} />
                     </section>
-                </div>
             </div>
         </BlogFilterProvider>
     );

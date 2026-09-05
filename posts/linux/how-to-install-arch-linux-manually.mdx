@@ -1,8 +1,8 @@
 ---
-title: "How to Install Arch Linux Manually (UEFI)"
+title: "How to Install Arch Linux Manually"
 date: "22-08-2026"
-summary: "The only Arch Linux manual installation guide you'll ever need. From flashing the USB to logging into your fresh system - every command explained, every keypress covered, including full cfdisk and fdisk partitioning walkthroughs. Because real ones say 'I use Arch btw'."
-tags: ["linux", "arch", "arch linux", "tutorial", "guide", "open-source", "tools", "grub", "partitioning"]
+summary: "A complete manual Arch Linux installation guide (UEFI)."
+tags: ["linux", "arch"]
 ---
 
 There are two kinds of people in this world: those who click "Next" through an installer, and those who build their operating system brick by brick with their own hands. Arch Linux is for the second kind.
@@ -21,28 +21,6 @@ Jump straight to the [Complete Command Cheat Sheet](#17-complete-command-cheat-s
 </details>
 
 > ⚠️ **Before we start**: This process will **erase the target disk completely**. Back up anything important first. Read each step fully before running any command. Your data cannot be recovered once formatted.
-
----
-
-## 📋 Table of Contents
-
-1. [What You'll Need](#1-what-youll-need)
-2. [Download and Verify the ISO](#2-download-and-verify-the-iso)
-3. [Create the Bootable USB](#3-create-the-bootable-usb)
-4. [Boot From the USB](#4-boot-from-the-usb)
-5. [Pre-Installation Setup](#5-pre-installation-setup)
-6. [Understand the Partition Plan](#6-understand-the-partition-plan)
-7. [Partitioning - Full Walkthroughs](#7-partitioning---full-walkthroughs-cfdisk--fdisk)
-8. [Format the Partitions](#8-format-the-partitions)
-9. [Mount Everything](#9-mount-everything)
-10. [Install the Base System](#10-install-the-base-system-pacstrap)
-11. [Generate fstab](#11-generate-fstab)
-12. [Configure Inside Chroot](#12-configure-inside-chroot)
-13. [Install the GRUB Bootloader](#13-install-the-grub-bootloader)
-14. [Final Steps and Reboot](#14-final-steps-and-reboot)
-15. [First Login Checklist](#15-first-login-checklist)
-16. [Troubleshooting](#16-troubleshooting)
-17. [Complete Command Cheat Sheet](#17-complete-command-cheat-sheet)
 
 ---
 
