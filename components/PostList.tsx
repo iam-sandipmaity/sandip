@@ -21,9 +21,9 @@ export default function PostList({ posts, showTags = true, variant = 'default' }
     if (variant === 'home') {
         return (
             <div className="font-mono">
-                <ol className="space-y-6">
+                <ol className="space-y-4 sm:space-y-2">
                     {posts.map((post) => (
-                        <li key={post.slug} className="grid gap-1 text-base min-[640px]:grid-cols-[9rem_1fr] min-[640px]:gap-6">
+                        <li key={post.slug} className="grid gap-1 text-[14px] min-[640px]:grid-cols-[7.5rem_1fr] min-[640px]:gap-4">
                             <time className="text-muted" suppressHydrationWarning>
                                 {formatPostDate(post.date)}
                             </time>
