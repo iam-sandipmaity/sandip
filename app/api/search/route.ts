@@ -2,6 +2,44 @@ import { NextResponse } from 'next/server';
 import { getAllPosts } from '@/lib/posts';
 import { getAllProjects } from '@/lib/projects';
 
+const MAX_QUERY_LENGTH = 100;
+const MAX_COMPARISON_LENGTH = 64;
+
+const VALID_TYPES = new Set(['post', 'project', 'page']);
+
+const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+const RATE_LIMIT_MAX = 30;
+const ipBuckets = new Map<string, { count: number; resetAt: number }>();
+
+function getClientIp(request: Request): string {
+    const forwarded = request.headers.get('x-forwarded-for');
+    if (forwarded) {
+        return forwarded.split(',')[0].trim();
+    }
+    return request.headers.get('x-real-ip') || 'unknown';
+}
+
+function isRateLimited(ip: string): boolean {
+    const now = Date.now();
+    const bucket = ipBuckets.get(ip);
+    if (!bucket || bucket.resetAt <= now) {
+        ipBuckets.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+        return false;
+    }
+    bucket.count += 1;
+    return bucket.count > RATE_LIMIT_MAX;
+}
+
+// Periodically clear stale buckets to avoid unbounded memory growth
+setInterval(() => {
+    const now = Date.now();
+    for (const [ip, bucket] of ipBuckets) {
+        if (bucket.resetAt <= now) {
+            ipBuckets.delete(ip);
+        }
+    }
+}, RATE_LIMIT_WINDOW_MS * 2);
+
 export interface SearchResult {
     type: 'post' | 'project' | 'page';
     title: string;
@@ -26,8 +64,10 @@ const staticPages: SearchResult[] = [
  * Calculate similarity between two strings using Levenshtein distance
  */
 function calculateSimilarity(str1: string, str2: string): number {
-    const len1 = str1.length;
-    const len2 = str2.length;
+    const a = str1.slice(0, MAX_COMPARISON_LENGTH);
+    const b = str2.slice(0, MAX_COMPARISON_LENGTH);
+    const len1 = a.length;
+    const len2 = b.length;
     const matrix: number[][] = [];
 
     for (let i = 0; i <= len1; i++) {
@@ -39,7 +79,7 @@ function calculateSimilarity(str1: string, str2: string): number {
 
     for (let i = 1; i <= len1; i++) {
         for (let j = 1; j <= len2; j++) {
-            const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
             matrix[i][j] = Math.min(
                 matrix[i - 1][j] + 1,
                 matrix[i][j - 1] + 1,
@@ -61,7 +101,7 @@ function tokenize(text: string): string[] {
         .toLowerCase()
         .replace(/[^\w\s]/g, ' ')
         .split(/\s+/)
-        .filter(word => word.length > 0);
+        .filter(word => word.length > 0 && word.length <= MAX_COMPARISON_LENGTH);
 }
 
 /**
@@ -162,13 +202,17 @@ function getAllSearchableContent(): SearchResult[] {
 /**
  * Search through all content with fuzzy matching
  */
-function searchContent(query: string): SearchResult[] {
+function searchContent(query: string, types?: Set<string>): SearchResult[] {
     if (!query.trim()) {
         return [];
     }
 
     const queryWords = tokenize(query);
-    const allContent = getAllSearchableContent();
+    let allContent = getAllSearchableContent();
+
+    if (types) {
+        allContent = allContent.filter((item) => types.has(item.type));
+    }
 
     // Calculate scores for all items
     const scoredResults = allContent
@@ -184,11 +228,30 @@ function searchContent(query: string): SearchResult[] {
 }
 
 export async function GET(request: Request) {
+    const ip = getClientIp(request);
+    if (isRateLimited(ip)) {
+        return NextResponse.json(
+            { error: 'Too many requests. Please try again later.' },
+            { status: 429, headers: { 'Retry-After': '60' } }
+        );
+    }
+
     const { searchParams } = new URL(request.url);
-    const query = searchParams.get('q') || '';
+    const rawQuery = searchParams.get('q') || '';
+    const query = rawQuery.slice(0, MAX_QUERY_LENGTH);
+
+    const rawTypes = searchParams.get('types');
+    const types = rawTypes
+        ? new Set(
+            rawTypes
+                .split(',')
+                .map((t) => t.trim().toLowerCase())
+                .filter((t) => VALID_TYPES.has(t))
+        )
+        : undefined;
 
     try {
-        const results = searchContent(query);
+        const results = searchContent(query, types);
         return NextResponse.json({ results });
     } catch (error) {
         console.error('Search error:', error);

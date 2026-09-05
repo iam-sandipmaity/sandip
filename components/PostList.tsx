@@ -21,9 +21,9 @@ export default function PostList({ posts, showTags = true, variant = 'default' }
     if (variant === 'home') {
         return (
             <div className="font-mono">
-                <ol className="space-y-6">
+                <ol className="space-y-4 sm:space-y-2">
                     {posts.map((post) => (
-                        <li key={post.slug} className="grid gap-1 text-base min-[640px]:grid-cols-[9rem_1fr] min-[640px]:gap-6">
+                        <li key={post.slug} className="grid gap-1 text-[14px] min-[640px]:grid-cols-[7.5rem_1fr] min-[640px]:gap-4">
                             <time className="text-muted" suppressHydrationWarning>
                                 {formatPostDate(post.date)}
                             </time>
@@ -48,25 +48,23 @@ export default function PostList({ posts, showTags = true, variant = 'default' }
     if (variant === 'editorial') {
         return (
             <div className="font-mono">
-                <ol className="space-y-10">
+                <ol className="space-y-6">
                     {posts.map((post) => (
-                        <li key={post.slug} className="grid gap-2 text-base min-[560px]:grid-cols-[8.5rem_1fr] min-[560px]:gap-6">
+                        <li key={post.slug} className="grid gap-1 text-[14px] min-[560px]:grid-cols-[7.5rem_1fr] min-[560px]:gap-4">
                             <time className="text-muted" suppressHydrationWarning>
                                 {formatPostDate(post.date)}
                             </time>
 
-                            <div className="min-w-0">
-                                <Link
-                                    href={`/blog/${post.slug}`}
-                                    className="w-fit text-subtle-text underline decoration-surface underline-offset-4 transition-colors hover:text-accent-teal hover:decoration-accent-teal"
-                                >
-                                    {post.title}
-                                </Link>
+                            <Link
+                                href={`/blog/${post.slug}`}
+                                className="w-fit text-subtle-text underline decoration-subtle-text decoration-1 underline-offset-2 transition-colors hover:text-accent-teal hover:decoration-accent-teal"
+                            >
+                                {post.title}
+                            </Link>
 
-                                <p className="mt-3 overflow-hidden text-base italic leading-7 text-subtle-text [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
-                                    &ldquo;{post.summary}&rdquo;
-                                </p>
-                            </div>
+                            <p className="overflow-hidden italic leading-6 text-subtle-text min-[560px]:col-span-2 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
+                                &ldquo;{post.summary}&rdquo;
+                            </p>
                         </li>
                     ))}
                 </ol>

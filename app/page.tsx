@@ -69,7 +69,7 @@ const contactLinks = [
 ];
 
 export default function Home() {
-    const recentPosts = getRecentPosts(7);
+    const recentPosts = getRecentPosts(4);
 
     return (
         <>
@@ -104,11 +104,11 @@ export default function Home() {
 
             <div className="mx-auto max-w-3xl px-6 py-24 md:py-28">
                 <section className="mb-20 font-mono">
-                    <h1 className="mb-8 text-3xl font-semibold text-subtle-text md:text-4xl">
+                    <h1 className="mb-6 text-[24px] font-semibold text-subtle-text">
                         Hello World!
                     </h1>
 
-                    <p className="mb-7 max-w-2xl text-base leading-8 text-subtle-text">
+                    <p className="mb-4 max-w-2xl text-[14px] leading-8 text-subtle-text">
                         I build things with code and circuits, and write about them here.
                     </p>
 
@@ -130,10 +130,10 @@ export default function Home() {
 
                 <section>
                     <div className="mb-9 flex items-baseline justify-between gap-4">
-                        <h2 className="font-mono text-2xl font-normal text-subtle-text md:text-3xl">
+                        <h2 className="font-mono text-[20px] font-semibold text-subtle-text">
                             Posts
                         </h2>
-                        <Link href="/blog" className="font-mono text-base text-muted transition-colors hover:text-accent-teal">
+                        <Link href="/blog" className="font-mono text-[16px] text-muted transition-colors hover:text-accent-teal">
                             All posts
                         </Link>
                     </div>
