@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import SearchModal from './SearchModal';
 import ThemeToggle from './ThemeToggle';
-import FontToggle from './FontToggle';
 
 const navLinks = [
     { href: '/', label: 'Home' },
@@ -43,7 +42,7 @@ export default function SiteHeader() {
                     </Link>
 
                     <div className="min-w-0">
-                        <Link href="/" className="block whitespace-nowrap font-mono text-lg font-semibold tracking-normal text-subtle-text hover:text-subtle-text sm:text-2xl">
+                        <Link href="/" className="block whitespace-nowrap font-mono text-xl font-bold tracking-normal text-subtle-text hover:text-subtle-text sm:text-2xl">
                             Sandip Maity
                         </Link>
 
@@ -75,7 +74,6 @@ export default function SiteHeader() {
 
                 <div className="flex shrink-0 items-center gap-1 pt-2 text-muted sm:gap-4">
                     <SearchModal />
-                    <FontToggle />
                     <ThemeToggle />
                 </div>
             </div>

@@ -6,13 +6,13 @@ export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
 
-        // Query parameters parsing
-        const title = searchParams.get('title') || 'Sandip Maity Portfolio';
-        const description = searchParams.get('description') || '';
-        const date = searchParams.get('date') || '';
-        const tags = searchParams.get('tags') || '';
-        const readingTime = searchParams.get('readingTime') || '';
-        const type = searchParams.get('type') || 'home';
+        // Query parameters parsing (with length caps to prevent abuse/DoS)
+        const title = (searchParams.get('title') || 'Sandip Maity Portfolio').slice(0, 140);
+        const description = (searchParams.get('description') || '').slice(0, 300);
+        const date = (searchParams.get('date') || '').slice(0, 40);
+        const tags = (searchParams.get('tags') || '').slice(0, 200);
+        const readingTime = (searchParams.get('readingTime') || '').slice(0, 40);
+        const type = (searchParams.get('type') || 'home').slice(0, 20);
 
         // Parse comma-separated tags
         const parsedTags = tags ? tags.split(',').filter(Boolean) : [];

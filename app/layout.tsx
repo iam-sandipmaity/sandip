@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
@@ -8,20 +7,6 @@ import Footer from '@/components/Footer';
 import BrowserCacheCleanup from '@/components/BrowserCacheCleanup';
 import { siteConfig } from '@/lib/config';
 import { getOgImageUrl } from '@/lib/utils';
-
-const inter = Inter({
-    subsets: ['latin'],
-    variable: '--font-inter',
-    display: 'swap',
-    preload: true,
-});
-
-const jetbrainsMono = JetBrains_Mono({
-    subsets: ['latin'],
-    variable: '--font-jetbrains',
-    display: 'swap',
-    preload: true,
-});
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://sandipmaity.me'),
@@ -131,7 +116,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning className={`${inter.variable} ${jetbrainsMono.variable}`}>
+        <html lang="en" suppressHydrationWarning>
             <head>
                 <script
                     dangerouslySetInnerHTML={{
@@ -190,24 +175,6 @@ export default function RootLayout({
                         `,
                     }}
                 />
-                {/* Font script - must be before React code to prevent hydration flicker */}
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `
-                            (function() {
-                                try {
-                                    if (localStorage.getItem('sandip-font') === 'system') {
-                                        document.documentElement.classList.add('font-system');
-                                    }
-                                } catch (e) {}
-                            })();
-                        `,
-                    }}
-                />
-                {/* Preconnect to external domains for performance */}
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-
                 {/* RSS Feed Autodiscovery */}
                 <link
                     rel="alternate"

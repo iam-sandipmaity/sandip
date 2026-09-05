@@ -68,8 +68,11 @@ export default function SearchModal() {
             setIsLoading(true);
             try {
                 const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+                if (!response.ok) {
+                    throw new Error(`Search request failed: ${response.status}`);
+                }
                 const data = await response.json();
-                setResults(data.results || []);
+                setResults(Array.isArray(data?.results) ? data.results : []);
                 setSelectedIndex(0);
             } catch (error) {
                 console.error('Search error:', error);
