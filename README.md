@@ -14,6 +14,7 @@ A minimal personal site and blog built with Next.js, TypeScript, MDX, and Tailwi
 - Minimal pages for About, Projects, Reads, and Contact
 - Dark/light theme with theme-aware accent colors
 - System monospace typography matching the lrns.me design
+- Stable scrollbar gutter so the centered navbar never shifts between pages
 - SEO metadata, Open Graph images, `llms.txt`, manifest, and structured data
 - Security headers (HSTS, X-Frame-Options, CSP) and service-worker/cache cleanup support
 
